@@ -4,14 +4,16 @@
   justify-content: space-around;
 }
 
-.form-wrapper {
-  display: flex;
-  left: 60%;
- 
-}
 
 .imageWrapper {
   width: 50%;
 }
+
+
+.form-wrapper {
+  display: flex;
+  width: 40%;
+}
+
 
 
