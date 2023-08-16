@@ -10,6 +10,8 @@ import Divider from "@mui/material/Divider";
 import LogInForm from "./LogInForm";
 import { useState } from "react";
 import PatientSignUp from "./PatientSignUp";
+import DoctorSignUp from "./DoctorSignUp";
+const tabPanelStyles ={ width:{xs:'93%',md:'90%',lg:'75%'}, p : 0, m:{xs:'auto',md:'0'}, mt: {xs:'3rem',md:'15px'}, boxShadow: 2, borderRadius:'4px'}
 
 const LogIn = () => {
   const [value, setValue] = useState("1");
@@ -41,11 +43,15 @@ const LogIn = () => {
           <img src={value === '1' ? logInImage : signUpImage} style={{ width: '80%' }} />
         </Box>
         <Box sx={{ width: {xs:'100%',md:'40%'} }}>
-          <TabPanel value="1"  sx={{ width:{xs:'93%',md:'90%',lg:'75%'}, p : 0, m:{xs:'auto',md:'0'}, mt: {xs:'3rem',md:'15px'}, boxShadow: 2, borderRadius:'4px'}}>
+          <TabPanel value="1"  sx={tabPanelStyles}>
             <LogInForm />
           </TabPanel>
-          <TabPanel value="2"  sx={{ width:{xs:'93%',md:'90%',lg:'75%'}, p : 0, m:{xs:'auto',md:'0'}, mt: {xs:'3rem',md:'15px'}, boxShadow: 2, borderRadius:'4px'}}><PatientSignUp/></TabPanel>
-          <TabPanel value="3">DOCTOR SIGN UP</TabPanel>
+          <TabPanel value="2"  sx={tabPanelStyles}>
+            <PatientSignUp/>
+            </TabPanel>
+          <TabPanel value="3" sx={tabPanelStyles}>
+            <DoctorSignUp/>
+            </TabPanel>
         </Box>
       </Box>
     </TabContext>
