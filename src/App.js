@@ -1,15 +1,22 @@
 import Header from "./components/Layout/Header";
 import LogIn from "./components/LogIn";
-import './index.css';
-
+import Box from "@mui/material/Box";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import "./index.css";
+import  Home  from "./components/Home";
 
 function App() {
   return (
-    <div className="App">
-      <Header/>
-      <div className="space"></div>
-      <LogIn/>
-    </div>
+    <BrowserRouter>
+      <Box>
+        <Header />
+        <div className="space"></div>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<LogIn />} />
+        </Routes>
+      </Box>
+    </BrowserRouter>
   );
 }
 

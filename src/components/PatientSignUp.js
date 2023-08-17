@@ -12,18 +12,36 @@ import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import { useState } from "react";
 
+const selectStyles = {
+  marginRight: "15px",
+  height: "2rem",
+  width: "auto",
+  padding: "0.4rem 0.8rem",
+};
+
+const formIsValidStyles = {
+  color: "#f44336",
+  fontSize: "0.80rem",
+  marginLeft: "1rem",
+  marginBottom: 0,
+  marginTop: "0.3rem",
+};
+
 const PatientSignUp = () => {
-  const [fullName, setFullName] = useState("");
-  const [gender, setGender] = useState("");
-  const [DOB, setDOB] = useState("");
-  const [mobile, setMobile] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState();
-  const [confirmPassword, setConfirmPassword] = useState();
+  const [details, setDetails] = useState({
+    fullName: "",
+    gender: "",
+    dob: "",
+    mobile: "",
+    email: "",
+    password: "",
+  });
+
   const [formIsValid, setFormIsValid] = useState({
     name: true,
     number: true,
     email: true,
+    password: true,
   });
 
   const [passwordIsValid, setPasswordIsValid] = useState({
@@ -36,20 +54,30 @@ const PatientSignUp = () => {
     isShowing: false,
   });
 
-  // const formValidity =
-  //   passwordIsValid.lowercase &&
-  //   passwordIsValid.uppercase &&
-  //   passwordIsValid.specialCharacter &&
-  //   passwordIsValid.number &&
-  //   passwordIsValid.minimumLength &&
-  //   passwordIsValid.matching;
-  // console.log(formValidity);
-  
-  const handleNameInput = (e) => {
-    console.log(e.target.value);
-    const name = e.target.value;
-    setFullName(name);
-  };
+  const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+  const today = new Date();
+  console.log(today);
+
+  const [selectedDate, setSelectedDate] = useState(today);
+  const [selectedMonth, setSelectedMonth] = useState(today.getMonth());
+  const [selectedDay, setSelectedDay] = useState(today.getDate());
+  const [selectedYear, setSelectedYear] = useState(today.getFullYear());
+
+  const formValidity =
+    formIsValid.name &&
+    formIsValid.number &&
+    formIsValid.email &&
+    formIsValid.password &&
+    passwordIsValid.lowercase === "checked" &&
+    passwordIsValid.uppercase === "checked" &&
+    passwordIsValid.specialCharacter === "checked" &&
+    passwordIsValid.number === "checked" &&
+    passwordIsValid.minimumLength === "checked" &&
+    passwordIsValid.matching === "checked";
+  console.log(formValidity);
+
+  const handleNameInput = (e) => {};
+
   const handleNameValidity = (e) => {
     // console.log(e.target.value);
     const check = e.target.value.trim() === "" ? false : true;
@@ -60,10 +88,8 @@ const PatientSignUp = () => {
       name: check,
     }));
   };
-  const handleMobileInput = (e) => {
-    const mobileNumber = e.target.value;
-    setMobile(mobileNumber);
-  };
+
+  const handleMobileInput = (e) => {};
 
   const handleMobileValidity = (e) => {
     console.log(e.target.value);
@@ -97,7 +123,11 @@ const PatientSignUp = () => {
 
   const handlePassword = (e) => {
     const value = e.target.value;
-    setPassword(value);
+    setDetails((prevState) => ({
+      ...prevState,
+      password: value,
+    }));
+    // setPassword(value);
     console.log(value);
 
     if (value.trim().length < 6) {
@@ -164,8 +194,7 @@ const PatientSignUp = () => {
 
   const handleConfirmPassword = (e) => {
     const inputValue = e.target.value;
-    setConfirmPassword(inputValue);
-    if (inputValue === password) {
+    if (inputValue === details.password) {
       setPasswordIsValid((prevState) => ({
         ...prevState,
         matching: "checked",
@@ -185,16 +214,71 @@ const PatientSignUp = () => {
     }));
   };
 
+  const handlePasswordValidity = (e) => {
+    const check = e.target.value.trim() === "" ? false : true;
+    console.log(check);
+
+    setFormIsValid((prevState) => ({
+      ...prevState,
+      password: check,
+    }));
+  };
+
+  const passwordRequirements = [
+    { label: "Must contain lowercase letter.", key: "lowercase" },
+    { label: "Must contain uppercase letter.", key: "uppercase" },
+    {
+      label: "Must contain at least one special character.",
+      key: "specialCharacter",
+    },
+    { label: "Must contain at least one number.", key: "number" },
+    { label: "Must contain at least 6 characters.", key: "minimumLength" },
+    { label: "Passwords must match.", key: "matching" },
+  ];
+
+  const getRequirementIcon = (status) => {
+    if (status === "checked") {
+      return <CustomCheckCircleOutlineIcon />;
+    } else if (status === "unchecked") {
+      return <CustomCancelOutlinedIcon />;
+    }
+    return <CustomRadioButtonUncheckedIcon />;
+  };
+
   const CustomRadioButtonUncheckedIcon = () => {
-    return <RadioButtonUncheckedIcon color="primary" />;
+    return <RadioButtonUncheckedIcon color="primary" fontSize="small" />;
   };
 
   const CustomCheckCircleOutlineIcon = () => {
-    return <CheckCircleOutlineIcon color="success" />;
+    return <CheckCircleOutlineIcon color="success" fontSize="small" />;
   };
 
   const CustomCancelOutlinedIcon = () => {
-    return <CancelOutlinedIcon style={{ color: "#f44336" }} />;
+    return <CancelOutlinedIcon style={{ color: "#f44336" }} fontSize="small" />;
+  };
+
+  const setYears = (val) => {
+    const year = today.getFullYear();
+    console.log("year", year);
+    const yearOptions = [];
+    for (let i = 0; i <= val; i++) {
+      yearOptions.push(year - i);
+    }
+    return yearOptions;
+  };
+
+  const setDays = (monthIndex) => {
+    const daysCount = daysInMonth[monthIndex];
+    const dayOptions = [];
+    for (let i = 1; i <= daysCount; i++) {
+      dayOptions.push(i);
+    }
+    return dayOptions;
+  };
+
+  const handleMonthChange = (event) => {
+    const monthIndex = parseInt(event.target.value, 10);
+    setSelectedMonth(monthIndex);
   };
 
   return (
@@ -229,15 +313,7 @@ const PatientSignUp = () => {
           onBlur={handleNameValidity}
         />
         {!formIsValid.name && (
-          <p
-            style={{
-              color: "#f44336",
-              fontSize: "0.80rem",
-              marginLeft: "1rem",
-            }}
-          >
-            Please enter a valid name!
-          </p>
+          <p style={formIsValidStyles}>Please enter a valid name!</p>
         )}
       </Box>
 
@@ -245,7 +321,12 @@ const PatientSignUp = () => {
         <FormLabel id="gender" sx={{ color: "black" }}>
           Gender*
         </FormLabel>
-        <RadioGroup row aria-labelledby="gender" name="row-radio-buttons-group">
+        <RadioGroup
+          row
+          aria-labelledby="gender"
+          name="row-radio-buttons-group"
+          defaultValue="male"
+        >
           <FormControlLabel
             value="male"
             control={<Radio />}
@@ -266,41 +347,67 @@ const PatientSignUp = () => {
           />
         </RadioGroup>
       </Box>
-      <FormLabel id="dob" sx={{ color: "black" }}>
+      <FormLabel id="dob" sx={{ color: "black", mt: "0.8rem" }}>
         Date of birth*
       </FormLabel>
-      <Box sx={{ mb: "1rem" }}>
-        <select
-          name=""
-          style={{
-            marginRight: "15px",
-            height: "2rem",
-            width: "auto",
-            padding: "0.5rem",
-          }}
-        >
-          <option value="day">Day</option>
-        </select>
-        <select
-          style={{
-            marginRight: "15px",
-            height: "2rem",
-            width: "auto",
-            padding: "0.5rem",
-          }}
-        >
-          <option>Month</option>
-        </select>
-        <select
-          style={{
-            marginRight: "15px",
-            height: "2rem",
-            width: "auto",
-            padding: "0.5rem",
-          }}
-        >
-          <option>Year</option>
-        </select>
+      <Box sx={{ display: "flex", mb: "1rem" }}>
+        <Box>
+          <select
+            style={selectStyles}
+            value={selectedDay}
+            onChange={(event) =>
+              setSelectedDay(parseInt(event.target.value, 10))
+            }
+            id="select-day"
+          >
+            {setDays(selectedMonth).map((day) => {
+              const currentDate = new Date(selectedYear, selectedMonth, day);
+              if (currentDate <= today) {
+                return (
+                  <option key={day} value={day}>
+                    {day}
+                  </option>
+                );
+              }
+              return null;
+            })}
+          </select>
+        </Box>
+
+        <Box>
+          <select
+            style={selectStyles}
+            value={selectedMonth}
+            onChange={handleMonthChange}
+            id="select-month"
+          >
+            {/* Months options */}
+            {Array.from({ length: 12 }).map((_, index) => (
+              <option key={index} value={index}>
+                {new Date(0, index).toLocaleString("default", {
+                  month: "long",
+                })}
+              </option>
+            ))}
+          </select>
+        </Box>
+
+        <Box>
+          <select
+            style={selectStyles}
+            value={selectedYear}
+            onChange={(event) =>
+              setSelectedYear(parseInt(event.target.value, 10))
+            }
+            id="select-year"
+          >
+            {setYears(100).map((year) => (
+              <option key={year} value={year}>
+                {year}
+              </option>
+            ))}
+          </select>
+        </Box>
       </Box>
       <Box sx={{ mb: "1rem", width: "100%" }}>
         <InputLabel htmlFor="mobile" sx={{ color: "black" }}>
@@ -316,13 +423,7 @@ const PatientSignUp = () => {
           sx={{ width: "97%" }}
         />
         {!formIsValid.number && (
-          <p
-            style={{
-              color: "#f44336",
-              fontSize: "0.80rem",
-              marginLeft: "1rem",
-            }}
-          >
+          <p style={formIsValidStyles}>
             Please enter a valid 10-digit mobile number!
           </p>
         )}
@@ -341,29 +442,29 @@ const PatientSignUp = () => {
           sx={{ width: "97%" }}
         />
         {!formIsValid.email && (
-          <p
-            style={{
-              color: "#f44336",
-              fontSize: "0.80rem",
-              marginLeft: "1rem",
-            }}
-          >
-            Please enter a valid e-mail address!
-          </p>
+          <p style={formIsValidStyles}>Please enter a valid e-mail address!</p>
         )}
       </Box>
 
-      <InputLabel htmlFor="password" sx={{ color: "black" }}>
-        Create Password*
-      </InputLabel>
-      <OutlinedInput
-        id="password"
-        placeholder="create password"
-        type="password"
-        onChange={handlePassword}
-        onClick={handlePasswordRequirements}
-        sx={{ mb: "1rem", width: "97%" }}
-      />
+      <Box sx={{ mb: "1rem", width: "100%" }}>
+        <InputLabel htmlFor="password" sx={{ color: "black" }}>
+          Create Password*
+        </InputLabel>
+        <OutlinedInput
+          id="password"
+          error={!formIsValid.password}
+          placeholder="create password"
+          type="password"
+          onChange={handlePassword}
+          onBlur={handlePasswordValidity}
+          onClick={handlePasswordRequirements}
+          sx={{ width: "97%" }}
+        />
+        {!formIsValid.password && (
+          <p style={formIsValidStyles}>Password cannot be empty!</p>
+        )}
+      </Box>
+
       <InputLabel htmlFor="confirmPassword" sx={{ color: "black" }}>
         Confirm Password*
       </InputLabel>
@@ -374,8 +475,61 @@ const PatientSignUp = () => {
         type="password"
         sx={{ mb: "1rem", width: "97%" }}
       />
-      <Box>
-        {passwordIsValid.isShowing === true ? (
+      {
+        <>
+          {passwordIsValid.isShowing === true &&
+            passwordRequirements.map(({ label, key }) => (
+              <Box key={key} sx={{ display: "flex", alignItems: "center" }}>
+                {getRequirementIcon(passwordIsValid[key])}
+                <Typography
+                  variant="body1"
+                  component="span"
+                  sx={{ fontSize: "0.8rem" }}
+                >
+                  {label}
+                </Typography>
+              </Box>
+            ))}
+        </>
+      }
+
+      <Box sx={{ mb: "1rem" }}>
+        <Button variant="contained" disabled={!formValidity}>
+          REGISTER
+        </Button>
+      </Box>
+      <Box
+        sx={{
+          width: "70%",
+          mb: "2rem",
+        }}
+      >
+        <Typography
+          variant="body1"
+          component="span"
+          sx={{ fontSize: "1rem", mr: "0.5rem" }}
+        >
+          Already have an account?
+        </Typography>
+
+        <a
+          href=""
+          style={{ textDecoration: "none", fontWeight: 800, color: "blue" }}
+        >
+          Sign in
+        </a>
+      </Box>
+    </Box>
+  );
+};
+
+export default PatientSignUp;
+
+{
+  /* <Box> */
+}
+{
+  /* {passwordIsValid.isShowing === true ? (
           <>
             {passwordIsValid.lowercase === "" ? (
               <CustomRadioButtonUncheckedIcon />
@@ -474,24 +628,5 @@ const PatientSignUp = () => {
             </Typography>
           </>
         ) : null}
-      </Box>
-
-      <Box sx={{ mb: "1rem" }}>
-        <Button variant="contained" disabled>
-          REGISTER
-        </Button>
-      </Box>
-      <Box
-        sx={{
-          width: "70%",
-          mb: "2rem",
-        }}
-      >
-        Already have an account?
-        <a href="">Sign in</a>
-      </Box>
-    </Box>
-  );
-};
-
-export default PatientSignUp;
+      </Box> */
+}
