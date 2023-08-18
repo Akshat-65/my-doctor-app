@@ -38,13 +38,13 @@ const Header = () => {
   };
 
   return (
-    <AppBar position="static" sx={{ backgroundColor: "white" }}>
+    <AppBar position="fixed" sx={{ backgroundColor: "white" }}>
       <Container maxWidth="xl">
         <Toolbar
           disableGutters
-          sx={{ display: { xs: "flex" }, justifyContent: "space-between"}}
+          sx={{ display: { xs: "flex" }, justifyContent: "space-between" }}
         >
-          <Box sx={{ display: { xs: "flex", md: "none" },mt:'-1rem'}}>
+          <Box sx={{ display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -70,7 +70,7 @@ const Header = () => {
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               sx={{
-                display: { xs: "block", md: "none" }
+                display: { xs: "block", md: "none" },
               }}
             >
               {pages.map((page) => (
@@ -83,50 +83,128 @@ const Header = () => {
 
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <Link to="/">
+              <img src={logo} style={{ height: "40px", width: "160px" }} />
+            </Link>
+          </Box>
+
+          <Box sx={{ display: { xs: "flex", md: "none" }, mt: "0.5rem" }}>
+            <Link to="/">
               <img src={logo} style={{ height: "32px", width: "160px" }} />
             </Link>
           </Box>
 
-          <Box sx={{display:'flex', flexDirection:'column' }}>
-            <Box sx={{ display: { xs: "flex", md: "none" } }}>
-              <Link to="/">
-                <img src={logo} style={{ height: "32px", width: "160px" }} />
-              </Link>
-            </Box>
-            <Box sx={{ display: "flex", alignItems: "center",justifyContent:'center' }}>
+          <Box
+            sx={{
+              display: { xs: "none", md: "flex" },
+              alignItems: "center",
+              justifyContent: "center",
+              backgroundColor: "#fafafa",
+            }}
+          >
             <Box>
               <Autocomplete
                 disablePortal
+                forcePopupIcon={false}
                 id="combo-box-demo"
                 options={top100Films}
-                sx={{ width: { xs: 160, md: 250 }, m: 0.5,  }}
+                sx={{
+                  width: { xs: "10rem", md: "16rem" },
+                  m: 0.5,
+                  "& .MuiOutlinedInput-root": {
+                    // border: "1px solid yellow",
+                    border: "none",
+                  },
+                  "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+                    border: "none",
+                  },
+                  "& .css-yjsfm1 span": {
+                    display: "none",
+                  },
+                }}
                 renderInput={(params) => (
-                  <TextField {...params} label="Select a Service"/>
+                  <TextField {...params} placeholder="Select a Service" />
                 )}
               />
             </Box>
+
             <Box>
               <TextField
                 id="outlined-basic"
-                label="Search Doctors"
+                placeholder="Search Doctors"
                 variant="outlined"
+                sx={{
+                  "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+                    border: "none",
+                  },
+                }}
               />
             </Box>
+
             <IconButton>
               <SearchIcon />
             </IconButton>
           </Box>
-          </Box>
-          
 
-          <Box sx={{ flexGrow: 0 , right:'1rem'}}>
+          <Box sx={{ display: "flex", flexGrow: 0 }}>
             <Link to="/login">
-              <Button variant="contained" href="/login">
+              <Button variant="contained" href="/login" sx={{}}>
                 Log In
               </Button>
             </Link>
           </Box>
         </Toolbar>
+
+        <Box
+          sx={{
+            display: { xs: "flex", md: "none" },
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: "#fafafa",
+          }}
+        >
+          <Box>
+            <Autocomplete
+              disablePortal
+              forcePopupIcon={false}
+              id="combo-box-demo"
+              options={top100Films}
+              sx={{
+                width: { xs: "10rem", md: "16rem" },
+                m: 0.5,
+                "& .MuiOutlinedInput-root": {
+                  // border: "1px solid yellow",
+                  border: "none",
+                },
+                "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+                  border: "none",
+                },
+                "& .css-yjsfm1 span": {
+                  display: "none",
+                },
+              }}
+              renderInput={(params) => (
+                <TextField {...params} placeholder="Select a Service" />
+              )}
+            />
+          </Box>
+
+          <Box>
+            <TextField
+              id="outlined-basic"
+              placeholder="Search Doctors"
+              variant="outlined"
+              sx={{
+                "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+                  border: "none",
+                },
+              }}
+            />
+          </Box>
+
+          <IconButton>
+            <SearchIcon />
+          </IconButton>
+        </Box>
       </Container>
     </AppBar>
   );
