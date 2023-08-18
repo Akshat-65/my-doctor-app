@@ -58,6 +58,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import PersonIcon from "@mui/icons-material/Person";
 import BubbleChartIcon from "@mui/icons-material/BubbleChart";
+import Doctors from "./Doctors";
 
 const drawerWidth = 240;
 
@@ -109,10 +110,11 @@ function Home(props) {
         component="main"
         sx={{
           flexGrow: 1,
-          p: 3,
           width: { sm: `calc(100% - ${drawerWidth}px)` },
         }}
-      ></Box>
+      >
+        <Doctors/>
+      </Box>
     </Box>
   );
 }
