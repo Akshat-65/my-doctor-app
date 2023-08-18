@@ -3,17 +3,14 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
-import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import logo from "../../assets/myDoctorLogo.svg";
 import SearchIcon from "@mui/icons-material/Search";
 import { Link } from "react-router-dom";
+import Sidebar from "../Sidebar";
 
 const pages = ["Products", "Pricing", "Blog"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
@@ -38,14 +35,14 @@ const Header = () => {
   };
 
   return (
-    <AppBar position="fixed" sx={{ backgroundColor: "white" }}>
+    <AppBar position="fixed" sx={{ backgroundColor: "white" ,zIndex:1299}}>
       <Container maxWidth="xl">
         <Toolbar
           disableGutters
           sx={{ display: { xs: "flex" }, justifyContent: "space-between" }}
         >
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
-            <IconButton
+            {/* <IconButton
               size="large"
               aria-label="account of current user"
               aria-controls="menu-appbar"
@@ -54,8 +51,11 @@ const Header = () => {
               color="blue"
             >
               <MenuIcon />
-            </IconButton>
-            <Menu
+            </IconButton> */}
+            <Sidebar />
+
+            {/* remove this */}
+            {/* <Menu
               id="menu-appbar"
               anchorEl={anchorElNav}
               anchorOrigin={{
@@ -78,7 +78,7 @@ const Header = () => {
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
-            </Menu>
+            </Menu> */}
           </Box>
 
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
