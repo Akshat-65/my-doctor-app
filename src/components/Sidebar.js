@@ -12,11 +12,25 @@ import BubbleChartIcon from "@mui/icons-material/BubbleChart";
 import MenuIcon from "@mui/icons-material/Menu";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
+import { useNavigate } from "react-router-dom";
 
 export default function Sidebar() {
   const [state, setState] = React.useState({
     left: false,
   });
+
+  const navigate = useNavigate();
+
+  const itemsList = [
+      {
+        text: "Doctors",
+        to: "/",
+      },
+      {
+        text: "Specialities",
+        to: "/specialities",
+      },
+    ];
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (
@@ -36,20 +50,28 @@ export default function Sidebar() {
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
-      <List >
-        {["Doctors", "Specialities"].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <PersonIcon /> : <BubbleChartIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
+                <List>
+            {itemsList.map((item, index) => {
+              const { text, to } = item;
+              return (
+                <ListItem key={text} disablePadding onClick={()=>handleNav(to)}>
+                  <ListItemButton>
+                    <ListItemIcon>
+                      {index % 2 === 0 ? <PersonIcon /> : <BubbleChartIcon />}
+                    </ListItemIcon>
+                    <ListItemText primary={text} />
+                  </ListItemButton>
+                </ListItem>
+              );
+            })}
+          </List>
     </Box>
   );
+
+  const handleNav = (navigateTo)=>{
+    console.log(navigateTo);
+     navigate(navigateTo);
+  }
 
   return (
     <div>
