@@ -1,9 +1,9 @@
 import Header from "./components/Layout/Header";
-import LogIn from "./pages/HomePage/logIn/LogIn";
+import LogIn from "./pages/logIn/LogIn";
 import Box from "@mui/material/Box";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./index.css";
-import  Home  from "./pages/HomePage/home/Home";
+import  Home  from "./pages/home/Home";
 import Specialities from "./components/Specialities";
 
 function App() {

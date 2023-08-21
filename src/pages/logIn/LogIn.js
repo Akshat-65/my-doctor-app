@@ -1,18 +1,16 @@
 import * as React from "react";
 import Tab from "@mui/material/Tab";
 import TabList from "@mui/lab/TabList";
-// import logInImage from "../assets/logInBackground.svg";
-import logInImage from "../../../assets/logInBackground.svg";
-// import signUpImage from '../assets/signUpBackground.svg';
-import signUpImage from '../../../assets//signUpBackground.svg'
+import logInImage from "../../assets/logInBackground.svg";
+import signUpImage from '../../assets//signUpBackground.svg'
 import Box from "@mui/material/Box";
 import TabContext from "@mui/lab/TabContext";
 import TabPanel from "@mui/lab/TabPanel";
 import Divider from "@mui/material/Divider";
-import LogInForm from "../../../components/LogInForm";
+import LogInForm from "../../components/LogInForm";
 import { useState } from "react";
-import PatientSignUp from "../../../components/PatientSignUp";
-import DoctorSignUp from "../../../components/DoctorSignUp";
+import PatientSignUp from "../../components/PatientSignUp";
+import DoctorSignUp from "../../components/DoctorSignUp";
 const tabPanelStyles ={ width:{xs:'93%',md:'90%',lg:'75%'}, p : 0, m:{xs:'auto',md:'0'}, mt: {xs:'3rem',md:'15px'}, boxShadow: 2, borderRadius:'4px'}
 
 const LogIn = () => {
