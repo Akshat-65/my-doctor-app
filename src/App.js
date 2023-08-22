@@ -5,17 +5,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./index.css";
 import  Home  from "./pages/home/Home";
 import Specialities from "./pages/specialities/Specialities";
-import { useEffect, useState } from "react";
 
 function App() {
-
-  useEffect(() => {
-    fetch('http://my-doctors.net:8090/specializations').then((res)=>{
-      return res.json();
-    }).then ((data)=>{
-      console.log(data.data);
-    })
-  },[]);
 
   return (
     <BrowserRouter>
@@ -33,3 +24,40 @@ function App() {
 }
 
 export default App;
+
+
+ // const [data, setData] = useState([]);
+  // const pageSize = 10;
+  // const apiUrl = 'http://my-doctors.net:8090/specializations';
+
+  // const fetchData = async (page) => {
+  //   try {
+  //     const response = await fetch(`${apiUrl}?page=${page}&pageSize=${pageSize}`);
+  //     const jsonData = await response.json();
+  //     return jsonData.data;
+  //   } catch (error) {
+  //     console.error('Error fetching data:', error);
+  //   }
+  // };
+
+  // const fetchAllData = async () => {
+  //   let page = 1;
+  //   let allData = [];
+
+  //   while (true) {
+  //     const jsonData = await fetchData(page);
+
+  //     if (jsonData.length === 0) {
+  //       break; // No more data
+  //     }
+
+  //     allData = [...allData, ...jsonData];
+  //     page++;
+  //   }
+
+  //   setData(allData);
+  // };
+
+  // useEffect(() => {
+  //   fetchAllData();
+  // }, []);
