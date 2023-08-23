@@ -5,6 +5,8 @@ import Card from "@mui/material/Card";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import Pagination from "@mui/material/Pagination";
+import Link from '@mui/material/Link';
 import { useEffect, useState } from "react";
 
 const specialityHeaderStyles = {
@@ -58,6 +60,22 @@ const doctorsCardStyles = {
 const Doctors = () => {
   const [specializationData, setSpecializationData] = useState([]);
   const [doctorsData, setDoctorsData] = useState([]);
+  const [page, setPage] = React.useState(1);
+
+  const doctorsPerPage = 6;
+  let pages;
+  if (doctorsData.length > 0) {
+    pages = doctorsData[0]?.totalDoctors;
+    console.log(pages);
+  }
+
+  pages = Math.ceil(doctorsData[0]?.totalDoctors / doctorsPerPage);
+  let startPageData = page * doctorsPerPage - doctorsPerPage;
+  let endPageData = startPageData + doctorsPerPage;
+
+  const handleDoctorsPageChange = (event, value) => {
+    setPage(value);
+  };
 
   const getSpecializationData = async () => {
     try {
@@ -126,7 +144,7 @@ const Doctors = () => {
     getDoctorsData();
   }, []);
 
-  const specialities = specializationData.map((elem) => (
+ const specialities = specializationData.map((elem) => (
     <Box>
       <Card variant="outlined" sx={specialitiesCardStyles}>
         <Box sx={{ width: "100px", height: "100px", borderRadius: "50%" }}>
@@ -140,7 +158,9 @@ const Doctors = () => {
     </Box>
   ));
 
-  const doctors = doctorsData.map((elem) => (
+  const requiredDoctorsPerPage = doctorsData.slice(startPageData, endPageData);
+
+  const doctors = requiredDoctorsPerPage.map((elem) => (
     <Box>
       <Card variant="outlined" sx={doctorsCardStyles}>
         <Box
@@ -267,25 +287,38 @@ const Doctors = () => {
       <Box component="section" sx={{ pl: "1rem", pr: "1rem" }}>
         <Box>
           <Typography variant="h4" sx={specialityHeaderStyles}>
-            {`${specializationData[0].totalSpecializations}0+ Specialities`}
+            {specializationData.length > 0 &&
+              `${specializationData[0].totalSpecializations}0+ Specialities`}
           </Typography>
         </Box>
 
         <Box sx={SpecialitiesCardWrapperStyles}>{specialities}</Box>
 
-        <Box sx={{ pt: "1rem", textAlign: "end" }}>
-          <Typography sx={{ mr: "1.3rem", fontSize: "18px" }}>
+        <Box sx={{textAlign: "end", pt:'1rem' }}>
+          <Link href = "/specialities" underline="none" sx={{ mr: "1.3rem", color: 'black', textTransform:'initial',fontSize:'18px'}}>
             View all Specialities...
-          </Typography>
+          </Link>
         </Box>
       </Box>
 
       <Box component="section" sx={{ pl: "1rem", pr: "1rem" }}>
         <Box>
-          <Typography variant="body1">{`${doctorsData[0].totalDoctors}0+ Doctors`}</Typography>
+          <Typography variant="body1">
+            {doctorsData.length > 0 &&
+              `${doctorsData[0].totalDoctors}0+ Doctors`}
+          </Typography>
         </Box>
 
         <Box sx={DoctorsCardWrapperStyles}>{doctors}</Box>
+        <Pagination
+          sx={{ display: "flex", mt: "16px", justifyContent: "center" }}
+          size="small"
+          count={pages}
+          page={page}
+          onChange={handleDoctorsPageChange}
+          variant="outlined"
+          color="primary"
+        />
       </Box>
     </>
   );
