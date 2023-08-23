@@ -4,7 +4,6 @@ import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import BoneMarrowImage from "../assets/boneMarrow.svg";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useEffect, useState } from "react";
 
@@ -67,6 +66,8 @@ const Doctors = () => {
       );
       let data = await response.json();
       let returnedData = data.data;
+      let totalSpecializations = data.total;
+      console.log(totalSpecializations);
       returnedData = returnedData.slice(0, 6);
       console.log(returnedData);
       const details = [];
@@ -74,6 +75,7 @@ const Doctors = () => {
         details.push({
           name: returnedData[elem]["name"],
           image: returnedData[elem]["imageUrl"],
+          totalSpecializations: Math.floor(totalSpecializations / 10),
         });
       }
       console.log(details);
@@ -82,14 +84,13 @@ const Doctors = () => {
       console.log(error);
     }
   };
-let totalDoctors;
 
   const getDoctorsData = async () => {
     try {
       const response = await fetch("http://my-doctors.net:8090/doctors");
       let data = await response.json();
       let returnedData = data.data;
-      totalDoctors = data.total;
+      let totalDoctors = data.total;
       console.log(totalDoctors);
       const details = [];
       for (let elem in returnedData) {
@@ -110,6 +111,7 @@ let totalDoctors;
           languages: returnedData[elem]?.profile?.["languages"]?.map(
             (elem) => elem
           ),
+          totalDoctors: Math.floor(totalDoctors / 10),
         });
       }
       console.log(details);
@@ -265,7 +267,7 @@ let totalDoctors;
       <Box component="section" sx={{ pl: "1rem", pr: "1rem" }}>
         <Box>
           <Typography variant="h4" sx={specialityHeaderStyles}>
-            30+ Specialities
+            {`${specializationData[0].totalSpecializations}0+ Specialities`}
           </Typography>
         </Box>
 
@@ -280,7 +282,7 @@ let totalDoctors;
 
       <Box component="section" sx={{ pl: "1rem", pr: "1rem" }}>
         <Box>
-          <Typography variant="body1">430+</Typography>
+          <Typography variant="body1">{`${doctorsData[0].totalDoctors}0+ Doctors`}</Typography>
         </Box>
 
         <Box sx={DoctorsCardWrapperStyles}>{doctors}</Box>
