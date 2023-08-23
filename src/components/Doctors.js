@@ -50,8 +50,10 @@ const doctorsCardStyles = {
   p: "1rem",
   gap: "2rem",
   alignItems: "center",
-  justifyContent: "center",
+  justifyContent: "space-between",
   flexDirection: "column",
+  minHeight: "296px",
+  height: "92%",
 };
 
 const Doctors = () => {
@@ -80,12 +82,15 @@ const Doctors = () => {
       console.log(error);
     }
   };
+let totalDoctors;
 
   const getDoctorsData = async () => {
     try {
       const response = await fetch("http://my-doctors.net:8090/doctors");
       let data = await response.json();
       let returnedData = data.data;
+      totalDoctors = data.total;
+      console.log(totalDoctors);
       const details = [];
       for (let elem in returnedData) {
         details.push({
@@ -158,8 +163,11 @@ const Doctors = () => {
             }}
           >
             <Box>
-              <Typography variant="subtitle2" sx={{ fontWeight: "600" }}>
-                {elem.name}
+              <Typography
+                variant="subtitle2"
+                sx={{ fontWeight: "600", fontSize: "16px" }}
+              >
+                {`Dr. ${elem.name}`}
               </Typography>
               <Typography
                 variant="body2"
@@ -200,15 +208,18 @@ const Doctors = () => {
                 variant="body2"
                 sx={{ fontSize: "13px", color: "rgba(0, 0, 0, 0.54)" }}
               >
-                {elem.hospital && elem.hospital.map((item) => item && item)}
+                {elem.hospital && elem.hospital.length > 0
+                  ? elem.hospital.map((item) => item && item)
+                  : "Not available"}
               </Typography>
               <Typography sx={{ fontSize: "13px" }}>Languages</Typography>
               <Typography
                 variant="body2"
                 sx={{ fontSize: "13px", color: "rgba(0, 0, 0, 0.54)" }}
               >
-                {elem.languages &&
-                  elem.languages.map((item) => item).join(", ")}
+                {elem.languages && elem.languages.length > 0
+                  ? elem.languages.map((item) => item).join(", ")
+                  : "Not available"}
               </Typography>
               <Typography sx={{ fontSize: "13px" }}>Next available</Typography>
               <Typography
@@ -225,7 +236,6 @@ const Doctors = () => {
           sx={{
             display: "flex",
             gap: "0.5rem",
-            padding: "0.8rem",
             alignItems: "flex-start",
             ml: "1rem",
           }}
@@ -270,12 +280,10 @@ const Doctors = () => {
 
       <Box component="section" sx={{ pl: "1rem", pr: "1rem" }}>
         <Box>
-          <Typography variant="body1">430+ Doctors</Typography>
+          <Typography variant="body1">430+</Typography>
         </Box>
 
-        <Box sx={DoctorsCardWrapperStyles}>
-          {doctors}
-        </Box>
+        <Box sx={DoctorsCardWrapperStyles}>{doctors}</Box>
       </Box>
     </>
   );
