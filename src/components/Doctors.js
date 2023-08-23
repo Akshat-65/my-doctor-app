@@ -64,12 +64,12 @@ const Doctors = () => {
 
   const doctorsPerPage = 6;
   let pages;
-  if (doctorsData.length > 0) {
-    pages = doctorsData[0]?.totalDoctors;
-    console.log(pages);
-  }
+  // if (doctorsData.length > 0) {
+  //   pages = doctorsData[0]?.totalDoctors;
+  //   console.log(pages);
+  // }
 
-  pages = Math.ceil(doctorsData[0]?.totalDoctors / doctorsPerPage);
+  pages = Math.ceil((doctorsData[0]?.totalDoctors)*(10) / doctorsPerPage);
   let startPageData = page * doctorsPerPage - doctorsPerPage;
   let endPageData = startPageData + doctorsPerPage;
 
