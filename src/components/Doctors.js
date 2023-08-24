@@ -31,7 +31,7 @@ const DoctorsCardWrapperStyles = {
   gridTemplateColumns: {
     xs: "auto",
     sm: "1fr 1fr",
-    md: "1fr 1fr 1fr",
+    lg: "1fr 1fr 1fr",
   },
   gridTemplateRows: "maxContent",
   gap: "35px",
