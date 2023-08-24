@@ -20,8 +20,8 @@ const LogIn = () => {
     setValue(newValue);
   };
   return (
-    <TabContext value={value} >
-      <Box sx={{ display: "flex", justifyContent: 'space-around',width :'100%' }}>
+    <TabContext value={value}>
+      <Box sx={{ display: "flex", justifyContent: 'space-around',width :'100%', mt:{xs:'13.5rem',md:'9rem'} }}>
         <Box sx={{ width: {xs:'0',md:"60%"} }}></Box>
         <Box sx={{ width: {xs:'100%',md:'40%'}}}>
           <TabList

@@ -37,7 +37,7 @@ const SideNav = () => {
       ];
     
       const drawer = (
-        <div style={{ marginTop: "5rem" }}>
+        <div style={{ marginTop: "7.3rem" }}>
           <List>
             {itemsList.map((item, index) => {
               const { text, to } = item;

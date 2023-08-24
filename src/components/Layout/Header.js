@@ -11,6 +11,7 @@ import logo from "../../assets/myDoctorLogo.svg";
 import SearchIcon from "@mui/icons-material/Search";
 import { Link } from "react-router-dom";
 import Sidebar from "../Sidebar";
+import DiseaseSwiper from "../DiseaseSwiper";
 
 const pages = ["Products", "Pricing", "Blog"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
@@ -35,8 +36,8 @@ const Header = () => {
   };
 
   return (
-    <AppBar position="fixed" sx={{ backgroundColor: "white" ,zIndex:1299}}>
-      <Container maxWidth="xl">
+    <AppBar position="fixed" sx={{ backgroundColor: "white", zIndex: 1299}}>
+      <Container maxWidth="xl" sx={{pb:'0.7rem'}}>
         <Toolbar
           disableGutters
           sx={{ display: { xs: "flex" }, justifyContent: "space-between" }}
@@ -53,8 +54,6 @@ const Header = () => {
               <MenuIcon />
             </IconButton> */}
             <Sidebar />
-
-           
           </Box>
 
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
@@ -182,6 +181,9 @@ const Header = () => {
           </IconButton>
         </Box>
       </Container>
+      <Box sx={{height:'30px'}}>
+        <DiseaseSwiper />
+      </Box>
     </AppBar>
   );
 };

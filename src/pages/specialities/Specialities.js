@@ -125,7 +125,7 @@ const Specialities = () => {
   };
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex", mt:{xs:'12rem',md:'9rem'} }}>
       <SideNav />
       <Box
         component="main"

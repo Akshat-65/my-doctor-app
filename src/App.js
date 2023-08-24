@@ -13,7 +13,6 @@ function App() {
     <BrowserRouter>
       <Box>
         <Header />
-        <div className="space" style={{display:'flex'}}></div>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<LogIn />} />
