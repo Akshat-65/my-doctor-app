@@ -161,7 +161,7 @@ const Specialities = () => {
                 }}
               />
 
-              <FormControl sx={{minWidth: 62 , ml:'0.5rem'}} >
+              <FormControl sx={{minWidth: 65 , ml:'0.5rem'}} >
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
