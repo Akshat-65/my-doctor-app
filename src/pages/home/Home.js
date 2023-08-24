@@ -8,13 +8,13 @@ const drawerWidth = 240;
 function Home(props) {
 
   return (
-    <Box sx={{ display: "flex", mt:{xs:'12rem',md:'9rem'} }}>
+    <Box sx={{ display: "flex", mt:{xs:'12rem',md:'9rem'}, width:'100%' }}>
       <SideNav />
       <Box
         component="main"
         sx={{
           flexGrow: 1,
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
+          width: {xs:"100%", md: `calc(100% - ${drawerWidth}px)` },
           // width: { sm: `calc(100% - ${drawerWidth}px)` },
         }}
       >

@@ -86,7 +86,7 @@ const DiseaseSwiper = () => {
   return (
     <>
       <Swiper
-        style={{ display: "flex", zIndex: 1299, backgroundColor: "#F0F0F0", padding:'6px',  }}
+        style={{ display: "flex", zIndex: 1299, backgroundColor: "#F0F0F0", padding:'6px' }}
         spaceBetween={12}
         pagination={{
           clickable: true,

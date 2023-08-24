@@ -6,7 +6,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Pagination from "@mui/material/Pagination";
-import Link from '@mui/material/Link';
+import Link from "@mui/material/Link";
 import { useEffect, useState } from "react";
 
 const specialityHeaderStyles = {
@@ -69,7 +69,7 @@ const Doctors = () => {
   //   console.log(pages);
   // }
 
-  pages = Math.ceil((doctorsData[0]?.totalDoctors)*(10) / doctorsPerPage);
+  pages = Math.ceil((doctorsData[0]?.totalDoctors * 10) / doctorsPerPage);
   let startPageData = page * doctorsPerPage - doctorsPerPage;
   let endPageData = startPageData + doctorsPerPage;
 
@@ -144,7 +144,7 @@ const Doctors = () => {
     getDoctorsData();
   }, []);
 
- const specialities = specializationData.map((elem) => (
+  const specialities = specializationData.map((elem) => (
     <Box>
       <Card variant="outlined" sx={specialitiesCardStyles}>
         <Box sx={{ width: "100px", height: "100px", borderRadius: "50%" }}>
@@ -279,12 +279,12 @@ const Doctors = () => {
   ));
 
   return (
-    <>
+    <Box sx={{ pl: "1rem", pr: "1rem" }}>
       <img
         src={homePageImage}
         style={{ width: "100%", paddingLeft: "1rem", paddingRight: "1rem" }}
       />
-      <Box component="section" sx={{ pl: "1rem", pr: "1rem" }}>
+      <Box component="section">
         <Box>
           <Typography variant="h4" sx={specialityHeaderStyles}>
             {specializationData.length > 0 &&
@@ -294,14 +294,23 @@ const Doctors = () => {
 
         <Box sx={SpecialitiesCardWrapperStyles}>{specialities}</Box>
 
-        <Box sx={{textAlign: "end", pt:'1rem' }}>
-          <Link href = "/specialities" underline="none" sx={{ mr: "1.3rem", color: 'black', textTransform:'initial',fontSize:'18px'}}>
+        <Box sx={{ textAlign: "end", pt: "1rem" }}>
+          <Link
+            href="/specialities"
+            underline="none"
+            sx={{
+              mr: "1.3rem",
+              color: "black",
+              textTransform: "initial",
+              fontSize: "18px",
+            }}
+          >
             View all Specialities...
           </Link>
         </Box>
       </Box>
 
-      <Box component="section" sx={{ pl: "1rem", pr: "1rem" }}>
+      <Box component="section">
         <Box>
           <Typography variant="body1">
             {doctorsData.length > 0 &&
@@ -320,7 +329,7 @@ const Doctors = () => {
           color="primary"
         />
       </Box>
-    </>
+    </Box>
   );
 };
 
