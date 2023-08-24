@@ -25,10 +25,18 @@ const specialitiesCardStyles = {
 
 const specialityHeaderStyles = {
   color: "#3f51b5",
-  fontSize: "42px",
-  marginTop: "16px",
+  fontSize: {xs:"26px",md:"30px",lg:"36px"},
   fontWeight: "bold",
+  mb:{xs:"0.2rem",sm:'0px'}
 };
+
+const specialityHeaderDropdownWrapper = {
+  display: "flex",
+  flexDirection:{xs:'column',sm:'row'},
+  alignItems: {xs:"flex-start",sm:"center"},
+  justifyContent: "space-between",
+  mb: '1rem'
+}
 
 const SpecialitiesCardWrapperStyles = {
   display: "grid",
@@ -128,18 +136,14 @@ const Specialities = () => {
       >
         <Box component="section" sx={{ pl: "1rem", pr: "1rem" }}>
           <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
+            sx={specialityHeaderDropdownWrapper}
           >
             <Typography variant="h4" sx={specialityHeaderStyles}>
               {specializationData.length > 0 &&
                 `${specializationData[0].totalSpecializations}0+ Specialities`}
             </Typography>
 
-            <Box sx={{ display: "flex" }}>
+            <Box sx={{ display: "flex",alignItems: "center" }}>
               <TextField
                 id="outlined-basic"
                 placeholder="Search a Speciality"
@@ -157,7 +161,7 @@ const Specialities = () => {
                 }}
               />
 
-              <FormControl sx={{minWidth: 70 , ml:'0.5rem'}} >
+              <FormControl sx={{minWidth: 62 , ml:'0.5rem'}} >
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
