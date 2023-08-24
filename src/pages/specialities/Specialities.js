@@ -7,6 +7,9 @@ import Pagination from "@mui/material/Pagination";
 import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 
 import SearchIcon from "@mui/icons-material/Search";
 import { useEffect, useState } from "react";
@@ -40,7 +43,8 @@ const SpecialitiesCardWrapperStyles = {
 const Specialities = () => {
   const drawerWidth = 240;
   const [specializationData, setSpecializationData] = useState([]);
-  const [page, setPage] = React.useState(1);
+  const [page, setPage] = useState(1);
+  const [specialityCountFilter, setSpecialityCountFilter] = useState(8);
 
   const SpecialitiesPerPage = 6;
   let pages;
@@ -77,6 +81,8 @@ const Specialities = () => {
     </Box>
   ));
 
+  const specialityFilterCount = [8, 12, 16, 20, 40];
+
   const getSpecializationData = async () => {
     try {
       const response = await fetch(
@@ -105,6 +111,11 @@ const Specialities = () => {
   useEffect(() => {
     getSpecializationData();
   }, []);
+
+  const handleSpecialityFilterCount = (e) => {
+    setSpecialityCountFilter(e.target.value);
+  };
+
   return (
     <Box sx={{ display: "flex" }}>
       <SideNav />
@@ -128,7 +139,7 @@ const Specialities = () => {
                 `${specializationData[0].totalSpecializations}0+ Specialities`}
             </Typography>
 
-            <Box>
+            <Box sx={{ display: "flex" }}>
               <TextField
                 id="outlined-basic"
                 placeholder="Search a Speciality"
@@ -139,12 +150,27 @@ const Specialities = () => {
                   endAdornment: (
                     <InputAdornment position="end">
                       <IconButton aria-label="search specialities">
-                    <SearchIcon />
+                        <SearchIcon />
                       </IconButton>
                     </InputAdornment>
                   ),
                 }}
               />
+
+              <FormControl sx={{minWidth: 70 , ml:'0.5rem'}} >
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={specialityCountFilter}
+                  onChange={handleSpecialityFilterCount}
+                  size="small"
+                  autoWidth
+                >
+                  {specialityFilterCount.map((count) => (
+                    <MenuItem  value={count} sx={{minWidth: 70}}>{count}</MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
             </Box>
           </Box>
 

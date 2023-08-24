@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./index.css";
 import  Home  from "./pages/home/Home";
 import Specialities from "./pages/specialities/Specialities";
+import DiseaseSwiper from "./components/DiseaseSwiper";
 
 function App() {
 
@@ -12,7 +13,7 @@ function App() {
     <BrowserRouter>
       <Box>
         <Header />
-        <div className="space"></div>
+        <div className="space" style={{display:'flex'}}></div>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<LogIn />} />
