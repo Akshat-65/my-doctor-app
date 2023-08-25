@@ -45,7 +45,7 @@ const SpecialitiesCardWrapperStyles = {
     sm: "1fr 1fr",
     md: "1fr 1fr 1fr",
   },
-  gap: "54px",
+  gap: "20px",
 };
 
 const Specialities = () => {

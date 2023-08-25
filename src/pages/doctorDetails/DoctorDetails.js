@@ -65,7 +65,7 @@ const DoctorDetails = () => {
   }, []);
 
   const doctorDetailsCard = (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{p:'1rem', boxShadow: 2}}>
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }}>
@@ -74,9 +74,9 @@ const DoctorDetails = () => {
         }
         title={`Dr. ${doctorsDetailsData.name}`}
         subheader={doctorsDetailsData['experienceMonths'] && doctorsDetailsData['experienceMonths'] ? `${Math.floor(doctorsDetailsData.experienceMonths / 12)} Years of experience` : 'No experience'}
-
+        sx={{mb:'1rem'}}
       />
-      <CardContent>
+      <CardContent sx={{mb:'1rem'}}>
         <Typography variant="body2" color="text.secondary">
          {doctorsDetailsData && doctorsDetailsData.bio? `${doctorsDetailsData.bio}`:"Bio not available"}
         </Typography>
@@ -100,15 +100,18 @@ const DoctorDetails = () => {
         sx={{
           flexGrow: 1,
           width: { sm: `calc(100% - ${drawerWidth}px)` },
+
         }}
       >
-        <Box component="section" sx={{ pl: "1rem", pr: "1rem" }}>
+        <Box component="section" sx={{ display:'flex',flexDirection:'column',pl: "2rem",pt:'2rem', pr: "1rem", width:'100%', alignItems:'flex-start' }} >
           {/* card wrapper */}
-          <Box>
+          <Box sx={{display:'flex', minWidth:{xs:'320px',sm:'480px'}, maxWidth:'47%', mb:'1rem'}}>
           {doctorDetailsCard}
           </Box>
           {/* No slots available Wrapper */}
-          <Box></Box>
+          <Box sx={{mb:'1rem'}}>
+            <Typography variant="body1"> No slots Available</Typography>
+          </Box>
           {/* details wrapper */}
           <Box></Box>
         </Box>
