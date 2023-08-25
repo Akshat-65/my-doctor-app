@@ -52,7 +52,7 @@ const Specialities = () => {
   const drawerWidth = 240;
   const [specializationData, setSpecializationData] = useState([]);
   const [page, setPage] = useState(1);
-  const [specialityCountFilter, setSpecialityCountFilter] = useState(6);
+  const [specialityCountFilter, setSpecialityCountFilter] = useState(8);
 
   const SpecialitiesPerPage = specialityCountFilter;
   let pages;

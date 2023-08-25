@@ -5,7 +5,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./index.css";
 import  Home  from "./pages/home/Home";
 import Specialities from "./pages/specialities/Specialities";
-import DiseaseSwiper from "./components/DiseaseSwiper";
+import DoctorDetails from "./pages/doctorDetails/DoctorDetails";
 
 function App() {
 
@@ -17,6 +17,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<LogIn />} />
           <Route path="/specialities" element={<Specialities />} />
+          <Route path="/doctors/:id" element={<DoctorDetails />} />
         </Routes>
       </Box>
     </BrowserRouter>

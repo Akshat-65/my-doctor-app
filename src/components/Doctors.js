@@ -7,6 +7,7 @@ import Typography from "@mui/material/Typography";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Pagination from "@mui/material/Pagination";
 import Link from "@mui/material/Link";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 const specialityHeaderStyles = {
@@ -62,6 +63,7 @@ const Doctors = () => {
   const [doctorsData, setDoctorsData] = useState([]);
   const [page, setPage] = React.useState(1);
 
+  const navigate = useNavigate();
   const doctorsPerPage = 6;
   let pages;
   // if (doctorsData.length > 0) {
@@ -113,6 +115,7 @@ const Doctors = () => {
       const details = [];
       for (let elem in returnedData) {
         details.push({
+          id: returnedData[elem]['_id'],
           name: `${returnedData[elem]["firstName"]} ${returnedData[elem]["lastName"]}`,
           qualifications: returnedData[elem]?.profile?.["qualifications"]?.map(
             (elem) => elem["name"]
@@ -270,6 +273,7 @@ const Doctors = () => {
               border: "1px solid rgba(63, 81, 181, 0.5)",
               fontSize: "0.8125rem",
             }}
+            onClick={()=>navigate(`/doctors/${elem.id}`)}
           >
             BOOK APPOINTMENT
           </Button>

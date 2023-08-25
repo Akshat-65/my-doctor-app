@@ -1,31 +1,6 @@
 import React, { useState } from "react";
-// Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
-
-// Import Swiper styles
 import "swiper/css";
-// import "swiper/css/pagination";
-
-// import "./styles.css";
-
-// import required modules
-
-// const checkStyles = display: flex;
-// height: fit-content;
-// z-index: 1299;
-// background-color: #F0F0F0;
-// /* background-color: gray; */
-// width: 100%;
-// /* margin-left: 0; */
-// position: fixed;
-//  ----------- for Swiper-----------
-// z-index: 1299;
-// background-color: #F0F0F0;
-// margin-top: 2rem;
-// padding: 1rem;
-// width: 100%;
 
 import { Pagination } from "swiper/modules";
 
