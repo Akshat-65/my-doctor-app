@@ -174,7 +174,7 @@ const DoctorDetails = () => {
             <Typography variant="body1"> No slots Available</Typography>
           </Box>
           {/* details wrapper */}
-          <Box sx={{ display: "flex", flexDirection: "column", width: "90%" }}>
+          <Box sx={{ display: "flex", flexDirection: "column", width: "90%", mb:'1.5rem' }}>
             <Typography sx={{ mb: "1rem" }}>
               {doctorsDetailsData && doctorsDetailsData.consultationFee
                 ? `Consultation Fee: Rs. ${doctorsDetailsData.consultationFee}`
