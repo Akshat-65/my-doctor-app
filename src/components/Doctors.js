@@ -40,7 +40,7 @@ const Doctors = () => {
   const [page, setPage] = React.useState(1);
 
   const navigate = useNavigate();
-  const doctorsPerPage = 6;
+  const doctorsPerPage = 12;
   let pages;
   // if (doctorsData.length > 0) {
   //   pages = doctorsData[0]?.totalDoctors;
@@ -58,7 +58,7 @@ const Doctors = () => {
   const getSpecializationData = async () => {
     try {
       const response = await fetch(
-        "http://my-doctors.net:8090/specializations"
+        "http://my-doctors.net:8090/specializations?$limit=56&$skip=0"
       );
       let data = await response.json();
       let returnedData = data.data;
@@ -83,7 +83,7 @@ const Doctors = () => {
 
   const getDoctorsData = async () => {
     try {
-      const response = await fetch("http://my-doctors.net:8090/doctors");
+      const response = await fetch("http://my-doctors.net:8090/doctors?$limit=56&$skip=0");
       let data = await response.json();
       let returnedData = data.data;
       let totalDoctors = data.total;
@@ -123,8 +123,49 @@ const Doctors = () => {
     getDoctorsData();
   }, []);
 
+
+const handleSpecialityDetail = (speciality)=>{
+  // console.log(speciality);
+
+  // const paramObject = {
+  //   speciality:speciality
+  // }
+
+  // const params = new URLSearchParams(paramObject);
+  // console.log(params);
+
+  // const getSpecializationData = async () => {
+  //   try {
+  //     const response = await fetch(
+  //       `http://my-doctors.net:8090/doctors?${params}` 
+  //     );
+  //     let data = await response.json();
+  //     console.log(data);
+  //     // let returnedData = data.data;
+  //     // let totalSpecializations = data.total;
+  //     // console.log(totalSpecializations);
+  //     // returnedData = returnedData.slice(0, 6);
+  //     // console.log(returnedData);
+  //     // const details = [];
+  //     // for (let elem in returnedData) {
+  //     //   details.push({
+  //     //     name: returnedData[elem]["name"],
+  //     //     image: returnedData[elem]["imageUrl"],
+  //     //     totalSpecializations: Math.floor(totalSpecializations / 10),
+  //     //   });
+  //     // }
+  //     // console.log(details);
+  //     // setSpecializationData(details);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+  // getSpecializationData();
+   navigate(`/search?sp=${speciality}`)
+}
+
   const specialities = specializationData.map((elem) => (
-    <Box>
+    <Box onClick={()=>handleSpecialityDetail(elem.name)}>
       <Card variant="outlined" sx={specialitiesCardStyles}>
         <Box sx={{ width: "100px", height: "100px", borderRadius: "50%" }}>
           <img
@@ -153,7 +194,7 @@ const Doctors = () => {
 
         <Box sx={SpecialitiesCardWrapperStyles}>{specialities}</Box>
 
-        <Box sx={{ textAlign: "end", pt: "1rem" }}>
+        <Box sx={{ textAlign: {xs:'center',md:"end"}, pt: "1rem" }}>
           <Link
             href="/specialities"
             underline="none"

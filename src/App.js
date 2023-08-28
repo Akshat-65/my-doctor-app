@@ -6,6 +6,7 @@ import "./index.css";
 import  Home  from "./pages/home/Home";
 import Specialities from "./pages/specialities/Specialities";
 import DoctorDetails from "./pages/doctorDetails/DoctorDetails";
+import SpecialityDetails from "./pages/specialityDetails/SpecialityDetails";
 
 function App() {
 
@@ -18,6 +19,7 @@ function App() {
           <Route path="/login" element={<LogIn />} />
           <Route path="/specialities" element={<Specialities />} />
           <Route path="/doctors/:id" element={<DoctorDetails />} />
+          <Route path="/search" element={<SpecialityDetails />} />
         </Routes>
       </Box>
     </BrowserRouter>

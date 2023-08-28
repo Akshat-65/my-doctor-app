@@ -94,7 +94,7 @@ const Specialities = () => {
   const getSpecializationData = async () => {
     try {
       const response = await fetch(
-        "http://my-doctors.net:8090/specializations"
+        "http://my-doctors.net:8090/specializations?$limit=56&$skip=0"
       );
       let data = await response.json();
       let returnedData = data.data;
