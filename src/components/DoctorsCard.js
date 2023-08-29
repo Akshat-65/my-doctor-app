@@ -18,6 +18,9 @@ const doctorsCardStyles = {
   height: "92%",
 };
 
+const doctorDetailsTypographyStyle  = { fontSize: "13px", color: "rgba(0, 0, 0, 0.54)" }
+
+
 const DoctorsCard = ({doctorsData}) => {
 
   const navigate = useNavigate();
@@ -54,21 +57,21 @@ const DoctorsCard = ({doctorsData}) => {
               </Typography>
               <Typography
                 variant="body2"
-                sx={{ fontSize: "13px", color: "rgba(0, 0, 0, 0.54)" }}
+                sx={doctorDetailsTypographyStyle}
               >
                 {elem.qualifications &&
                   elem.qualifications.map((item) => item).join(" | ")}
               </Typography>
               <Typography
                 variant="body2"
-                sx={{ fontSize: "13px", color: "rgba(0, 0, 0, 0.54)" }}
+                sx={doctorDetailsTypographyStyle}
               >
                 {elem.specialities &&
                   elem.specialities.map((item) => item).join(" | ")}
               </Typography>
               <Typography
                 variant="body2"
-                sx={{ fontSize: "13px", color: "rgba(0, 0, 0, 0.54)" }}
+                sx={doctorDetailsTypographyStyle}
               >
                 {elem.experience &&
                   `${Math.floor(elem.experience / 12)} years experience`}
@@ -89,7 +92,7 @@ const DoctorsCard = ({doctorsData}) => {
               </Typography>
               <Typography
                 variant="body2"
-                sx={{ fontSize: "13px", color: "rgba(0, 0, 0, 0.54)" }}
+                sx={doctorDetailsTypographyStyle}
               >
                 {elem.hospital && elem.hospital.length > 0
                   ? elem.hospital.map((item) => item && item)
@@ -98,7 +101,7 @@ const DoctorsCard = ({doctorsData}) => {
               <Typography sx={{ fontSize: "13px" }}>Languages</Typography>
               <Typography
                 variant="body2"
-                sx={{ fontSize: "13px", color: "rgba(0, 0, 0, 0.54)" }}
+                sx={doctorDetailsTypographyStyle}
               >
                 {elem.languages && elem.languages.length > 0
                   ? elem.languages.map((item) => item).join(", ")
@@ -107,7 +110,7 @@ const DoctorsCard = ({doctorsData}) => {
               <Typography sx={{ fontSize: "13px" }}>Next available</Typography>
               <Typography
                 variant="body2"
-                sx={{ fontSize: "13px", color: "rgba(0, 0, 0, 0.54)" }}
+                sx={doctorDetailsTypographyStyle}
               >
                 Not available
               </Typography>
