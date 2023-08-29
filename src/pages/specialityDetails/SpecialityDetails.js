@@ -138,7 +138,7 @@ const SpecialityDetails = () => {
           width: { sm: `calc(100% - ${drawerWidth}px)` },
         }}
       >
-        <Box component="section" sx={{ p: "0 1rem 2rem 2rem" }}>
+        <Box component="section" sx={{ p: "0 2rem 2rem 2rem" }}>
           {isLoading && loading}
           {!isLoading && doctorsDatas.length > 0 && (
             <>
@@ -181,7 +181,7 @@ const SpecialityDetails = () => {
                       autoWidth
                     >
                       {itemsPerPage.map((count) => (
-                        <MenuItem value={count} sx={{ minWidth: 70 }}>
+                        <MenuItem value={count} sx={{ minWidth: 120 }}>
                           {count}
                         </MenuItem>
                       ))}

@@ -10,6 +10,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import { useNavigate } from "react-router-dom";
 
 import SearchIcon from "@mui/icons-material/Search";
 import { useEffect, useState } from "react";
@@ -54,6 +55,7 @@ const Specialities = () => {
   const [page, setPage] = useState(1);
   const [specialityCountFilter, setSpecialityCountFilter] = useState(8);
 
+  const navigate = useNavigate();
   const SpecialitiesPerPage = specialityCountFilter;
   let pages;
   // if (specializationData.length > 0) {
@@ -75,8 +77,12 @@ const Specialities = () => {
     endPageData
   );
 
+  const handleSpecialityDetail = (speciality) => {
+    navigate(`/search?sp=${speciality}`);
+  };
+
   const specialities = requiredSpecialitiesPerPage.map((elem) => (
-    <Box>
+    <Box  onClick={() => handleSpecialityDetail(elem.name)}>
       <Card variant="outlined" sx={specialitiesCardStyles}>
         <Box sx={{ width: "100px", height: "100px", borderRadius: "50%" }}>
           <img

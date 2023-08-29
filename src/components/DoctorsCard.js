@@ -6,7 +6,6 @@ import Typography from "@mui/material/Typography";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useNavigate } from "react-router-dom";
 
-
 const doctorsCardStyles = {
   display: "flex",
   p: "1rem",
@@ -18,11 +17,12 @@ const doctorsCardStyles = {
   height: "92%",
 };
 
-const doctorDetailsTypographyStyle  = { fontSize: "13px", color: "rgba(0, 0, 0, 0.54)" }
+const doctorDetailsTypographyStyle = {
+  fontSize: "13px",
+  color: "rgba(0, 0, 0, 0.54)",
+};
 
-
-const DoctorsCard = ({doctorsData}) => {
-
+const DoctorsCard = ({ doctorsData }) => {
   const navigate = useNavigate();
   const doctors = doctorsData.map((elem) => (
     <Box>
@@ -55,24 +55,15 @@ const DoctorsCard = ({doctorsData}) => {
               >
                 {`Dr. ${elem.name}`}
               </Typography>
-              <Typography
-                variant="body2"
-                sx={doctorDetailsTypographyStyle}
-              >
+              <Typography variant="body2" sx={doctorDetailsTypographyStyle}>
                 {elem.qualifications &&
                   elem.qualifications.map((item) => item).join(" | ")}
               </Typography>
-              <Typography
-                variant="body2"
-                sx={doctorDetailsTypographyStyle}
-              >
+              <Typography variant="body2" sx={doctorDetailsTypographyStyle}>
                 {elem.specialities &&
                   elem.specialities.map((item) => item).join(" | ")}
               </Typography>
-              <Typography
-                variant="body2"
-                sx={doctorDetailsTypographyStyle}
-              >
+              <Typography variant="body2" sx={doctorDetailsTypographyStyle}>
                 {elem.experience &&
                   `${Math.floor(elem.experience / 12)} years experience`}
               </Typography>
@@ -90,28 +81,19 @@ const DoctorsCard = ({doctorsData}) => {
               <Typography variant="h6" sx={{ fontSize: "13px" }}>
                 Hospital
               </Typography>
-              <Typography
-                variant="body2"
-                sx={doctorDetailsTypographyStyle}
-              >
+              <Typography variant="body2" sx={doctorDetailsTypographyStyle}>
                 {elem.hospital && elem.hospital.length > 0
                   ? elem.hospital.map((item) => item && item)
                   : "Not available"}
               </Typography>
               <Typography sx={{ fontSize: "13px" }}>Languages</Typography>
-              <Typography
-                variant="body2"
-                sx={doctorDetailsTypographyStyle}
-              >
+              <Typography variant="body2" sx={doctorDetailsTypographyStyle}>
                 {elem.languages && elem.languages.length > 0
                   ? elem.languages.map((item) => item).join(", ")
                   : "Not available"}
               </Typography>
               <Typography sx={{ fontSize: "13px" }}>Next available</Typography>
-              <Typography
-                variant="body2"
-                sx={doctorDetailsTypographyStyle}
-              >
+              <Typography variant="body2" sx={doctorDetailsTypographyStyle}>
                 Not available
               </Typography>
             </Box>
@@ -134,7 +116,7 @@ const DoctorsCard = ({doctorsData}) => {
               border: "1px solid rgba(63, 81, 181, 0.5)",
               fontSize: "0.8125rem",
             }}
-            onClick={()=>navigate(`/doctors/${elem.id}`)}
+            onClick={() => navigate(`/doctors/${elem.id}`)}
           >
             BOOK APPOINTMENT
           </Button>
@@ -142,11 +124,7 @@ const DoctorsCard = ({doctorsData}) => {
       </Card>
     </Box>
   ));
-    return ( 
-      <>
-      {doctors}
-      </>
-     );
-}
- 
+  return <>{doctors}</>;
+};
+
 export default DoctorsCard;
