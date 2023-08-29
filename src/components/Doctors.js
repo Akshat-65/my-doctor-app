@@ -5,6 +5,7 @@ import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
 import Pagination from "@mui/material/Pagination";
 import Link from "@mui/material/Link";
+import CircularProgress from "@mui/material/CircularProgress";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import DoctorsCard from "./DoctorsCard";
@@ -48,6 +49,7 @@ const Doctors = () => {
   const [specializationData, setSpecializationData] = useState([]);
   const [doctorsData, setDoctorsData] = useState([]);
   const [page, setPage] = React.useState(1);
+  const [isLoading, setIsLoading] = useState(true);
 
   const navigate = useNavigate();
   const doctorsPerPage = 12;
@@ -68,6 +70,7 @@ const Doctors = () => {
   };
 
   const getSpecializationData = async () => {
+    setIsLoading(true);
     try {
       const response = await fetch(
         "http://my-doctors.net:8090/specializations?$limit=56&$skip=0"
@@ -88,13 +91,16 @@ const Doctors = () => {
       }
       console.log(details);
       setSpecializationData(details);
+      setIsLoading(false);
     } catch (error) {
+      setIsLoading(false);
       console.log(error);
     }
   };
 
   const getDoctorsData = async () => {
     try {
+      setIsLoading(true);
       const response = await fetch(
         "http://my-doctors.net:8090/doctors?$limit=56&$skip=0"
       );
@@ -127,7 +133,9 @@ const Doctors = () => {
       }
       console.log(details);
       setDoctorsData(details);
+      setIsLoading(false);
     } catch (error) {
+      setIsLoading(false);
       console.log(error);
     }
   };
@@ -142,7 +150,10 @@ const Doctors = () => {
   };
 
   const specialities = specializationData.map((elem) => (
-    <Box onClick={() => handleSpecialityDetail(elem.name)} sx={{cursor:'pointer'}}>
+    <Box
+      onClick={() => handleSpecialityDetail(elem.name)}
+      sx={{ cursor: "pointer" }}
+    >
       <Card variant="outlined" sx={specialitiesCardStyles}>
         <Box sx={{ width: "100px", height: "100px", borderRadius: "50%" }}>
           <img
@@ -155,13 +166,28 @@ const Doctors = () => {
     </Box>
   ));
 
+  const loading = (
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        mt: "1rem",
+      }}
+    >
+      <CircularProgress />
+    </Box>
+  );
+
   return (
     <Box sx={{ pl: "1rem", pr: "1rem" }}>
       <img
         src={homePageImage}
         style={{ width: "100%", paddingLeft: "1rem", paddingRight: "1rem" }}
       />
-      <Box component="section">
+      {isLoading && loading}
+      {!isLoading && <>
+        <Box component="section">
         <Box>
           <Typography variant="h4" sx={specialityHeaderStyles}>
             {specializationData.length > 0 &&
@@ -208,7 +234,8 @@ const Doctors = () => {
           variant="outlined"
           color="primary"
         />
-      </Box>
+      </Box></>}
+      
     </Box>
   );
 };

@@ -12,27 +12,45 @@ import SearchIcon from "@mui/icons-material/Search";
 import { Link } from "react-router-dom";
 import Sidebar from "../Sidebar";
 import DiseaseSwiper from "../DiseaseSwiper";
+import { useState, useEffect} from "react";
 
-const pages = ["Products", "Pricing", "Blog"];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 const Header = () => {
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
 
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
-  };
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
+  const [services, setServices] = useState([]);
+  const [selectedService, setSelectedService] = useState();
 
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
+  const getServicesData = async () => {
+    try {
+      const response = await fetch(
+        "http://my-doctors.net:8090/specializations?$limit=56&$skip=0"
+      );
+      let data = await response.json();
+      let returnedData = data.data;
+      let totalSpecializations = data.total;
+      console.log(totalSpecializations);
+      console.log(returnedData);
+      const details = [];
+      for (let elem in returnedData) {
+        details.push({
+          label: returnedData[elem]["name"],
+        });
+      }
+      console.log(details);
+      setServices(details);
+    } catch (error) {
+      console.log(error);
+    }
   };
+  useEffect(() => {
+    getServicesData();
+  }, []);
 
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
+
+  const handleSelectedService = (e) => {
+    console.log(e.target.value)
+    console.log(e)
+    setSelectedService(e.target.value);
   };
 
   return (
@@ -69,9 +87,12 @@ const Header = () => {
             <Box>
               <Autocomplete
                 disablePortal
+                // defaultValue={selectedService}
                 forcePopupIcon={false}
                 id="combo-box-demo"
-                options={top100Films}
+                options={services}
+                value={selectedService}
+                onChange={handleSelectedService}
                 sx={{
                   width: { xs: "10rem", md: "16rem" },
                   m: 0.5,
@@ -130,8 +151,10 @@ const Header = () => {
             <Autocomplete
               disablePortal
               forcePopupIcon={false}
+              value={selectedService}
+              onChange={handleSelectedService}
               id="combo-box-demo"
-              options={top100Films}
+              options={services}
               sx={{
                 width: { xs: "10rem", md: "16rem" },
                 m: 0.5,
@@ -176,16 +199,3 @@ const Header = () => {
   );
 };
 export default Header;
-
-const top100Films = [
-  { label: "Bone Marrow" },
-  { label: "Crdiac Surgery" },
-  { label: "Cosmetology" },
-  { label: "Clinical Nutrition & Dietetics" },
-  { label: "Child & Adolescent Psychiatry" },
-  { label: "Emergency Medicine" },
-  { label: "Gastroenterology" },
-  {
-    label: "Endocrinology & Diabetology",
-  },
-];
