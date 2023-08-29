@@ -33,6 +33,16 @@ const specialitiesCardStyles = {
   alignItems: "center",
   justifyContent: "center",
 };
+const DoctorsCardWrapperStyles = {
+  display: "grid",
+  gridTemplateColumns: {
+    xs: "auto",
+    sm: "1fr 1fr",
+    lg: "1fr 1fr 1fr",
+  },
+  gridTemplateRows: "maxContent",
+  gap: "35px",
+};
 
 const Doctors = () => {
   const [specializationData, setSpecializationData] = useState([]);
@@ -50,6 +60,8 @@ const Doctors = () => {
   pages = Math.ceil((doctorsData[0]?.totalDoctors * 10) / doctorsPerPage);
   let startPageData = page * doctorsPerPage - doctorsPerPage;
   let endPageData = startPageData + doctorsPerPage;
+
+  const requiredDoctorsPerPage = doctorsData.slice(startPageData, endPageData);
 
   const handleDoctorsPageChange = (event, value) => {
     setPage(value);
@@ -83,7 +95,9 @@ const Doctors = () => {
 
   const getDoctorsData = async () => {
     try {
-      const response = await fetch("http://my-doctors.net:8090/doctors?$limit=56&$skip=0");
+      const response = await fetch(
+        "http://my-doctors.net:8090/doctors?$limit=56&$skip=0"
+      );
       let data = await response.json();
       let returnedData = data.data;
       let totalDoctors = data.total;
@@ -91,7 +105,7 @@ const Doctors = () => {
       const details = [];
       for (let elem in returnedData) {
         details.push({
-          id: returnedData[elem]['_id'],
+          id: returnedData[elem]["_id"],
           name: `${returnedData[elem]["firstName"]} ${returnedData[elem]["lastName"]}`,
           qualifications: returnedData[elem]?.profile?.["qualifications"]?.map(
             (elem) => elem["name"]
@@ -123,49 +137,12 @@ const Doctors = () => {
     getDoctorsData();
   }, []);
 
-
-const handleSpecialityDetail = (speciality)=>{
-  // console.log(speciality);
-
-  // const paramObject = {
-  //   speciality:speciality
-  // }
-
-  // const params = new URLSearchParams(paramObject);
-  // console.log(params);
-
-  // const getSpecializationData = async () => {
-  //   try {
-  //     const response = await fetch(
-  //       `http://my-doctors.net:8090/doctors?${params}` 
-  //     );
-  //     let data = await response.json();
-  //     console.log(data);
-  //     // let returnedData = data.data;
-  //     // let totalSpecializations = data.total;
-  //     // console.log(totalSpecializations);
-  //     // returnedData = returnedData.slice(0, 6);
-  //     // console.log(returnedData);
-  //     // const details = [];
-  //     // for (let elem in returnedData) {
-  //     //   details.push({
-  //     //     name: returnedData[elem]["name"],
-  //     //     image: returnedData[elem]["imageUrl"],
-  //     //     totalSpecializations: Math.floor(totalSpecializations / 10),
-  //     //   });
-  //     // }
-  //     // console.log(details);
-  //     // setSpecializationData(details);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-  // getSpecializationData();
-   navigate(`/search?sp=${speciality}`)
-}
+  const handleSpecialityDetail = (speciality) => {
+    navigate(`/search?sp=${speciality}`);
+  };
 
   const specialities = specializationData.map((elem) => (
-    <Box onClick={()=>handleSpecialityDetail(elem.name)}>
+    <Box onClick={() => handleSpecialityDetail(elem.name)}>
       <Card variant="outlined" sx={specialitiesCardStyles}>
         <Box sx={{ width: "100px", height: "100px", borderRadius: "50%" }}>
           <img
@@ -194,7 +171,7 @@ const handleSpecialityDetail = (speciality)=>{
 
         <Box sx={SpecialitiesCardWrapperStyles}>{specialities}</Box>
 
-        <Box sx={{ textAlign: {xs:'center',md:"end"}, pt: "1rem" }}>
+        <Box sx={{ textAlign: { xs: "center", md: "end" }, pt: "1rem" }}>
           <Link
             href="/specialities"
             underline="none"
@@ -217,7 +194,11 @@ const handleSpecialityDetail = (speciality)=>{
               `${doctorsData[0].totalDoctors}0+ Doctors`}
           </Typography>
         </Box>
-        <DoctorsCard  doctorsData= {doctorsData} startPageData = {startPageData} endPageData={endPageData}/>
+
+        <Box sx={DoctorsCardWrapperStyles}>
+          <DoctorsCard doctorsData={requiredDoctorsPerPage} />
+        </Box>
+
         <Pagination
           sx={{ display: "flex", mt: "16px", justifyContent: "center" }}
           size="small"

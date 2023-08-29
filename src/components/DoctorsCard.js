@@ -7,17 +7,6 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useNavigate } from "react-router-dom";
 
 
-const DoctorsCardWrapperStyles = {
-  display: "grid",
-  gridTemplateColumns: {
-    xs: "auto",
-    sm: "1fr 1fr",
-    lg: "1fr 1fr 1fr",
-  },
-  gridTemplateRows: "maxContent",
-  gap: "35px",
-};
-
 const doctorsCardStyles = {
   display: "flex",
   p: "1rem",
@@ -29,12 +18,10 @@ const doctorsCardStyles = {
   height: "92%",
 };
 
-const DoctorsCard = ({doctorsData, startPageData, endPageData}) => {
-
-  const requiredDoctorsPerPage = doctorsData.slice(startPageData, endPageData);
+const DoctorsCard = ({doctorsData}) => {
 
   const navigate = useNavigate();
-  const doctors = requiredDoctorsPerPage.map((elem) => (
+  const doctors = doctorsData.map((elem) => (
     <Box>
       <Card variant="outlined" sx={doctorsCardStyles}>
         <Box
@@ -153,9 +140,9 @@ const DoctorsCard = ({doctorsData, startPageData, endPageData}) => {
     </Box>
   ));
     return ( 
-       <Box sx={DoctorsCardWrapperStyles}>
-          {doctors}
-       </Box>
+      <>
+      {doctors}
+      </>
      );
 }
  
