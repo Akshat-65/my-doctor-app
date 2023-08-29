@@ -1,8 +1,7 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import SideNav from "../../components/SideNav";
-import { specialityHeaderDropdownWrapper } from "../specialities/Specialities";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Typography } from "@mui/material";
 import InputLabel from '@mui/material/InputLabel';
@@ -22,6 +21,14 @@ const DoctorsCardWrapperStyles = {
   gap: "35px",
 };
 
+const specialityDropdownWrapper = {
+  display: "flex",
+  flexDirection:{xs:'column',sm:'row'},
+  alignItems: {xs:"flex-start",sm:"center"},
+  justifyContent: "space-between",
+  mb: '1rem'
+}
+
 const SpecialityDetails = () => {
   const [doctorsDatas, setDoctorsDatas] = useState([]);
   const [itemsPerPageFilter, SetItemsPerPageFilter] = useState(12);
@@ -34,8 +41,10 @@ const SpecialityDetails = () => {
 
   const drawerWidth = 240;
   const itemsPerPage = [9, 12, 18, 30];
+
   let startPageData = 0;
   let endPageData = itemsPerPageFilter;
+  const requiredDoctorsPerPage = doctorsDatas.slice(startPageData, endPageData);
 
   const handleSpecialityDetail = (speciality) => {
     console.log(speciality);
@@ -111,7 +120,7 @@ const SpecialityDetails = () => {
         }}
       >
         <Box component="section" sx={{ pl: "1rem", pr: "1rem" }}>
-          <Box sx={specialityHeaderDropdownWrapper}>
+          <Box sx={specialityDropdownWrapper}>
             <Box sx={{display:"flex", flexDirection:"column"}}>
             <Typography variant="h4">
               {doctorsDatas.length > 0 &&
@@ -143,7 +152,7 @@ const SpecialityDetails = () => {
             </Box>
           </Box>
          <Box sx={DoctorsCardWrapperStyles}>
-         {doctorsDatas.length > 0 &&  <DoctorsCard doctorsData= {doctorsDatas}/>}
+         {doctorsDatas.length > 0 &&  <DoctorsCard doctorsData= {requiredDoctorsPerPage}/>}
          </Box>
         </Box>
       </Box>

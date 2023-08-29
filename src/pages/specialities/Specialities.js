@@ -30,7 +30,7 @@ const specialityHeaderStyles = {
   mb:{xs:"0.2rem",sm:'0px'}
 };
 
-export const specialityHeaderDropdownWrapper = {
+const specialityHeaderDropdownWrapper = {
   display: "flex",
   flexDirection:{xs:'column',sm:'row'},
   alignItems: {xs:"flex-start",sm:"center"},
@@ -38,7 +38,7 @@ export const specialityHeaderDropdownWrapper = {
   mb: '1rem'
 }
 
-export const SpecialitiesCardWrapperStyles = {
+const SpecialitiesCardWrapperStyles = {
   display: "grid",
   gridTemplateColumns: {
     xs: "auto",
