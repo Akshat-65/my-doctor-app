@@ -21,18 +21,19 @@ import DoctorAccordion from "../../components/DoctorAccordion";
 
 const doctorDetailsSectionStyles = {
   display: "grid",
-//   display: "flex",
-  gridTemplateColumns: 'auto',
-//   flexDirection: "column",
+  //   display: "flex",
+  gridTemplateColumns: "auto",
+  //   flexDirection: "column",
   pl: "2rem",
   pt: "2rem",
   pr: "1rem",
-//   width: "100%",
-//   alignItems: "flex-start",
+  //   width: "100%",
+  //   alignItems: "flex-start",
 };
 
 const DoctorDetails = () => {
   const [doctorsDetailsData, setDoctorsDetailsData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const drawerWidth = 240;
 
   const { id } = useParams();
@@ -56,7 +57,8 @@ const DoctorDetails = () => {
         "qualifications"
       ]?.map((elem) => elem["name"]);
       details["experience"] = returnedData?.profile?.["experience"]?.map(
-        (elem) => `${elem["position"]} at ${elem["place"]} (${elem["fromYear"]} - ${elem["toYear"]})`
+        (elem) =>
+          `${elem["position"]} at ${elem["place"]} (${elem["fromYear"]} - ${elem["toYear"]})`
       );
       details["languages"] = returnedData?.profile?.["languages"]?.map(
         (elem) => elem
@@ -71,16 +73,22 @@ const DoctorDetails = () => {
       );
       console.log(details);
       setDoctorsDetailsData(details);
+      setIsLoading(false);
     } catch (error) {
+      setIsLoading(false);
       console.log(error);
     }
   };
 
-
-
   useEffect(() => {
     getDoctorsDetails();
   }, []);
+
+  const loading = (
+      <Typography variant="body2" sx={{ fontSize: "16px", m: "1rem" }}>
+        Loading doctor details...
+      </Typography>
+  );
 
   const doctorDetailsCard = (
     <Card
@@ -121,38 +129,37 @@ const DoctorDetails = () => {
     </Card>
   );
 
-// const doctorDetailsKeys = Object.keys(doctorsDetailsData);
-//   console.log(doctorDetailsKeys);
+  // const doctorDetailsKeys = Object.keys(doctorsDetailsData);
+  //   console.log(doctorDetailsKeys);
 
-//   doctorDetailsKeys.map((elem)=>{
-//     if(elem!=='name' && elem!=='experienceMonths' && elem!=="consultationFee" && elem!=='bio' ){
-//         return(
-//             <Accordion>
-//         <AccordionSummary
-//           expandIcon={<ExpandMoreIcon />}
-//           aria-controls="panel1a-content"
-//           id="panel1a-header"
-//         >
-//           <Typography>{elem}</Typography>
-//         </AccordionSummary>
-//          <AccordionDetails>
-//           <Typography>
-//             {Array.isArray(details[elem]) ? (
-//               <ul>
-//                 {details[elem] && details[elem].map((item, index) => (
-//                   <li key={index}>{item}</li>
-//                 ))}
-//               </ul>
-//             ) : (
-//               details[key]
-//             )}
-//           </Typography>
-//         </AccordionDetails>
-//       </Accordion>
-//         )
-//     }
-//   })
-
+  //   doctorDetailsKeys.map((elem)=>{
+  //     if(elem!=='name' && elem!=='experienceMonths' && elem!=="consultationFee" && elem!=='bio' ){
+  //         return(
+  //             <Accordion>
+  //         <AccordionSummary
+  //           expandIcon={<ExpandMoreIcon />}
+  //           aria-controls="panel1a-content"
+  //           id="panel1a-header"
+  //         >
+  //           <Typography>{elem}</Typography>
+  //         </AccordionSummary>
+  //          <AccordionDetails>
+  //           <Typography>
+  //             {Array.isArray(details[elem]) ? (
+  //               <ul>
+  //                 {details[elem] && details[elem].map((item, index) => (
+  //                   <li key={index}>{item}</li>
+  //                 ))}
+  //               </ul>
+  //             ) : (
+  //               details[key]
+  //             )}
+  //           </Typography>
+  //         </AccordionDetails>
+  //       </Accordion>
+  //         )
+  //     }
+  //   })
 
   return (
     <Box sx={{ display: "flex", mt: { xs: "12rem", md: "9rem" } }}>
@@ -165,23 +172,35 @@ const DoctorDetails = () => {
         }}
       >
         <Box component="section" sx={doctorDetailsSectionStyles}>
-          {/* card wrapper */}
-          <Box sx={{ display: "flex", mb: "1rem", maxWidth: "47%" }}>
-            {doctorDetailsCard}
-          </Box>
-          {/* No slots available Wrapper */}
-          <Box sx={{ mb: "1rem" }}>
-            <Typography variant="body1"> No slots Available</Typography>
-          </Box>
-          {/* details wrapper */}
-          <Box sx={{ display: "flex", flexDirection: "column", width: "90%", mb:'1.5rem' }}>
-            <Typography sx={{ mb: "1rem" }}>
-              {doctorsDetailsData && doctorsDetailsData.consultationFee
-                ? `Consultation Fee: Rs. ${doctorsDetailsData.consultationFee}`
-                : "Consultation Fee: Not available"}
-            </Typography>
-            <DoctorAccordion doctorsDetailsData = {doctorsDetailsData}/>
-          </Box>
+          {isLoading && loading}
+          {!isLoading && (
+            <>
+              {/* card wrapper */}
+              <Box sx={{ display: "flex", mb: "1rem", maxWidth: "47%" }}>
+                {doctorDetailsCard}
+              </Box>
+              {/* No slots available Wrapper */}
+              <Box sx={{ mb: "1rem" }}>
+                <Typography variant="body1"> No slots Available</Typography>
+              </Box>
+              {/* details wrapper */}
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  width: "90%",
+                  mb: "1.5rem",
+                }}
+              >
+                <Typography sx={{ mb: "1rem" }}>
+                  {doctorsDetailsData && doctorsDetailsData.consultationFee
+                    ? `Consultation Fee: Rs. ${doctorsDetailsData.consultationFee}`
+                    : "Consultation Fee: Not available"}
+                </Typography>
+                <DoctorAccordion doctorsDetailsData={doctorsDetailsData} />
+              </Box>
+            </>
+          )}
         </Box>
       </Box>
     </Box>

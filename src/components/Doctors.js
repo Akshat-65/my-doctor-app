@@ -142,7 +142,7 @@ const Doctors = () => {
   };
 
   const specialities = specializationData.map((elem) => (
-    <Box onClick={() => handleSpecialityDetail(elem.name)}>
+    <Box onClick={() => handleSpecialityDetail(elem.name)} sx={{cursor:'pointer'}}>
       <Card variant="outlined" sx={specialitiesCardStyles}>
         <Box sx={{ width: "100px", height: "100px", borderRadius: "50%" }}>
           <img
