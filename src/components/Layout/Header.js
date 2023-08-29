@@ -43,16 +43,6 @@ const Header = () => {
           sx={{ display: { xs: "flex" }, justifyContent: "space-between" }}
         >
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
-            {/* <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="blue"
-            >
-              <MenuIcon />
-            </IconButton> */}
             <Sidebar />
           </Box>
 
@@ -86,7 +76,6 @@ const Header = () => {
                   width: { xs: "10rem", md: "16rem" },
                   m: 0.5,
                   "& .MuiOutlinedInput-root": {
-                    // border: "1px solid yellow",
                     border: "none",
                   },
                   "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
@@ -147,7 +136,6 @@ const Header = () => {
                 width: { xs: "10rem", md: "16rem" },
                 m: 0.5,
                 "& .MuiOutlinedInput-root": {
-                  // border: "1px solid yellow",
                   border: "none",
                 },
                 "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {

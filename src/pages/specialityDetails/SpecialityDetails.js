@@ -7,6 +7,7 @@ import { Typography } from "@mui/material";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
+import NativeSelect from '@mui/material/NativeSelect';
 import CircularProgress from "@mui/material/CircularProgress";
 import Select from "@mui/material/Select";
 import DoctorsCard from "../../components/DoctorsCard";
@@ -172,20 +173,21 @@ const SpecialityDetails = () => {
                     >
                       Items per page
                     </InputLabel>
-                    <Select
+                    <NativeSelect
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
                       value={itemsPerPageFilter}
                       onChange={handleItemsPerPageFilter}
                       size="small"
                       autoWidth
+                   
                     >
                       {itemsPerPage.map((count) => (
-                        <MenuItem value={count} sx={{ minWidth: 120 }}>
+                        <option  value={count}>
                           {count}
-                        </MenuItem>
+                        </option >
                       ))}
-                    </Select>
+                    </NativeSelect>
                   </FormControl>
                 </Box>
               </Box>
