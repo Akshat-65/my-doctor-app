@@ -7,9 +7,10 @@ import Pagination from "@mui/material/Pagination";
 import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import CircularProgress from "@mui/material/CircularProgress";
+import Select from "@mui/material/Select";
 import { useNavigate } from "react-router-dom";
 
 import SearchIcon from "@mui/icons-material/Search";
@@ -26,18 +27,18 @@ const specialitiesCardStyles = {
 
 const specialityHeaderStyles = {
   color: "#3f51b5",
-  fontSize: {xs:"26px",md:"30px",lg:"36px"},
+  fontSize: { xs: "26px", md: "30px", lg: "36px" },
   fontWeight: "bold",
-  mb:{xs:"0.2rem",sm:'0px'}
+  mb: { xs: "0.2rem", sm: "0px" },
 };
 
 const specialityHeaderDropdownWrapper = {
   display: "flex",
-  flexDirection:{xs:'column',sm:'row'},
-  alignItems: {xs:"flex-start",sm:"center"},
+  flexDirection: { xs: "column", sm: "row" },
+  alignItems: { xs: "flex-start", sm: "center" },
   justifyContent: "space-between",
-  mb: '1rem'
-}
+  mb: "1rem",
+};
 
 const SpecialitiesCardWrapperStyles = {
   display: "grid",
@@ -54,6 +55,7 @@ const Specialities = () => {
   const [specializationData, setSpecializationData] = useState([]);
   const [page, setPage] = useState(1);
   const [specialityCountFilter, setSpecialityCountFilter] = useState(8);
+  const [isLoading, setIsLoading] = useState(true);
 
   const navigate = useNavigate();
   const SpecialitiesPerPage = specialityCountFilter;
@@ -82,7 +84,10 @@ const Specialities = () => {
   };
 
   const specialities = requiredSpecialitiesPerPage.map((elem) => (
-    <Box  onClick={() => handleSpecialityDetail(elem.name)} sx={{cursor:'pointer'}}>
+    <Box
+      onClick={() => handleSpecialityDetail(elem.name)}
+      sx={{ cursor: "pointer" }}
+    >
       <Card variant="outlined" sx={specialitiesCardStyles}>
         <Box sx={{ width: "100px", height: "100px", borderRadius: "50%" }}>
           <img
@@ -99,6 +104,7 @@ const Specialities = () => {
 
   const getSpecializationData = async () => {
     try {
+      setIsLoading(true);
       const response = await fetch(
         "http://my-doctors.net:8090/specializations?$limit=56&$skip=0"
       );
@@ -117,7 +123,9 @@ const Specialities = () => {
       }
       console.log(details);
       setSpecializationData(details);
+      setIsLoading(false);
     } catch (error) {
+      setIsLoading(false);
       console.log(error);
     }
   };
@@ -130,8 +138,21 @@ const Specialities = () => {
     setSpecialityCountFilter(e.target.value);
   };
 
+  const loading = (
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        mt: "3rem",
+      }}
+    >
+      <CircularProgress />
+    </Box>
+  );
+
   return (
-    <Box sx={{ display: "flex", mt:{xs:'12rem',md:'9rem'} }}>
+    <Box sx={{ display: "flex", mt: { xs: "12rem", md: "9rem" } }}>
       <SideNav />
       <Box
         component="main"
@@ -141,59 +162,64 @@ const Specialities = () => {
         }}
       >
         <Box component="section" sx={{ pl: "1rem", pr: "1rem" }}>
-          <Box
-            sx={specialityHeaderDropdownWrapper}
-          >
-            <Typography variant="h4" sx={specialityHeaderStyles}>
-              {specializationData.length > 0 &&
-                `${specializationData[0].totalSpecializations}0+ Specialities`}
-            </Typography>
+          {isLoading && loading}
+          {!isLoading && (
+            <>
+              <Box sx={specialityHeaderDropdownWrapper}>
+                <Typography variant="h4" sx={specialityHeaderStyles}>
+                  {specializationData.length > 0 &&
+                    `${specializationData[0].totalSpecializations}0+ Specialities`}
+                </Typography>
 
-            <Box sx={{ display: "flex",alignItems: "center" }}>
-              <TextField
-                id="outlined-basic"
-                placeholder="Search a Speciality"
-                variant="outlined"
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                  <TextField
+                    id="outlined-basic"
+                    placeholder="Search a Speciality"
+                    variant="outlined"
+                    size="small"
+                    fullWidth
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton aria-label="search specialities">
+                            <SearchIcon />
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+
+                  <FormControl sx={{ minWidth: 65, ml: "0.5rem" }}>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      value={specialityCountFilter}
+                      onChange={handleSpecialityFilterCount}
+                      size="small"
+                      autoWidth
+                    >
+                      {specialityFilterCount.map((count) => (
+                        <MenuItem value={count} sx={{ minWidth: 70 }}>
+                          {count}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Box>
+              </Box>
+
+              <Box sx={SpecialitiesCardWrapperStyles}>{specialities}</Box>
+              <Pagination
+                sx={{ display: "flex", mt: "16px", justifyContent: "center" }}
                 size="small"
-                fullWidth
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton aria-label="search specialities">
-                        <SearchIcon />
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
+                count={pages}
+                page={page}
+                onChange={handleSpecialitiesPageChange}
+                variant="outlined"
+                color="primary"
               />
-
-              <FormControl sx={{minWidth: 65 , ml:'0.5rem'}} >
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={specialityCountFilter}
-                  onChange={handleSpecialityFilterCount}
-                  size="small"
-                  autoWidth
-                >
-                  {specialityFilterCount.map((count) => (
-                    <MenuItem  value={count} sx={{minWidth: 70}}>{count}</MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Box>
-          </Box>
-
-          <Box sx={SpecialitiesCardWrapperStyles}>{specialities}</Box>
-          <Pagination
-            sx={{ display: "flex", mt: "16px", justifyContent: "center" }}
-            size="small"
-            count={pages}
-            page={page}
-            onChange={handleSpecialitiesPageChange}
-            variant="outlined"
-            color="primary"
-          />
+            </>
+          )}
         </Box>
       </Box>
     </Box>
