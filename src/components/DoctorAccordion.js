@@ -22,6 +22,7 @@ const DoctorAccordion = ({ doctorsDetailsData }) => {
     5: "Very happy",
   };
 
+
   function getLabelText(value) {
     return `${value} Star${value !== 1 ? "s" : ""}, ${labels[value]}`;
   }
@@ -34,7 +35,7 @@ const DoctorAccordion = ({ doctorsDetailsData }) => {
           aria-controls="panel1a-content"
           id="panel1a-header"
         >
-          <Typography sx={{fontWeight:'600'}}>Specialities</Typography>
+          <Typography sx={{ fontWeight: "600" }}>Specialities</Typography>
         </AccordionSummary>
         <AccordionDetails>
           {doctorsDetailsData && doctorsDetailsData.specialities ? (
@@ -57,7 +58,7 @@ const DoctorAccordion = ({ doctorsDetailsData }) => {
           aria-controls="panel1a-content"
           id="panel1a-header"
         >
-          <Typography sx={{fontWeight:'600'}}>Qualifications</Typography>
+          <Typography sx={{ fontWeight: "600" }}>Qualifications</Typography>
         </AccordionSummary>
         <AccordionDetails>
           {doctorsDetailsData && doctorsDetailsData.qualifications ? (
@@ -80,7 +81,7 @@ const DoctorAccordion = ({ doctorsDetailsData }) => {
           aria-controls="panel1a-content"
           id="panel1a-header"
         >
-          <Typography sx={{fontWeight:'600'}}>Experience</Typography>
+          <Typography sx={{ fontWeight: "600" }}>Experience</Typography>
         </AccordionSummary>
         <AccordionDetails>
           {doctorsDetailsData && doctorsDetailsData.experience ? (
@@ -103,7 +104,7 @@ const DoctorAccordion = ({ doctorsDetailsData }) => {
           aria-controls="panel1a-content"
           id="panel1a-header"
         >
-          <Typography sx={{fontWeight:'600'}}>Languages</Typography>
+          <Typography sx={{ fontWeight: "600" }}>Languages</Typography>
         </AccordionSummary>
         <AccordionDetails>
           {doctorsDetailsData && doctorsDetailsData.languages ? (
@@ -126,7 +127,7 @@ const DoctorAccordion = ({ doctorsDetailsData }) => {
           aria-controls="panel1a-content"
           id="panel1a-header"
         >
-          <Typography sx={{fontWeight:'600'}}>Reviews</Typography>
+          <Typography sx={{ fontWeight: "600" }}>Reviews</Typography>
         </AccordionSummary>
         <AccordionDetails>
           {doctorsDetailsData && (
@@ -141,7 +142,7 @@ const DoctorAccordion = ({ doctorsDetailsData }) => {
           aria-controls="panel1a-content"
           id="panel1a-header"
         >
-          <Typography sx={{fontWeight:'600'}}>Write a review</Typography>
+          <Typography sx={{ fontWeight: "600" }}>Write a review</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Box
@@ -211,7 +212,7 @@ const DoctorAccordion = ({ doctorsDetailsData }) => {
                   display: "flex",
                   gap: "0.5rem",
                   alignItems: "flex-start",
-                  mt:'2rem'
+                  mt: "2rem",
                 }}
               >
                 <Button
@@ -221,14 +222,14 @@ const DoctorAccordion = ({ doctorsDetailsData }) => {
                     color: "#0652a5",
                     border: "1px solid rgba(63, 81, 181, 0.5)",
                     fontSize: "0.8125rem",
-                    p:'0.3rem 2.5rem',
-                    fontWeight:'500',
-                    ':hover': {
-                      bgcolor: '#3F51B5', // theme.palette.primary.main
-                      color: 'white',
-                    }
+                    p: "0.3rem 2.5rem",
+                    fontWeight: "500",
+                    ":hover": {
+                      bgcolor: "#3F51B5", // theme.palette.primary.main
+                      color: "white",
+                    },
                   }}
-                  // onClick={()=>navigate(`/doctors/${elem.id}`)}
+                  // onClick={() => navigate(`/doctors/${elem.id}`)}
                 >
                   SUBMIT
                 </Button>

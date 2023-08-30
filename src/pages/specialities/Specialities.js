@@ -12,9 +12,9 @@ import FormControl from "@mui/material/FormControl";
 import CircularProgress from "@mui/material/CircularProgress";
 import Select from "@mui/material/Select";
 import { useNavigate } from "react-router-dom";
-
 import SearchIcon from "@mui/icons-material/Search";
 import { useEffect, useState } from "react";
+import { useRef } from "react";
 
 const specialitiesCardStyles = {
   display: "flex",
@@ -56,6 +56,8 @@ const Specialities = () => {
   const [page, setPage] = useState(1);
   const [specialityCountFilter, setSpecialityCountFilter] = useState(8);
   const [isLoading, setIsLoading] = useState(true);
+  const [input, setInput] = useState("");
+  const [filteredSpecialities, setFilteredSpecialities] = useState([]);
 
   const navigate = useNavigate();
   const SpecialitiesPerPage = specialityCountFilter;
@@ -74,10 +76,16 @@ const Specialities = () => {
   const handleSpecialitiesPageChange = (event, value) => {
     setPage(value);
   };
-  const requiredSpecialitiesPerPage = specializationData.slice(
-    startPageData,
-    endPageData
-  );
+
+  const searchRef = useRef();
+  // console.log(searchRef.current.value);
+  // const searchValue = searchRef.current.value;
+  // console.log(searchValue);
+
+  let requiredSpecialitiesPerPage = filteredSpecialities.length > 0
+      ? filteredSpecialities.slice(startPageData, endPageData)
+    : specializationData.slice(startPageData, endPageData);
+  console.log(requiredSpecialitiesPerPage);
 
   const handleSpecialityDetail = (speciality) => {
     navigate(`/search?sp=${speciality}`);
@@ -138,6 +146,45 @@ const Specialities = () => {
     setSpecialityCountFilter(e.target.value);
   };
 
+  const handleInput = (e) => {
+    console.log(e.target.value);
+    setInput(e.target.value);
+  };
+
+  // const handleSpecialitySearch = () => {
+  //   console.log(specializationData);
+  //   let searchValue = searchRef.current.value;
+  //   console.log(searchValue)
+  //    let inputValue = searchValue.toLowerCase();
+  //    console.log(inputValue)
+  //   let filteredSpecialities = specializationData.filter((item) => {
+  //     if (item.name.includes(inputValue)) {
+  //       return true;
+  //     }
+  //   });
+  //   console.log(filteredSpecialities);
+  //   setFilteredSpecialities(filteredSpecialities);
+  // };
+
+  const handleSpecialitySearch = () => {
+    let searchValue = searchRef.current.value.toLowerCase(); 
+    console.log(searchValue);
+  
+    let filteredSpecialities = specializationData.filter((item) => {
+      let itemName = item.name.toLowerCase();
+      if (itemName.includes(searchValue)) {
+        return true;
+      }
+      return false;
+    });
+
+    filteredSpecialities.sort((a, b) => a.name.localeCompare(b.name));
+  
+    console.log(filteredSpecialities);
+    setFilteredSpecialities(filteredSpecialities);
+  };
+  
+
   const loading = (
     <Box
       sx={{
@@ -178,10 +225,15 @@ const Specialities = () => {
                     variant="outlined"
                     size="small"
                     fullWidth
+                    // value={searchValue}
+                    inputRef={searchRef}
                     InputProps={{
                       endAdornment: (
                         <InputAdornment position="end">
-                          <IconButton aria-label="search specialities">
+                          <IconButton
+                            aria-label="search specialities"
+                            onClick={handleSpecialitySearch}
+                          >
                             <SearchIcon />
                           </IconButton>
                         </InputAdornment>
