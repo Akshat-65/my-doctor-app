@@ -7,7 +7,7 @@ import { Typography } from "@mui/material";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
-import NativeSelect from '@mui/material/NativeSelect';
+import NativeSelect from "@mui/material/NativeSelect";
 import CircularProgress from "@mui/material/CircularProgress";
 import Select from "@mui/material/Select";
 import DoctorsCard from "../../components/DoctorsCard";
@@ -35,11 +35,16 @@ const SpecialityDetails = () => {
   const [itemsPerPageFilter, SetItemsPerPageFilter] = useState(12);
   const [isLoading, setIsLoading] = useState(true);
 
+  console.log(isLoading);
+
   const location = useLocation();
   console.log(location.search);
   const searchParams = new URLSearchParams(location.search);
   const speciality = searchParams.get("sp");
+  const name = searchParams.get("q");
+
   console.log(speciality);
+  console.log(name);
 
   const drawerWidth = 240;
   const itemsPerPage = [9, 12, 18, 30];
@@ -48,20 +53,24 @@ const SpecialityDetails = () => {
   let endPageData = itemsPerPageFilter;
   const requiredDoctorsPerPage = doctorsDatas.slice(startPageData, endPageData);
 
-  const handleSpecialityDetail = (speciality) => {
+  const handleSpecialityDetail = () => {
     console.log(speciality);
-
-    const paramObject = {
-      speciality: speciality,
-    };
+    const paramObject = {};
+    if (speciality) {
+      paramObject.speciality = speciality;
+    }
+    if (name) {
+      paramObject.name = name;
+    }
 
     const params = new URLSearchParams(paramObject);
     console.log(params);
 
     const getSpecializationData = async () => {
+      setIsLoading(true);
       try {
         const response = await fetch(
-          `http://my-doctors.net:8090/doctors?${params}`
+          `http://my-doctors.net:8090/doctors?$limit=56&$skip=0&${params}`
         );
         let data = await response.json();
         console.log(data);
@@ -105,27 +114,48 @@ const SpecialityDetails = () => {
   };
 
   useEffect(() => {
-    handleSpecialityDetail(speciality);
-  }, []);
+    setIsLoading(true);
+    handleSpecialityDetail();
+  }, [speciality, name]);
 
   const handleItemsPerPageFilter = (e) => {
     SetItemsPerPageFilter(e.target.value);
   };
 
+  let noResultText = "";
+
+  if (speciality && name) {
+    noResultText = `No results found for '${name}' in '${speciality}'`;
+  } else if (speciality) {
+    noResultText = `No results found for '${speciality}' `;
+  } else if (name) {
+    noResultText = `No results found for '${name}' `;
+  }
+
   const noResults = (
     <Typography
       variant="body2"
       sx={{ fontSize: "16px", color: "rgba(0, 0, 0, 0.54)", mb: "0.5rem" }}
-    >{`No results found for '${speciality}' `}</Typography>
+    >
+      {noResultText}
+    </Typography>
   );
 
+  let loadingText = "";
+  if (speciality && name) {
+    loadingText = `Searching for : '${name}' in '${speciality}'`;
+  } else if (speciality) {
+    loadingText = `Searching for : '${speciality}' `;
+  } else if (name) {
+    loadingText = `Searching for : '${name}' `;
+  }
+
   const loading = (
-    <Box sx= {{display:'flex', alignItems:"center"}}>
-      <CircularProgress size = "1.4rem" />
-      <Typography
-        variant="body2"
-        sx={{ fontSize: "16px", m:'1rem' }}
-      >{`Searching for : '${speciality}' `}</Typography>
+    <Box sx={{ display: "flex", alignItems: "center" }}>
+      <CircularProgress size="1.4rem" />
+      <Typography variant="body2" sx={{ fontSize: "16px", m: "1rem" }}>
+        {loadingText}
+      </Typography>
     </Box>
   );
   console.log(doctorsDatas);
@@ -180,12 +210,9 @@ const SpecialityDetails = () => {
                       onChange={handleItemsPerPageFilter}
                       size="small"
                       autoWidth
-                   
                     >
                       {itemsPerPage.map((count) => (
-                        <option  value={count}>
-                          {count}
-                        </option >
+                        <option value={count}>{count}</option>
                       ))}
                     </NativeSelect>
                   </FormControl>

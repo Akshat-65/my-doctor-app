@@ -12,13 +12,17 @@ import SearchIcon from "@mui/icons-material/Search";
 import { Link } from "react-router-dom";
 import Sidebar from "../Sidebar";
 import DiseaseSwiper from "../DiseaseSwiper";
-import { useState, useEffect} from "react";
-
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
-
   const [services, setServices] = useState([]);
-  const [selectedService, setSelectedService] = useState();
+  const [selectedService, setSelectedService] = useState({
+    autocomplete: null,
+    searchInput: "",
+  });
+
+  const navigate = useNavigate();
 
   const getServicesData = async () => {
     try {
@@ -32,9 +36,10 @@ const Header = () => {
       console.log(returnedData);
       const details = [];
       for (let elem in returnedData) {
-        details.push({
-          label: returnedData[elem]["name"],
-        });
+        // details.push({
+        //   label: returnedData[elem]["name"],
+        // });
+        details.push(returnedData[elem]["name"]);
       }
       console.log(details);
       setServices(details);
@@ -46,16 +51,31 @@ const Header = () => {
     getServicesData();
   }, []);
 
+  const handleSelectedService = (e, value) => {
+    console.log(value);
+    setSelectedService((prev) => ({ ...prev, autocomplete: value }));
+  };
 
-  const handleSelectedService = (e) => {
-    console.log(e.target.value)
-    console.log(e)
-    setSelectedService(e.target.value);
+  const handleSearch = () => {
+    if (selectedService.autocomplete && !selectedService.searchInput) {
+      navigate(`/search?sp=${selectedService.autocomplete}`);
+    } else if (!selectedService.autocomplete && selectedService.searchInput) {
+      navigate(`/search?q=${selectedService.searchInput}`);
+    } else if (selectedService.autocomplete && selectedService.searchInput) {
+      navigate(
+        `/search?q=${selectedService.searchInput}&sp=${selectedService.autocomplete}`
+      );
+    }
+  };
+
+  const handleInput = (e) => {
+    console.log(e.target.value);
+    setSelectedService((prev) => ({ ...prev, searchInput: e.target.value }));
   };
 
   return (
-    <AppBar position="fixed" sx={{ backgroundColor: "white", zIndex: 1299}}>
-      <Container maxWidth="xl" sx={{pb:'0.7rem'}}>
+    <AppBar position="fixed" sx={{ backgroundColor: "white", zIndex: 1299 }}>
+      <Container maxWidth="xl" sx={{ pb: "0.7rem" }}>
         <Toolbar
           disableGutters
           sx={{ display: { xs: "flex" }, justifyContent: "space-between" }}
@@ -87,11 +107,10 @@ const Header = () => {
             <Box>
               <Autocomplete
                 disablePortal
-                // defaultValue={selectedService}
                 forcePopupIcon={false}
                 id="combo-box-demo"
                 options={services}
-                value={selectedService}
+                value={selectedService.autocomplete}
                 onChange={handleSelectedService}
                 sx={{
                   width: { xs: "10rem", md: "16rem" },
@@ -117,6 +136,8 @@ const Header = () => {
                 id="outlined-basic"
                 placeholder="Search Doctors"
                 variant="outlined"
+                value={selectedService.searchInput}
+                onChange={handleInput}
                 sx={{
                   "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
                     border: "none",
@@ -125,7 +146,7 @@ const Header = () => {
               />
             </Box>
 
-            <IconButton>
+            <IconButton onClick={handleSearch}>
               <SearchIcon />
             </IconButton>
           </Box>
@@ -151,10 +172,10 @@ const Header = () => {
             <Autocomplete
               disablePortal
               forcePopupIcon={false}
-              value={selectedService}
+              options={services}
+              value={selectedService.autocomplete}
               onChange={handleSelectedService}
               id="combo-box-demo"
-              options={services}
               sx={{
                 width: { xs: "10rem", md: "16rem" },
                 m: 0.5,
@@ -179,6 +200,8 @@ const Header = () => {
               id="outlined-basic"
               placeholder="Search Doctors"
               variant="outlined"
+              value={selectedService.searchInput}
+              onChange={handleInput}
               sx={{
                 "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
                   border: "none",
@@ -187,12 +210,12 @@ const Header = () => {
             />
           </Box>
 
-          <IconButton>
-            <SearchIcon />
+          <IconButton onClick={handleSearch}>
+            <SearchIcon href="`/search?sp=${selectedService}`" />
           </IconButton>
         </Box>
       </Container>
-      <Box sx={{height:'30px'}}>
+      <Box sx={{ height: "30px" }}>
         <DiseaseSwiper />
       </Box>
     </AppBar>
