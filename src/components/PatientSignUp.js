@@ -29,10 +29,11 @@ const formIsValidStyles = {
 
 const PatientSignUp = () => {
   const [details, setDetails] = useState({
-    fullName: "",
+    firstName: "",
+    lastName: "",
     gender: "",
-    dob: "",
-    mobile: "",
+    profile: {dob:''},
+    contactNumber: "",
     email: "",
     password: "",
   });
@@ -63,6 +64,10 @@ const PatientSignUp = () => {
   const [selectedDay, setSelectedDay] = useState(today.getDate());
   const [selectedYear, setSelectedYear] = useState(today.getFullYear());
 
+  console.log(selectedDay);
+  console.log(selectedMonth);
+  console.log(selectedYear);
+
   const formValidity =
     formIsValid.name &&
     formIsValid.number &&
@@ -76,8 +81,39 @@ const PatientSignUp = () => {
     passwordIsValid.matching === "checked";
   console.log(formValidity);
 
-  const handleNameInput = (e) => {};
+  const handleNameInput = (e) => {
+  console.log(e.target.value);
+  let name = e.target.value;
+  let firstName = name.split(' ')[0];
+  let lastName = name.split(' ')[1];
+  setDetails((prev)=>(
+    {...prev, 
+    firstName: firstName,
+    lastName : lastName
+    }
+  ))
+  };
 
+
+  const handleGenderChange = (e)=>{
+    console.log(e.target.value)
+    let gender = e.target.value;
+    setDetails((prev)=>(
+      {...prev, 
+      gender : gender
+      }
+    ))
+  }
+
+  const handleDobChange = ()=>{
+    console.log("changed")
+    setDetails((prev)=>(
+      {...prev, 
+      profile : {...prev.profile, dob:`${selectedYear}-${selectedMonth+1}-${selectedDay}`}
+      }
+    ))
+  }
+  
   const handleNameValidity = (e) => {
     // console.log(e.target.value);
     const check = e.target.value.trim() === "" ? false : true;
@@ -89,7 +125,15 @@ const PatientSignUp = () => {
     }));
   };
 
-  const handleMobileInput = (e) => {};
+  const handleMobileInput = (e) => {
+    const contactNumber = e.target.value;
+    setDetails((prev)=>(
+      {...prev, 
+        contactNumber : contactNumber
+      }
+    ))
+  };
+  console.log(details.contactNumber)
 
   const handleMobileValidity = (e) => {
     console.log(e.target.value);
@@ -101,7 +145,15 @@ const PatientSignUp = () => {
     }));
   };
 
-  const handleEmailInput = () => {};
+  const handleEmailInput = (e) => {
+    const email = e.target.value;
+    setDetails((prev)=>(
+      {...prev, 
+        email : email
+      }
+    ))
+  };
+  console.log(details.email)
 
   const handleEmailValidity = (e) => {
     const value = e.target.value;
@@ -207,6 +259,8 @@ const PatientSignUp = () => {
     }
   };
 
+  console.log(details.password);
+
   const handlePasswordRequirements = () => {
     setPasswordIsValid((prevState) => ({
       ...prevState,
@@ -223,6 +277,11 @@ const PatientSignUp = () => {
       password: check,
     }));
   };
+
+
+  const handlePatientFormSubmit = ()=>{
+
+  }
 
   const passwordRequirements = [
     { label: "Must contain lowercase letter.", key: "lowercase" },
@@ -326,6 +385,7 @@ const PatientSignUp = () => {
           aria-labelledby="gender"
           name="row-radio-buttons-group"
           defaultValue="male"
+          onChange={handleGenderChange}
         >
           <FormControlLabel
             value="male"
@@ -356,7 +416,7 @@ const PatientSignUp = () => {
             style={selectStyles}
             value={selectedDay}
             onChange={(event) =>
-              setSelectedDay(parseInt(event.target.value, 10))
+              setSelectedDay(parseInt(event.target.value, 10), handleDobChange())
             }
             id="select-day"
           >
@@ -494,7 +554,7 @@ const PatientSignUp = () => {
       }
 
       <Box sx={{ mb: "1rem" }}>
-        <Button variant="contained" disabled={!formValidity}>
+        <Button variant="contained" disabled={!formValidity} onSubmit={handlePatientFormSubmit}>
           REGISTER
         </Button>
       </Box>
