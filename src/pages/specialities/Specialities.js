@@ -58,6 +58,7 @@ const Specialities = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [input, setInput] = useState("");
   const [filteredSpecialities, setFilteredSpecialities] = useState([]);
+  const [isEmpty, setIsEmpty] = useState(true);
 
   const navigate = useNavigate();
   const SpecialitiesPerPage = specialityCountFilter;
@@ -78,13 +79,11 @@ const Specialities = () => {
   };
 
   const searchRef = useRef();
-  // console.log(searchRef.current.value);
-  // const searchValue = searchRef.current.value;
-  // console.log(searchValue);
 
-  let requiredSpecialitiesPerPage = filteredSpecialities.length > 0
+  let requiredSpecialitiesPerPage =
+    filteredSpecialities.length > 0
       ? filteredSpecialities.slice(startPageData, endPageData)
-    : specializationData.slice(startPageData, endPageData);
+      : specializationData.slice(startPageData, endPageData);
   console.log(requiredSpecialitiesPerPage);
 
   const handleSpecialityDetail = (speciality) => {
@@ -114,7 +113,7 @@ const Specialities = () => {
     try {
       setIsLoading(true);
       const response = await fetch(
-        "http://my-doctors.net:8090/specializations?$limit=56&$skip=0"
+        "http://my-doctors.net:8090/specializations?$limit=56&$skip=0&$sort[name]=1"
       );
       let data = await response.json();
       let returnedData = data.data;
@@ -151,25 +150,11 @@ const Specialities = () => {
     setInput(e.target.value);
   };
 
-  // const handleSpecialitySearch = () => {
-  //   console.log(specializationData);
-  //   let searchValue = searchRef.current.value;
-  //   console.log(searchValue)
-  //    let inputValue = searchValue.toLowerCase();
-  //    console.log(inputValue)
-  //   let filteredSpecialities = specializationData.filter((item) => {
-  //     if (item.name.includes(inputValue)) {
-  //       return true;
-  //     }
-  //   });
-  //   console.log(filteredSpecialities);
-  //   setFilteredSpecialities(filteredSpecialities);
-  // };
 
   const handleSpecialitySearch = () => {
-    let searchValue = searchRef.current.value.toLowerCase(); 
+    let searchValue = searchRef.current.value.toLowerCase();
     console.log(searchValue);
-  
+
     let filteredSpecialities = specializationData.filter((item) => {
       let itemName = item.name.toLowerCase();
       if (itemName.includes(searchValue)) {
@@ -178,12 +163,16 @@ const Specialities = () => {
       return false;
     });
 
-    filteredSpecialities.sort((a, b) => a.name.localeCompare(b.name));
-  
     console.log(filteredSpecialities);
+    if (filteredSpecialities.length > 0) {
+      setIsEmpty(false); 
+    } 
+    if(filteredSpecialities.length === 0 && searchValue==='') {
+      setIsEmpty(true); 
+    }
     setFilteredSpecialities(filteredSpecialities);
+    console.log(filteredSpecialities.length === 0);
   };
-  
 
   const loading = (
     <Box
@@ -197,6 +186,17 @@ const Specialities = () => {
       <CircularProgress />
     </Box>
   );
+
+  let filteredSpecialityCount = 0;
+  if(Math.floor(filteredSpecialities.length / 10)<= 1){
+    filteredSpecialityCount = `${Math.floor(filteredSpecialities.length)}+ Specialities`
+  }
+  else{
+    filteredSpecialityCount = `${Math.floor(filteredSpecialities.length / 10)}0+ Specialities`
+  }
+
+  console.log(isEmpty);
+  console.log(filteredSpecialities.length === 0);
 
   return (
     <Box sx={{ display: "flex", mt: { xs: "12rem", md: "9rem" } }}>
@@ -214,7 +214,7 @@ const Specialities = () => {
             <>
               <Box sx={specialityHeaderDropdownWrapper}>
                 <Typography variant="h4" sx={specialityHeaderStyles}>
-                  {specializationData.length > 0 &&
+                  {    (!isEmpty && filteredSpecialities.length >= 0)?  filteredSpecialityCount:  specializationData.length > 0 &&
                     `${specializationData[0].totalSpecializations}0+ Specialities`}
                 </Typography>
 
@@ -225,7 +225,8 @@ const Specialities = () => {
                     variant="outlined"
                     size="small"
                     fullWidth
-                    // value={searchValue}
+                    // onChange={handleInput}
+                    // value={input}
                     inputRef={searchRef}
                     InputProps={{
                       endAdornment: (
@@ -259,8 +260,7 @@ const Specialities = () => {
                   </FormControl>
                 </Box>
               </Box>
-
-              <Box sx={SpecialitiesCardWrapperStyles}>{specialities}</Box>
+              <Box sx={SpecialitiesCardWrapperStyles}>{(!isEmpty && filteredSpecialities.length === 0) ? <Typography>No specialities found</Typography> : specialities}</Box>
               <Pagination
                 sx={{ display: "flex", mt: "16px", justifyContent: "center" }}
                 size="small"
