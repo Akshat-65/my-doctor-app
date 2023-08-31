@@ -28,10 +28,21 @@ const formIsValidStyles = {
 };
 
 const PatientSignUp = () => {
+
+  const initialState = {
+    firstName: "",
+    lastName: "",
+    gender: "male",
+    profile: { dob: '' },
+    contactNumber: "",
+    email: "",
+    password: "",
+  };
+  
   const [details, setDetails] = useState({
     firstName: "",
     lastName: "",
-    gender: "",
+    gender: "male",
     profile: {dob:''},
     contactNumber: "",
     email: "",
@@ -107,13 +118,30 @@ const PatientSignUp = () => {
 
   const handleDobChange = ()=>{
     console.log("changed")
+    let selectedMonthExact = selectedMonth+1;
+    if(selectedMonthExact <10){
+      selectedMonthExact = `0${selectedMonthExact}`
+    }
+    else{
+      selectedMonthExact = selectedMonthExact
+    }
+
+    let selectedDayExact = selectedDay;
+    if(selectedDayExact <10){
+      selectedDayExact = `0${selectedDayExact}`
+    }
+    else{
+      selectedDayExact = selectedDayExact
+    }
     setDetails((prev)=>(
       {...prev, 
-      profile : {...prev.profile, dob:`${selectedYear}-${selectedMonth+1}-${selectedDay}`}
+      profile : {...prev.profile, dob:`${selectedYear}-${selectedMonthExact}-${selectedDayExact}`}
       }
     ))
   }
-  
+  console.log(details.profile);
+
+
   const handleNameValidity = (e) => {
     // console.log(e.target.value);
     const check = e.target.value.trim() === "" ? false : true;
@@ -279,8 +307,23 @@ const PatientSignUp = () => {
   };
 
 
-  const handlePatientFormSubmit = ()=>{
-
+  const handlePatientFormSubmit = async()=>{
+      try{
+        const response = await fetch('http://my-doctors.net:8090/patients', {
+          method :'POST',
+          body:JSON.stringify(details),
+          headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+          }
+        })
+        const data =  await response.json();
+        console.log(data);
+        setDetails(initialState)
+      }
+      catch (error) {
+        console.log(error);
+      }
+    
   }
 
   const passwordRequirements = [
@@ -367,6 +410,7 @@ const PatientSignUp = () => {
           placeholder="Enter name"
           error={!formIsValid.name}
           required
+          value={details.firstName}
           sx={{ width: "97%" }}
           onChange={handleNameInput}
           onBlur={handleNameValidity}
@@ -470,7 +514,7 @@ const PatientSignUp = () => {
         </Box>
       </Box>
       <Box sx={{ mb: "1rem", width: "100%" }}>
-        <InputLabel htmlFor="mobile" sx={{ color: "black" }}>
+        <InputLabel htmlFor="mobile" sx={{ color: "black" }} value={details.contactNumber}>
           Mobile Number*
         </InputLabel>
         <OutlinedInput
@@ -496,6 +540,7 @@ const PatientSignUp = () => {
           id="email"
           placeholder="abc@gmail.com"
           type="email"
+          value={details.email}
           error={!formIsValid.email}
           onChange={handleEmailInput}
           onBlur={handleEmailValidity}
@@ -507,7 +552,7 @@ const PatientSignUp = () => {
       </Box>
 
       <Box sx={{ mb: "1rem", width: "100%" }}>
-        <InputLabel htmlFor="password" sx={{ color: "black" }}>
+        <InputLabel htmlFor="password" sx={{ color: "black" }} value={details.password}>
           Create Password*
         </InputLabel>
         <OutlinedInput
@@ -525,7 +570,7 @@ const PatientSignUp = () => {
         )}
       </Box>
 
-      <InputLabel htmlFor="confirmPassword" sx={{ color: "black" }}>
+      <InputLabel htmlFor="confirmPassword" sx={{ color: "black" }} value={details.password}>
         Confirm Password*
       </InputLabel>
       <OutlinedInput
@@ -554,7 +599,7 @@ const PatientSignUp = () => {
       }
 
       <Box sx={{ mb: "1rem" }}>
-        <Button variant="contained" disabled={!formValidity} onSubmit={handlePatientFormSubmit}>
+        <Button variant="contained" disabled={!formValidity} onClick={handlePatientFormSubmit}>
           REGISTER
         </Button>
       </Box>
