@@ -34,6 +34,8 @@ const PatientSignUp = () => {
   const [selectedMonth, setSelectedMonth] = useState(today.getMonth());
   const [selectedDay, setSelectedDay] = useState(today.getDate());
   const [selectedYear, setSelectedYear] = useState(today.getFullYear());
+  const [name, setName] = useState('');
+  
 
   console.log(selectedDay);
   console.log(selectedMonth);
@@ -97,8 +99,12 @@ const PatientSignUp = () => {
   const handleNameInput = (e) => {
     console.log(e.target.value);
     let name = e.target.value;
-    let firstName = name.split(" ")[0];
-    let lastName = name.split(" ")[1];
+    setName(name);
+    let nameArray = name.split(' ');
+    let firstName = nameArray[0];
+    let lastName = nameArray[1];
+    console.log(firstName)
+    console.log(lastName)
     setDetails((prev) => ({
       ...prev,
       firstName: firstName,
@@ -465,7 +471,7 @@ const PatientSignUp = () => {
           placeholder="Enter name"
           error={!formIsValid.name}
           required
-          value={details.firstName}
+          value={name}
           sx={{ width: "97%" }}
           onChange={handleNameInput}
           onBlur={handleNameValidity}
