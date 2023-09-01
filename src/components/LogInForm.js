@@ -42,7 +42,7 @@ const LogInForm = () => {
         <Button variant="contained" href="#contained-buttons">
           Log In
         </Button>
-        <a href="">Forgot Password?</a>
+        <a href=""  style={{ textDecoration: "none", fontWeight: 800, color: "blue" }}>Forgot Password?</a>
       </Box>
       <Box
         sx={{
@@ -51,7 +51,7 @@ const LogInForm = () => {
         }}
       >
         Don't have an account?
-        <a href="">Sign up</a>
+        <a href=""  style={{ textDecoration: "none", fontWeight: 800, color: "blue" }}>Sign up</a>
       </Box>
     </Box>
   );

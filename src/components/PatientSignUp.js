@@ -10,6 +10,7 @@ import Button from "@mui/material/Button";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
+import Alert from '@mui/material/Alert';
 import { useState, useEffect } from "react";
 
 const selectStyles = {
@@ -447,7 +448,9 @@ const PatientSignUp = () => {
   }, [selectedMonth, selectedDay, selectedYear]);
 
   return (
-    <Box
+    <>
+    <Alert severity="success">Signed up successfully!</Alert>
+     <Box
       sx={{
         display: "flex",
         flexDirection: "column",
@@ -703,6 +706,8 @@ const PatientSignUp = () => {
         </a>
       </Box>
     </Box>
+    </>
+   
   );
 };
 
