@@ -23,7 +23,7 @@ const formIsValidStyles = {
 const DoctorSignUp = () => {
   const [details, setDetails] = useState({
     fullName: "",
-    gender: "",
+    gender: "male",
     mobile: "",
     email: "",
     password: "",

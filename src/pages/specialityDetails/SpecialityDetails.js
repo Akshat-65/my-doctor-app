@@ -39,6 +39,7 @@ const SpecialityDetails = () => {
 
   const location = useLocation();
   console.log(location.search);
+  console.log(location);
   const searchParams = new URLSearchParams(location.search);
   const speciality = searchParams.get("sp");
   const name = searchParams.get("q");

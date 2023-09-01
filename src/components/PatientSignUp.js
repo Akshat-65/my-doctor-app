@@ -10,7 +10,7 @@ import Button from "@mui/material/Button";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
-import { useState , useEffect} from "react";
+import { useState, useEffect } from "react";
 
 const selectStyles = {
   marginRight: "15px",
@@ -28,7 +28,6 @@ const formIsValidStyles = {
 };
 
 const PatientSignUp = () => {
-
   const today = new Date();
   console.log(today);
 
@@ -44,13 +43,13 @@ const PatientSignUp = () => {
     firstName: "",
     lastName: "",
     gender: "male",
-    profile: { dob: '' },
+    profile: { dob: "" },
     contactNumber: "",
     email: "",
     password: "",
-    confirmPassword:"",
+    confirmPassword: "",
   };
-  
+
   const [details, setDetails] = useState(initialState);
 
   const [formIsValid, setFormIsValid] = useState({
@@ -58,31 +57,35 @@ const PatientSignUp = () => {
     number: true,
     email: true,
     password: true,
+    contactNumberExists: false,
+    emailExists: false,
+    existsContactError : false,
+    existsEmailError: false
   });
 
-const passwordInitialState = {
-  lowercase: "",
-  uppercase: "",
-  specialCharacter: "",
-  number: "",
-  minimumLength: "",
-  matching: "",
-  isShowing: false,
-}
+  const passwordInitialState = {
+    lowercase: "",
+    uppercase: "",
+    specialCharacter: "",
+    number: "",
+    minimumLength: "",
+    matching: "",
+    isShowing: false,
+  };
 
   const [passwordIsValid, setPasswordIsValid] = useState(passwordInitialState);
 
   const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
-
   const [selectedDate, setSelectedDate] = useState(today);
-
 
   const formValidity =
     formIsValid.name &&
     formIsValid.number &&
     formIsValid.email &&
     formIsValid.password &&
+    !formIsValid.contactNumberExists &&
+    !formIsValid.emailExists &&
     passwordIsValid.lowercase === "checked" &&
     passwordIsValid.uppercase === "checked" &&
     passwordIsValid.specialCharacter === "checked" &&
@@ -92,54 +95,47 @@ const passwordInitialState = {
   console.log(formValidity);
 
   const handleNameInput = (e) => {
-  console.log(e.target.value);
-  let name = e.target.value;
-  let firstName = name.split(' ')[0];
-  let lastName = name.split(' ')[1];
-  setDetails((prev)=>(
-    {...prev, 
-    firstName: firstName,
-    lastName : lastName
-    }
-  ))
+    console.log(e.target.value);
+    let name = e.target.value;
+    let firstName = name.split(" ")[0];
+    let lastName = name.split(" ")[1];
+    setDetails((prev) => ({
+      ...prev,
+      firstName: firstName,
+      lastName: lastName,
+    }));
   };
 
-
-  const handleGenderChange = (e)=>{
-    console.log(e.target.value)
+  const handleGenderChange = (e) => {
+    console.log(e.target.value);
     let gender = e.target.value;
-    setDetails((prev)=>(
-      {...prev, 
-      gender : gender
-      }
-    ))
-  }
+    setDetails((prev) => ({ ...prev, gender: gender }));
+  };
 
-  const handleDobChange = ()=>{
-    console.log("changed")
-    let selectedMonthExact = selectedMonth+1;
-    if(selectedMonthExact <10){
-      selectedMonthExact = `0${selectedMonthExact}`
-    }
-    else{
-      selectedMonthExact = selectedMonthExact
+  const handleDobChange = () => {
+    console.log("changed");
+    let selectedMonthExact = selectedMonth + 1;
+    if (selectedMonthExact < 10) {
+      selectedMonthExact = `0${selectedMonthExact}`;
+    } else {
+      selectedMonthExact = selectedMonthExact;
     }
 
     let selectedDayExact = selectedDay;
-    if(selectedDayExact <10){
-      selectedDayExact = `0${selectedDayExact}`
+    if (selectedDayExact < 10) {
+      selectedDayExact = `0${selectedDayExact}`;
+    } else {
+      selectedDayExact = selectedDayExact;
     }
-    else{
-      selectedDayExact = selectedDayExact
-    }
-    setDetails((prev)=>(
-      {...prev, 
-      profile : {...prev.profile, dob:`${selectedYear}-${selectedMonthExact}-${selectedDayExact}`}
-      }
-    ))
-  }
+    setDetails((prev) => ({
+      ...prev,
+      profile: {
+        ...prev.profile,
+        dob: `${selectedYear}-${selectedMonthExact}-${selectedDayExact}`,
+      },
+    }));
+  };
   console.log(details.profile);
-
 
   const handleNameValidity = (e) => {
     // console.log(e.target.value);
@@ -154,13 +150,9 @@ const passwordInitialState = {
 
   const handleMobileInput = (e) => {
     const contactNumber = e.target.value;
-    setDetails((prev)=>(
-      {...prev, 
-        contactNumber : contactNumber
-      }
-    ))
+    setDetails((prev) => ({ ...prev, contactNumber: contactNumber }));
   };
-  console.log(details.contactNumber)
+  console.log(details.contactNumber);
 
   const handleMobileValidity = (e) => {
     console.log(e.target.value);
@@ -174,13 +166,9 @@ const passwordInitialState = {
 
   const handleEmailInput = (e) => {
     const email = e.target.value;
-    setDetails((prev)=>(
-      {...prev, 
-        email : email
-      }
-    ))
+    setDetails((prev) => ({ ...prev, email: email }));
   };
-  console.log(details.email)
+  console.log(details.email);
 
   const handleEmailValidity = (e) => {
     const value = e.target.value;
@@ -274,16 +262,11 @@ const passwordInitialState = {
       ...prevState,
       matching: "unchecked",
     }));
-
   };
 
   const handleConfirmPassword = (e) => {
     let confirmPassword = e.target.value;
-    setDetails((prev)=>(
-      {...prev, 
-      confirmPassword : confirmPassword
-      }
-    ))
+    setDetails((prev) => ({ ...prev, confirmPassword: confirmPassword }));
     if (confirmPassword === details.password) {
       setPasswordIsValid((prevState) => ({
         ...prevState,
@@ -316,26 +299,83 @@ const passwordInitialState = {
     }));
   };
 
+  const handleContactNumberExists = async () => {
+    try {
+      const response = await fetch(
+        `http://my-doctors.net:8090/accounts?contactNumber=${details.contactNumber}`
+      );
+      const data = await response.json();
+      console.log(data.name);
+      if (data.name === "account exists") {
+        console.log("check");
+        setFormIsValid((prevState) => ({
+          ...prevState,
+          contactNumberExists: true,
+          existsContactError : true
+        }));
+      } else {
+        setFormIsValid((prevState) => ({
+          ...prevState,
+          contactNumberExists: false,
+          existsContactError : false
+        }));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-  const handlePatientFormSubmit = async()=>{
-      try{
-        const response = await fetch('http://my-doctors.net:8090/patients', {
-          method :'POST',
-          body:JSON.stringify(details),
-          headers: {
-            'Content-type': 'application/json; charset=UTF-8',
-          }
-        })
-        const data =  await response.json();
-        console.log(data);
-        setDetails(initialState)
-        setPasswordIsValid(passwordInitialState)
+  useEffect(() => {
+    handleContactNumberExists();
+  }, [details.contactNumber]);
+
+  const handleEmailExists = async () => {
+    try {
+      const response = await fetch(
+        `http://my-doctors.net:8090/accounts?email=${details.email}`
+      );
+      const data = await response.json();
+      console.log(data.name);
+      if (data.name === "account exists") {
+        console.log("check");
+        setFormIsValid((prevState) => ({
+          ...prevState,
+          emailExists: true,
+          existsEmailError : true
+        }));
+      } else {
+        setFormIsValid((prevState) => ({
+          ...prevState,
+          emailExists: false,
+          existsEmailError : false
+        }));
       }
-      catch (error) {
-        console.log(error);
-      }
-    
-  }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    handleEmailExists();
+  }, [details.email]);
+
+  const handlePatientFormSubmit = async () => {
+    try {
+      const response = await fetch("http://my-doctors.net:8090/patients", {
+        method: "POST",
+        body: JSON.stringify(details),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      });
+      const data = await response.json();
+      console.log(data);
+      setDetails(initialState);
+      setPasswordIsValid(passwordInitialState);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const passwordRequirements = [
     { label: "Must contain lowercase letter.", key: "lowercase" },
@@ -395,8 +435,8 @@ const passwordInitialState = {
   };
 
   useEffect(() => {
-    handleDobChange(); 
-  }, [selectedMonth,selectedDay,selectedYear]);
+    handleDobChange();
+  }, [selectedMonth, selectedDay, selectedYear]);
 
   return (
     <Box
@@ -474,8 +514,9 @@ const passwordInitialState = {
           <select
             style={selectStyles}
             value={selectedDay}
-            onChange={(event) =>{setSelectedDay(parseInt(event.target.value, 10))}
-            }
+            onChange={(event) => {
+              setSelectedDay(parseInt(event.target.value, 10));
+            }}
             id="select-day"
           >
             {setDays(selectedMonth).map((day) => {
@@ -496,7 +537,9 @@ const passwordInitialState = {
           <select
             style={selectStyles}
             value={selectedMonth}
-            onChange={(e)=>{handleMonthChange(e)}}
+            onChange={(e) => {
+              handleMonthChange(e);
+            }}
             id="select-month"
           >
             {/* Months options */}
@@ -514,7 +557,9 @@ const passwordInitialState = {
           <select
             style={selectStyles}
             value={selectedYear}
-            onChange={(event) =>{setSelectedYear(parseInt(event.target.value, 10))}}
+            onChange={(event) => {
+              setSelectedYear(parseInt(event.target.value, 10));
+            }}
             id="select-year"
           >
             {setYears(100).map((year) => (
@@ -526,12 +571,12 @@ const passwordInitialState = {
         </Box>
       </Box>
       <Box sx={{ mb: "1rem", width: "100%" }}>
-        <InputLabel htmlFor="mobile" sx={{ color: "black" }} >
+        <InputLabel htmlFor="mobile" sx={{ color: "black" }}>
           Mobile Number*
         </InputLabel>
         <OutlinedInput
           id="mobile"
-          error={!formIsValid.number}
+          error={!formIsValid.number || formIsValid.existsContactError}
           placeholder="Enter Mobile Number"
           value={details.contactNumber}
           type="number"
@@ -539,10 +584,13 @@ const passwordInitialState = {
           onBlur={handleMobileValidity}
           sx={{ width: "97%" }}
         />
-        {!formIsValid.number && (
+        {!formIsValid.number && !formIsValid.contactNumberExists && (
           <p style={formIsValidStyles}>
             Please enter a valid 10-digit mobile number!
           </p>
+        )}
+        {formIsValid.contactNumberExists && (
+          <p style={formIsValidStyles}>Mobile number already exists!</p>
         )}
       </Box>
       <Box sx={{ mb: "1rem", width: "100%" }}>
@@ -554,18 +602,21 @@ const passwordInitialState = {
           placeholder="abc@gmail.com"
           type="email"
           value={details.email}
-          error={!formIsValid.email}
+          error={!formIsValid.email || formIsValid.existsEmailError}
           onChange={handleEmailInput}
           onBlur={handleEmailValidity}
           sx={{ width: "97%" }}
         />
-        {!formIsValid.email && (
+        {!formIsValid.email && !formIsValid.emailExists && (
           <p style={formIsValidStyles}>Please enter a valid e-mail address!</p>
+        )}
+        {formIsValid.emailExists && (
+          <p style={formIsValidStyles}>Email address already exists!</p>
         )}
       </Box>
 
       <Box sx={{ mb: "1rem", width: "100%" }}>
-        <InputLabel htmlFor="password" sx={{ color: "black" }} >
+        <InputLabel htmlFor="password" sx={{ color: "black" }}>
           Create Password*
         </InputLabel>
         <OutlinedInput
@@ -584,7 +635,7 @@ const passwordInitialState = {
         )}
       </Box>
 
-      <InputLabel htmlFor="confirmPassword" sx={{ color: "black" }} >
+      <InputLabel htmlFor="confirmPassword" sx={{ color: "black" }}>
         Confirm Password*
       </InputLabel>
       <OutlinedInput
@@ -614,7 +665,11 @@ const passwordInitialState = {
       }
 
       <Box sx={{ mb: "1rem" }}>
-        <Button variant="contained" disabled={!formValidity} onClick={handlePatientFormSubmit}>
+        <Button
+          variant="contained"
+          disabled={!formValidity}
+          onClick={handlePatientFormSubmit}
+        >
           REGISTER
         </Button>
       </Box>
