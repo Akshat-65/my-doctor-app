@@ -10,7 +10,7 @@ import Button from "@mui/material/Button";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
-import { useState } from "react";
+import { useState , useEffect} from "react";
 
 const selectStyles = {
   marginRight: "15px",
@@ -29,6 +29,17 @@ const formIsValidStyles = {
 
 const PatientSignUp = () => {
 
+  const today = new Date();
+  console.log(today);
+
+  const [selectedMonth, setSelectedMonth] = useState(today.getMonth());
+  const [selectedDay, setSelectedDay] = useState(today.getDate());
+  const [selectedYear, setSelectedYear] = useState(today.getFullYear());
+
+  console.log(selectedDay);
+  console.log(selectedMonth);
+  console.log(selectedYear);
+
   const initialState = {
     firstName: "",
     lastName: "",
@@ -37,17 +48,10 @@ const PatientSignUp = () => {
     contactNumber: "",
     email: "",
     password: "",
+    confirmPassword:"",
   };
   
-  const [details, setDetails] = useState({
-    firstName: "",
-    lastName: "",
-    gender: "male",
-    profile: {dob:''},
-    contactNumber: "",
-    email: "",
-    password: "",
-  });
+  const [details, setDetails] = useState(initialState);
 
   const [formIsValid, setFormIsValid] = useState({
     name: true,
@@ -56,28 +60,23 @@ const PatientSignUp = () => {
     password: true,
   });
 
-  const [passwordIsValid, setPasswordIsValid] = useState({
-    lowercase: "",
-    uppercase: "",
-    specialCharacter: "",
-    number: "",
-    minimumLength: "",
-    matching: "",
-    isShowing: false,
-  });
+const passwordInitialState = {
+  lowercase: "",
+  uppercase: "",
+  specialCharacter: "",
+  number: "",
+  minimumLength: "",
+  matching: "",
+  isShowing: false,
+}
+
+  const [passwordIsValid, setPasswordIsValid] = useState(passwordInitialState);
 
   const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-  const today = new Date();
-  console.log(today);
+
 
   const [selectedDate, setSelectedDate] = useState(today);
-  const [selectedMonth, setSelectedMonth] = useState(today.getMonth());
-  const [selectedDay, setSelectedDay] = useState(today.getDate());
-  const [selectedYear, setSelectedYear] = useState(today.getFullYear());
 
-  console.log(selectedDay);
-  console.log(selectedMonth);
-  console.log(selectedYear);
 
   const formValidity =
     formIsValid.name &&
@@ -270,11 +269,22 @@ const PatientSignUp = () => {
         specialCharacter: "unchecked",
       }));
     }
+
+    setPasswordIsValid((prevState) => ({
+      ...prevState,
+      matching: "unchecked",
+    }));
+
   };
 
   const handleConfirmPassword = (e) => {
-    const inputValue = e.target.value;
-    if (inputValue === details.password) {
+    let confirmPassword = e.target.value;
+    setDetails((prev)=>(
+      {...prev, 
+      confirmPassword : confirmPassword
+      }
+    ))
+    if (confirmPassword === details.password) {
       setPasswordIsValid((prevState) => ({
         ...prevState,
         matching: "checked",
@@ -319,6 +329,7 @@ const PatientSignUp = () => {
         const data =  await response.json();
         console.log(data);
         setDetails(initialState)
+        setPasswordIsValid(passwordInitialState)
       }
       catch (error) {
         console.log(error);
@@ -382,6 +393,10 @@ const PatientSignUp = () => {
     const monthIndex = parseInt(event.target.value, 10);
     setSelectedMonth(monthIndex);
   };
+
+  useEffect(() => {
+    handleDobChange(); 
+  }, [selectedMonth,selectedDay,selectedYear]);
 
   return (
     <Box
@@ -459,8 +474,7 @@ const PatientSignUp = () => {
           <select
             style={selectStyles}
             value={selectedDay}
-            onChange={(event) =>
-              setSelectedDay(parseInt(event.target.value, 10), handleDobChange())
+            onChange={(event) =>{setSelectedDay(parseInt(event.target.value, 10))}
             }
             id="select-day"
           >
@@ -482,7 +496,7 @@ const PatientSignUp = () => {
           <select
             style={selectStyles}
             value={selectedMonth}
-            onChange={handleMonthChange}
+            onChange={(e)=>{handleMonthChange(e)}}
             id="select-month"
           >
             {/* Months options */}
@@ -500,9 +514,7 @@ const PatientSignUp = () => {
           <select
             style={selectStyles}
             value={selectedYear}
-            onChange={(event) =>
-              setSelectedYear(parseInt(event.target.value, 10))
-            }
+            onChange={(event) =>{setSelectedYear(parseInt(event.target.value, 10))}}
             id="select-year"
           >
             {setYears(100).map((year) => (
@@ -514,13 +526,14 @@ const PatientSignUp = () => {
         </Box>
       </Box>
       <Box sx={{ mb: "1rem", width: "100%" }}>
-        <InputLabel htmlFor="mobile" sx={{ color: "black" }} value={details.contactNumber}>
+        <InputLabel htmlFor="mobile" sx={{ color: "black" }} >
           Mobile Number*
         </InputLabel>
         <OutlinedInput
           id="mobile"
           error={!formIsValid.number}
           placeholder="Enter Mobile Number"
+          value={details.contactNumber}
           type="number"
           onChange={handleMobileInput}
           onBlur={handleMobileValidity}
@@ -552,7 +565,7 @@ const PatientSignUp = () => {
       </Box>
 
       <Box sx={{ mb: "1rem", width: "100%" }}>
-        <InputLabel htmlFor="password" sx={{ color: "black" }} value={details.password}>
+        <InputLabel htmlFor="password" sx={{ color: "black" }} >
           Create Password*
         </InputLabel>
         <OutlinedInput
@@ -560,6 +573,7 @@ const PatientSignUp = () => {
           error={!formIsValid.password}
           placeholder="create password"
           type="password"
+          value={details.password}
           onChange={handlePassword}
           onBlur={handlePasswordValidity}
           onClick={handlePasswordRequirements}
@@ -570,12 +584,13 @@ const PatientSignUp = () => {
         )}
       </Box>
 
-      <InputLabel htmlFor="confirmPassword" sx={{ color: "black" }} value={details.password}>
+      <InputLabel htmlFor="confirmPassword" sx={{ color: "black" }} >
         Confirm Password*
       </InputLabel>
       <OutlinedInput
         id="confirmPassword"
         onChange={handleConfirmPassword}
+        value={details.confirmPassword}
         placeholder="confirm password"
         type="password"
         sx={{ mb: "1rem", width: "97%" }}

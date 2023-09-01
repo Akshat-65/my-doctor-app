@@ -27,6 +27,7 @@ const DoctorSignUp = () => {
     mobile: "",
     email: "",
     password: "",
+    confirmPassword: "",
   });
 
   const [formIsValid, setFormIsValid] = useState({
@@ -174,11 +175,17 @@ const DoctorSignUp = () => {
         specialCharacter: "unchecked",
       }));
     }
+
+    setPasswordIsValid((prevState) => ({
+      ...prevState,
+      matching: "unchecked",
+    }));
   };
 
   const handleConfirmPassword = (e) => {
-    const inputValue = e.target.value;
-    if (inputValue === details.password) {
+    const confirmPassword = e.target.value;
+    setDetails((prev) => ({ ...prev, confirmPassword: confirmPassword }));
+    if (confirmPassword === details.password) {
       setPasswordIsValid((prevState) => ({
         ...prevState,
         matching: "checked",
@@ -377,9 +384,13 @@ const DoctorSignUp = () => {
         <>
           {passwordIsValid.isShowing === true &&
             requirements.map(({ label, key }) => (
-              <Box key={key}>
+              <Box key={key} sx={{ display: "flex", alignItems: "center" }}>
                 {getRequirementIcon(passwordIsValid[key])}
-                <Typography variant="body1" component="span">
+                <Typography
+                  variant="body1"
+                  component="span"
+                  sx={{ fontSize: "0.8rem" }}
+                >
                   {label}
                 </Typography>
               </Box>
