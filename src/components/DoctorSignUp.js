@@ -10,7 +10,7 @@ import Button from "@mui/material/Button";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const formIsValidStyles = {
   color: "#f44336",
@@ -21,23 +21,32 @@ const formIsValidStyles = {
 };
 
 const DoctorSignUp = () => {
-  const [details, setDetails] = useState({
-    fullName: "",
+  const [name, setName] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const initialState = {
+    firstName: "",
+    lastName: "",
     gender: "male",
-    mobile: "",
+    contactNumber: "",
     email: "",
     password: "",
-    confirmPassword: "",
-  });
+  };
+
+  const [details, setDetails] = useState(initialState);
 
   const [formIsValid, setFormIsValid] = useState({
     name: true,
     number: true,
     email: true,
     password: true,
+    contactNumberExists: false,
+    emailExists: false,
+    existsContactError: false,
+    existsEmailError: false,
   });
 
-  const [passwordIsValid, setPasswordIsValid] = useState({
+  const passwordInitialState = {
     lowercase: "",
     uppercase: "",
     specialCharacter: "",
@@ -45,14 +54,17 @@ const DoctorSignUp = () => {
     minimumLength: "",
     matching: "",
     isShowing: false,
-  });
+  };
+
+  const [passwordIsValid, setPasswordIsValid] = useState(passwordInitialState);
 
   const formValidity =
     formIsValid.name &&
     formIsValid.number &&
     formIsValid.email &&
     formIsValid.password &&
-    formIsValid.confirmPassword &&
+    !formIsValid.contactNumberExists &&
+    !formIsValid.emailExists &&
     passwordIsValid.lowercase === "checked" &&
     passwordIsValid.uppercase === "checked" &&
     passwordIsValid.specialCharacter === "checked" &&
@@ -61,7 +73,21 @@ const DoctorSignUp = () => {
     passwordIsValid.matching === "checked";
   console.log(formValidity);
 
-  const handleNameInput = (e) => {};
+  const handleNameInput = (e) => {
+    console.log(e.target.value);
+    let name = e.target.value;
+    setName(name);
+    let nameArray = name.split(" ");
+    let firstName = nameArray[0];
+    let lastName = nameArray[1];
+    console.log(firstName);
+    console.log(lastName);
+    setDetails((prev) => ({
+      ...prev,
+      firstName: firstName,
+      lastName: lastName,
+    }));
+  };
 
   const handleNameValidity = (e) => {
     // console.log(e.target.value);
@@ -74,7 +100,16 @@ const DoctorSignUp = () => {
     }));
   };
 
-  const handleMobileInput = (e) => {};
+  const handleGenderChange = (e) => {
+    console.log(e.target.value);
+    let gender = e.target.value;
+    setDetails((prev) => ({ ...prev, gender: gender }));
+  };
+
+  const handleMobileInput = (e) => {
+    const contactNumber = e.target.value;
+    setDetails((prev) => ({ ...prev, contactNumber: contactNumber }));
+  };
 
   const handleMobileValidity = (e) => {
     console.log(e.target.value);
@@ -86,7 +121,10 @@ const DoctorSignUp = () => {
     }));
   };
 
-  const handleEmailInput = () => {};
+  const handleEmailInput = (e) => {
+    const email = e.target.value;
+    setDetails((prev) => ({ ...prev, email: email }));
+  };
 
   const handleEmailValidity = (e) => {
     const value = e.target.value;
@@ -184,7 +222,7 @@ const DoctorSignUp = () => {
 
   const handleConfirmPassword = (e) => {
     const confirmPassword = e.target.value;
-    setDetails((prev) => ({ ...prev, confirmPassword: confirmPassword }));
+    setConfirmPassword(confirmPassword);
     if (confirmPassword === details.password) {
       setPasswordIsValid((prevState) => ({
         ...prevState,
@@ -213,6 +251,86 @@ const DoctorSignUp = () => {
       ...prevState,
       password: check,
     }));
+  };
+
+  const handleContactNumberExists = async () => {
+    try {
+      const response = await fetch(
+        `http://my-doctors.net:8090/accounts?contactNumber=${details.contactNumber}`
+      );
+      const data = await response.json();
+      console.log(data.name);
+      if (data.name === "account exists") {
+        console.log("check");
+        setFormIsValid((prevState) => ({
+          ...prevState,
+          contactNumberExists: true,
+          existsContactError: true,
+        }));
+      } else {
+        setFormIsValid((prevState) => ({
+          ...prevState,
+          contactNumberExists: false,
+          existsContactError: false,
+        }));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    handleContactNumberExists();
+  }, [details.contactNumber]);
+
+  const handleEmailExists = async () => {
+    try {
+      const response = await fetch(
+        `http://my-doctors.net:8090/accounts?email=${details.email}`
+      );
+      const data = await response.json();
+      console.log(data.name);
+      if (data.name === "account exists") {
+        console.log("check");
+        setFormIsValid((prevState) => ({
+          ...prevState,
+          emailExists: true,
+          existsEmailError: true,
+        }));
+      } else {
+        setFormIsValid((prevState) => ({
+          ...prevState,
+          emailExists: false,
+          existsEmailError: false,
+        }));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    handleEmailExists();
+  }, [details.email]);
+
+  const handleDoctorFormSubmit = async () => {
+    try {
+      const response = await fetch("http://my-doctors.net:8090/doctors", {
+        method: "POST",
+        body: JSON.stringify(details),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      });
+      const data = await response.json();
+      console.log(data);
+      setDetails(initialState);
+      setPasswordIsValid(passwordInitialState);
+      setName("");
+      setConfirmPassword("");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const requirements = [
@@ -275,6 +393,7 @@ const DoctorSignUp = () => {
           placeholder="Enter name"
           error={!formIsValid.name}
           required
+          value={name}
           sx={{ width: "97%" }}
           onChange={handleNameInput}
           onBlur={handleNameValidity}
@@ -293,6 +412,7 @@ const DoctorSignUp = () => {
           aria-labelledby="gender"
           name="row-radio-buttons-group"
           defaultValue="male"
+          onChange={handleGenderChange}
         >
           <FormControlLabel
             value="male"
@@ -320,17 +440,21 @@ const DoctorSignUp = () => {
         </InputLabel>
         <OutlinedInput
           id="mobile"
-          error={!formIsValid.number}
+          error={!formIsValid.number || formIsValid.existsContactError}
           placeholder="Enter Mobile Number"
+          value={details.contactNumber}
           type="number"
           onChange={handleMobileInput}
           onBlur={handleMobileValidity}
           sx={{ width: "97%" }}
         />
-        {!formIsValid.number && (
+        {!formIsValid.number && !formIsValid.contactNumberExists && (
           <p style={formIsValidStyles}>
             Please enter a valid 10-digit mobile number!
           </p>
+        )}
+        {formIsValid.contactNumberExists && (
+          <p style={formIsValidStyles}>Mobile number already exists!</p>
         )}
       </Box>
       <Box sx={{ mb: "1rem", width: "100%" }}>
@@ -341,13 +465,17 @@ const DoctorSignUp = () => {
           id="email"
           placeholder="abc@gmail.com"
           type="email"
-          error={!formIsValid.email}
+          value={details.email}
+          error={!formIsValid.email || formIsValid.existsEmailError}
           onChange={handleEmailInput}
           onBlur={handleEmailValidity}
           sx={{ width: "97%" }}
         />
-        {!formIsValid.email && (
+        {!formIsValid.email && !formIsValid.emailExists && (
           <p style={formIsValidStyles}>Please enter a valid e-mail address!</p>
+        )}
+        {formIsValid.emailExists && (
+          <p style={formIsValidStyles}>Email address already exists!</p>
         )}
       </Box>
 
@@ -360,6 +488,7 @@ const DoctorSignUp = () => {
           error={!formIsValid.password}
           placeholder="create password"
           type="password"
+          value={details.password}
           onChange={handlePassword}
           onBlur={handlePasswordValidity}
           onClick={handlePasswordRequirements}
@@ -376,6 +505,7 @@ const DoctorSignUp = () => {
       <OutlinedInput
         id="confirmPassword"
         onChange={handleConfirmPassword}
+        value={confirmPassword}
         placeholder="confirm password"
         type="password"
         sx={{ mb: "1rem", width: "97%" }}
@@ -399,7 +529,11 @@ const DoctorSignUp = () => {
       }
 
       <Box sx={{ mb: "1rem" }}>
-        <Button variant="contained" disabled={!formValidity}>
+        <Button
+          variant="contained"
+          disabled={!formValidity}
+          onClick={handleDoctorFormSubmit}
+        >
           REGISTER
         </Button>
       </Box>

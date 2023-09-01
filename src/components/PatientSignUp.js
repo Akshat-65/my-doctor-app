@@ -35,6 +35,7 @@ const PatientSignUp = () => {
   const [selectedDay, setSelectedDay] = useState(today.getDate());
   const [selectedYear, setSelectedYear] = useState(today.getFullYear());
   const [name, setName] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   
 
   console.log(selectedDay);
@@ -49,7 +50,6 @@ const PatientSignUp = () => {
     contactNumber: "",
     email: "",
     password: "",
-    confirmPassword: "",
   };
 
   const [details, setDetails] = useState(initialState);
@@ -112,6 +112,17 @@ const PatientSignUp = () => {
     }));
   };
 
+  const handleNameValidity = (e) => {
+    // console.log(e.target.value);
+    const check = e.target.value.trim() === "" ? false : true;
+    console.log(check);
+
+    setFormIsValid((prevState) => ({
+      ...prevState,
+      name: check,
+    }));
+  };
+
   const handleGenderChange = (e) => {
     console.log(e.target.value);
     let gender = e.target.value;
@@ -142,17 +153,6 @@ const PatientSignUp = () => {
     }));
   };
   console.log(details.profile);
-
-  const handleNameValidity = (e) => {
-    // console.log(e.target.value);
-    const check = e.target.value.trim() === "" ? false : true;
-    console.log(check);
-
-    setFormIsValid((prevState) => ({
-      ...prevState,
-      name: check,
-    }));
-  };
 
   const handleMobileInput = (e) => {
     const contactNumber = e.target.value;
@@ -272,7 +272,7 @@ const PatientSignUp = () => {
 
   const handleConfirmPassword = (e) => {
     let confirmPassword = e.target.value;
-    setDetails((prev) => ({ ...prev, confirmPassword: confirmPassword }));
+    setConfirmPassword(confirmPassword)
     if (confirmPassword === details.password) {
       setPasswordIsValid((prevState) => ({
         ...prevState,
@@ -378,6 +378,8 @@ const PatientSignUp = () => {
       console.log(data);
       setDetails(initialState);
       setPasswordIsValid(passwordInitialState);
+      setName(""); 
+      setConfirmPassword("");
     } catch (error) {
       console.log(error);
     }
@@ -647,7 +649,7 @@ const PatientSignUp = () => {
       <OutlinedInput
         id="confirmPassword"
         onChange={handleConfirmPassword}
-        value={details.confirmPassword}
+        value={confirmPassword}
         placeholder="confirm password"
         type="password"
         sx={{ mb: "1rem", width: "97%" }}
