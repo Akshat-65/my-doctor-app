@@ -1,6 +1,6 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import SideNav from "../../components/SideNav";
+import SideNav from "../components/SideNav";
 import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Typography } from "@mui/material";
@@ -10,7 +10,7 @@ import FormControl from "@mui/material/FormControl";
 import NativeSelect from "@mui/material/NativeSelect";
 import CircularProgress from "@mui/material/CircularProgress";
 import Select from "@mui/material/Select";
-import DoctorsCard from "../../components/DoctorsCard";
+import DoctorsCard from "../components/DoctorsCard";
 
 const DoctorsCardWrapperStyles = {
   display: "grid",

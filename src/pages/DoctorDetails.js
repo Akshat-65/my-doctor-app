@@ -1,6 +1,6 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import SideNav from "../../components/SideNav";
+import SideNav from "../components/SideNav";
 import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
@@ -17,7 +17,7 @@ import ShareIcon from "@mui/icons-material/Share";
 
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import DoctorAccordion from "../../components/DoctorAccordion";
+import DoctorAccordion from "../components/DoctorAccordion";
 
 const doctorDetailsSectionStyles = {
   display: "grid",

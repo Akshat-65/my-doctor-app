@@ -1,12 +1,12 @@
 import Header from "./components/Layout/Header";
-import LogIn from "./pages/logIn/LogIn";
 import Box from "@mui/material/Box";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./index.css";
-import  Home  from "./pages/home/Home";
-import Specialities from "./pages/specialities/Specialities";
-import DoctorDetails from "./pages/doctorDetails/DoctorDetails";
-import SpecialityDetails from "./pages/specialityDetails/SpecialityDetails";
+import LogIn from "./pages/LogIn";
+import  Home  from "./pages/Home";
+import Specialities from "./pages/Specialities";
+import DoctorDetails from "./pages/DoctorDetails";
+import SpecialityDetails from "./pages/SpecialityDetails";
 
 function App() {
 
