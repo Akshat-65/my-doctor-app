@@ -15,8 +15,12 @@ import SearchIcon from "@mui/icons-material/Search";
 import { Link } from "react-router-dom";
 import Sidebar from "../Sidebar";
 import DiseaseSwiper from "../DiseaseSwiper";
+import PermIdentityIcon from '@mui/icons-material/PermIdentity';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Typography } from "@mui/material";
 
 const Header = () => {
   const [services, setServices] = useState([]);
@@ -176,6 +180,7 @@ const Header = () => {
                   aria-controls="menu-appbar"
                   aria-haspopup="true"
                   onClick={handleMenu}
+                  sx={{p:0}}
                 >
                   <AccountCircle color="disabled" sx={{ fontSize: "50px" }} />
                 </IconButton>
@@ -194,8 +199,9 @@ const Header = () => {
                   open={Boolean(anchorEl)}
                   onClose={handleClose}
                 >
-                  <MenuItem onClick={handleClose}>Profile</MenuItem>
-                  <MenuItem onClick={handleClose}>My account</MenuItem>
+                  <MenuItem onClick={handleClose} selected><PermIdentityIcon/><Typography sx={{pl:"0.5rem"}}>Account Settings</Typography></MenuItem>
+                  <MenuItem onClick={handleClose}><CalendarTodayIcon/><Typography sx={{pl:"0.5rem"}}>My Appointments</Typography></MenuItem>
+                  <MenuItem onClick={handleClose}><ExitToAppIcon/><Typography sx={{pl:"0.5rem"}}>Logout</Typography></MenuItem>
                 </Menu>
               </div>
             )}
