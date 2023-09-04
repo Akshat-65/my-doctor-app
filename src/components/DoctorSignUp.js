@@ -10,6 +10,7 @@ import Button from "@mui/material/Button";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
+import SignUpAlert from "./SignUpAlert";
 import { useState, useEffect } from "react";
 
 const formIsValidStyles = {
@@ -23,6 +24,7 @@ const formIsValidStyles = {
 const DoctorSignUp = () => {
   const [name, setName] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [showAlert, setShowAlert]  = useState(false);
 
   const initialState = {
     firstName: "",
@@ -328,7 +330,9 @@ const DoctorSignUp = () => {
       setPasswordIsValid(passwordInitialState);
       setName("");
       setConfirmPassword("");
+      setShowAlert(true);
     } catch (error) {
+      setShowAlert(false);
       console.log(error);
     }
   };
@@ -367,198 +371,203 @@ const DoctorSignUp = () => {
   };
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",
-        alignItems: "flex-start",
-        m: "auto",
-        width: "90%",
-      }}
-    >
-      <Typography
-        variant="h6"
-        component="h1"
-        sx={{ fontWeight: "700", mb: "1rem", mt: "1rem" }}
-      >
-        Create an account
-      </Typography>
-      <Box sx={{ mb: "1rem", width: "100%" }}>
-        <InputLabel htmlFor="name" sx={{ fontWeight: "500", color: "black" }}>
-          Full Name*
-        </InputLabel>
-        <OutlinedInput
-          id="name"
-          placeholder="Enter name"
-          error={!formIsValid.name}
-          required
-          value={name}
-          sx={{ width: "97%" }}
-          onChange={handleNameInput}
-          onBlur={handleNameValidity}
-        />
-        {!formIsValid.name && (
-          <p style={formIsValidStyles}>Please enter a valid name!</p>
-        )}
-      </Box>
-
-      <Box>
-        <FormLabel id="gender" sx={{ color: "black" }}>
-          Gender*
-        </FormLabel>
-        <RadioGroup
-          row
-          aria-labelledby="gender"
-          name="row-radio-buttons-group"
-          defaultValue="male"
-          onChange={handleGenderChange}
-        >
-          <FormControlLabel
-            value="male"
-            control={<Radio />}
-            label="Male"
-            sx={{ color: "black" }}
-          />
-          <FormControlLabel
-            value="female"
-            control={<Radio />}
-            label="Female"
-            sx={{ color: "black" }}
-          />
-          <FormControlLabel
-            value="other"
-            control={<Radio />}
-            label="Other"
-            sx={{ color: "black" }}
-          />
-        </RadioGroup>
-      </Box>
-      <Box sx={{ mb: "1rem", width: "100%" }}>
-        <InputLabel htmlFor="mobile" sx={{ color: "black" }}>
-          Mobile Number*
-        </InputLabel>
-        <OutlinedInput
-          id="mobile"
-          error={!formIsValid.number || formIsValid.existsContactError}
-          placeholder="Enter Mobile Number"
-          value={details.contactNumber}
-          type="number"
-          onChange={handleMobileInput}
-          onBlur={handleMobileValidity}
-          sx={{ width: "97%" }}
-        />
-        {!formIsValid.number && !formIsValid.contactNumberExists && (
-          <p style={formIsValidStyles}>
-            Please enter a valid 10-digit mobile number!
-          </p>
-        )}
-        {formIsValid.contactNumberExists && (
-          <p style={formIsValidStyles}>Mobile number already exists!</p>
-        )}
-      </Box>
-      <Box sx={{ mb: "1rem", width: "100%" }}>
-        <InputLabel htmlFor="email" sx={{ color: "black" }}>
-          Email*
-        </InputLabel>
-        <OutlinedInput
-          id="email"
-          placeholder="abc@gmail.com"
-          type="email"
-          value={details.email}
-          error={!formIsValid.email || formIsValid.existsEmailError}
-          onChange={handleEmailInput}
-          onBlur={handleEmailValidity}
-          sx={{ width: "97%" }}
-        />
-        {!formIsValid.email && !formIsValid.emailExists && (
-          <p style={formIsValidStyles}>Please enter a valid e-mail address!</p>
-        )}
-        {formIsValid.emailExists && (
-          <p style={formIsValidStyles}>Email address already exists!</p>
-        )}
-      </Box>
-
-      <Box sx={{ mb: "1rem", width: "100%" }}>
-        <InputLabel htmlFor="password" sx={{ color: "black" }}>
-          Create Password*
-        </InputLabel>
-        <OutlinedInput
-          id="password"
-          error={!formIsValid.password}
-          placeholder="create password"
-          type="password"
-          value={details.password}
-          onChange={handlePassword}
-          onBlur={handlePasswordValidity}
-          onClick={handlePasswordRequirements}
-          sx={{ width: "97%" }}
-        />
-        {!formIsValid.password && (
-          <p style={formIsValidStyles}>Password cannot be empty!</p>
-        )}
-      </Box>
-
-      <InputLabel htmlFor="confirmPassword" sx={{ color: "black" }}>
-        Confirm Password*
-      </InputLabel>
-      <OutlinedInput
-        id="confirmPassword"
-        onChange={handleConfirmPassword}
-        value={confirmPassword}
-        placeholder="confirm password"
-        type="password"
-        sx={{ mb: "1rem", width: "97%" }}
-      />
-      {
-        <>
-          {passwordIsValid.isShowing === true &&
-            requirements.map(({ label, key }) => (
-              <Box key={key} sx={{ display: "flex", alignItems: "center" }}>
-                {getRequirementIcon(passwordIsValid[key])}
-                <Typography
-                  variant="body1"
-                  component="span"
-                  sx={{ fontSize: "0.8rem" }}
-                >
-                  {label}
-                </Typography>
-              </Box>
-            ))}
-        </>
-      }
-
-      <Box sx={{ mb: "1rem" }}>
-        <Button
-          variant="contained"
-          disabled={!formValidity}
-          onClick={handleDoctorFormSubmit}
-        >
-          REGISTER
-        </Button>
-      </Box>
+    <>
+      {showAlert && <SignUpAlert />}
       <Box
         sx={{
-          width: "70%",
-          mb: "2rem",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          alignItems: "flex-start",
+          m: "auto",
+          width: "90%",
         }}
       >
         <Typography
-          variant="body1"
-          component="span"
-          sx={{ fontSize: "1rem", mr: "0.5rem" }}
+          variant="h6"
+          component="h1"
+          sx={{ fontWeight: "700", mb: "1rem", mt: "1rem" }}
         >
-          Already have an account?
+          Create an account
         </Typography>
+        <Box sx={{ mb: "1rem", width: "100%" }}>
+          <InputLabel htmlFor="name" sx={{ fontWeight: "500", color: "black" }}>
+            Full Name*
+          </InputLabel>
+          <OutlinedInput
+            id="name"
+            placeholder="Enter name"
+            error={!formIsValid.name}
+            required
+            value={name}
+            sx={{ width: "97%" }}
+            onChange={handleNameInput}
+            onBlur={handleNameValidity}
+          />
+          {!formIsValid.name && (
+            <p style={formIsValidStyles}>Please enter a valid name!</p>
+          )}
+        </Box>
 
-        <a
-          href=""
-          style={{ textDecoration: "none", fontWeight: 800, color: "blue" }}
+        <Box>
+          <FormLabel id="gender" sx={{ color: "black" }}>
+            Gender*
+          </FormLabel>
+          <RadioGroup
+            row
+            aria-labelledby="gender"
+            name="row-radio-buttons-group"
+            defaultValue="male"
+            onChange={handleGenderChange}
+          >
+            <FormControlLabel
+              value="male"
+              control={<Radio />}
+              label="Male"
+              sx={{ color: "black" }}
+            />
+            <FormControlLabel
+              value="female"
+              control={<Radio />}
+              label="Female"
+              sx={{ color: "black" }}
+            />
+            <FormControlLabel
+              value="other"
+              control={<Radio />}
+              label="Other"
+              sx={{ color: "black" }}
+            />
+          </RadioGroup>
+        </Box>
+        <Box sx={{ mb: "1rem", width: "100%" }}>
+          <InputLabel htmlFor="mobile" sx={{ color: "black" }}>
+            Mobile Number*
+          </InputLabel>
+          <OutlinedInput
+            id="mobile"
+            error={!formIsValid.number || formIsValid.existsContactError}
+            placeholder="Enter Mobile Number"
+            value={details.contactNumber}
+            type="number"
+            onChange={handleMobileInput}
+            onBlur={handleMobileValidity}
+            sx={{ width: "97%" }}
+          />
+          {!formIsValid.number && !formIsValid.contactNumberExists && (
+            <p style={formIsValidStyles}>
+              Please enter a valid 10-digit mobile number!
+            </p>
+          )}
+          {formIsValid.contactNumberExists && (
+            <p style={formIsValidStyles}>Mobile number already exists!</p>
+          )}
+        </Box>
+        <Box sx={{ mb: "1rem", width: "100%" }}>
+          <InputLabel htmlFor="email" sx={{ color: "black" }}>
+            Email*
+          </InputLabel>
+          <OutlinedInput
+            id="email"
+            placeholder="abc@gmail.com"
+            type="email"
+            value={details.email}
+            error={!formIsValid.email || formIsValid.existsEmailError}
+            onChange={handleEmailInput}
+            onBlur={handleEmailValidity}
+            sx={{ width: "97%" }}
+          />
+          {!formIsValid.email && !formIsValid.emailExists && (
+            <p style={formIsValidStyles}>
+              Please enter a valid e-mail address!
+            </p>
+          )}
+          {formIsValid.emailExists && (
+            <p style={formIsValidStyles}>Email address already exists!</p>
+          )}
+        </Box>
+
+        <Box sx={{ mb: "1rem", width: "100%" }}>
+          <InputLabel htmlFor="password" sx={{ color: "black" }}>
+            Create Password*
+          </InputLabel>
+          <OutlinedInput
+            id="password"
+            error={!formIsValid.password}
+            placeholder="create password"
+            type="password"
+            value={details.password}
+            onChange={handlePassword}
+            onBlur={handlePasswordValidity}
+            onClick={handlePasswordRequirements}
+            sx={{ width: "97%" }}
+          />
+          {!formIsValid.password && (
+            <p style={formIsValidStyles}>Password cannot be empty!</p>
+          )}
+        </Box>
+
+        <InputLabel htmlFor="confirmPassword" sx={{ color: "black" }}>
+          Confirm Password*
+        </InputLabel>
+        <OutlinedInput
+          id="confirmPassword"
+          onChange={handleConfirmPassword}
+          value={confirmPassword}
+          placeholder="confirm password"
+          type="password"
+          sx={{ mb: "1rem", width: "97%" }}
+        />
+        {
+          <>
+            {passwordIsValid.isShowing === true &&
+              requirements.map(({ label, key }) => (
+                <Box key={key} sx={{ display: "flex", alignItems: "center" }}>
+                  {getRequirementIcon(passwordIsValid[key])}
+                  <Typography
+                    variant="body1"
+                    component="span"
+                    sx={{ fontSize: "0.8rem" }}
+                  >
+                    {label}
+                  </Typography>
+                </Box>
+              ))}
+          </>
+        }
+
+        <Box sx={{ mb: "1rem" }}>
+          <Button
+            variant="contained"
+            disabled={!formValidity}
+            onClick={handleDoctorFormSubmit}
+          >
+            REGISTER
+          </Button>
+        </Box>
+        <Box
+          sx={{
+            width: "70%",
+            mb: "2rem",
+          }}
         >
-          Sign in
-        </a>
+          <Typography
+            variant="body1"
+            component="span"
+            sx={{ fontSize: "1rem", mr: "0.5rem" }}
+          >
+            Already have an account?
+          </Typography>
+
+          <a
+            href=""
+            style={{ textDecoration: "none", fontWeight: 800, color: "blue" }}
+          >
+            Sign in
+          </a>
+        </Box>
       </Box>
-    </Box>
+    </>
   );
 };
 

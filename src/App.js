@@ -7,6 +7,7 @@ import  Home  from "./pages/Home";
 import Specialities from "./pages/Specialities";
 import DoctorDetails from "./pages/DoctorDetails";
 import SpecialityDetails from "./pages/SpecialityDetails";
+import { useState, useEffect } from "react";
 
 function App() {
 
@@ -27,40 +28,3 @@ function App() {
 }
 
 export default App;
-
-
- // const [data, setData] = useState([]);
-  // const pageSize = 10;
-  // const apiUrl = 'http://my-doctors.net:8090/specializations';
-
-  // const fetchData = async (page) => {
-  //   try {
-  //     const response = await fetch(`${apiUrl}?page=${page}&pageSize=${pageSize}`);
-  //     const jsonData = await response.json();
-  //     return jsonData.data;
-  //   } catch (error) {
-  //     console.error('Error fetching data:', error);
-  //   }
-  // };
-
-  // const fetchAllData = async () => {
-  //   let page = 1;
-  //   let allData = [];
-
-  //   while (true) {
-  //     const jsonData = await fetchData(page);
-
-  //     if (jsonData.length === 0) {
-  //       break; // No more data
-  //     }
-
-  //     allData = [...allData, ...jsonData];
-  //     page++;
-  //   }
-
-  //   setData(allData);
-  // };
-
-  // useEffect(() => {
-  //   fetchAllData();
-  // }, []);

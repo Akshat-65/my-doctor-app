@@ -48,7 +48,7 @@ const DoctorsCardWrapperStyles = {
 const Doctors = () => {
   const [specializationData, setSpecializationData] = useState([]);
   const [doctorsData, setDoctorsData] = useState([]);
-  const [page, setPage] = React.useState(1);
+  const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
 
   const navigate = useNavigate();

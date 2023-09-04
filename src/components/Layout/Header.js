@@ -6,7 +6,10 @@ import IconButton from "@mui/material/IconButton";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import AccountCircle from "@mui/icons-material/AccountCircle";
+import MenuItem from "@mui/material/MenuItem";
 import Autocomplete from "@mui/material/Autocomplete";
+import Menu from "@mui/material/Menu";
 import logo from "../../assets/myDoctorLogo.svg";
 import SearchIcon from "@mui/icons-material/Search";
 import { Link } from "react-router-dom";
@@ -22,7 +25,20 @@ const Header = () => {
     searchInput: "",
   });
 
+  const user = JSON.parse(localStorage.getItem("userContext"));
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  console.log("header", user);
+
   const navigate = useNavigate();
+
+  const handleMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const getServicesData = async () => {
     try {
@@ -152,11 +168,44 @@ const Header = () => {
           </Box>
 
           <Box sx={{ display: "flex", flexGrow: 0 }}>
-            <Link to="/login">
-              <Button variant="contained" href="/login" sx={{}}>
-                Log In
-              </Button>
-            </Link>
+            {user && (
+              <div>
+                <IconButton
+                  size="large"
+                  aria-label="account of current user"
+                  aria-controls="menu-appbar"
+                  aria-haspopup="true"
+                  onClick={handleMenu}
+                >
+                  <AccountCircle color="disabled" sx={{ fontSize: "50px" }} />
+                </IconButton>
+                <Menu
+                  id="menu-appbar"
+                  anchorEl={anchorEl}
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  open={Boolean(anchorEl)}
+                  onClose={handleClose}
+                >
+                  <MenuItem onClick={handleClose}>Profile</MenuItem>
+                  <MenuItem onClick={handleClose}>My account</MenuItem>
+                </Menu>
+              </div>
+            )}
+            {!user && (
+              <Link to="/login">
+                <Button variant="contained" href="/login" sx={{}}>
+                  Log In
+                </Button>
+              </Link>
+            )}
           </Box>
         </Toolbar>
 
