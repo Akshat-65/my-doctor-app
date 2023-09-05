@@ -50,6 +50,16 @@ const Header = () => {
     navigate('/')
   }
 
+  const handleAppointment = ()=>{
+    setAnchorEl(null);
+    navigate('/appointments')
+  }
+
+  const handleAccount = ()=>{
+    setAnchorEl(null);
+    navigate('/myprofile')
+  }
+
   const getServicesData = async () => {
     try {
       const response = await fetch(
@@ -205,8 +215,8 @@ const Header = () => {
                   open={Boolean(anchorEl)}
                   onClose={handleClose}
                 >
-                  <MenuItem onClick={handleClose} selected><PermIdentityIcon/><Typography sx={{pl:"0.5rem"}}>Account Settings</Typography></MenuItem>
-                  <MenuItem onClick={handleClose}><CalendarTodayIcon/><Typography sx={{pl:"0.5rem"}}>My Appointments</Typography></MenuItem>
+                  <MenuItem onClick={handleAccount} selected><PermIdentityIcon/><Typography sx={{pl:"0.5rem"}}>Account Settings</Typography></MenuItem>
+                  <MenuItem onClick={handleAppointment}><CalendarTodayIcon/><Typography sx={{pl:"0.5rem"}}>My Appointments</Typography></MenuItem>
                   <MenuItem onClick={handleLogOut}><ExitToAppIcon/><Typography sx={{pl:"0.5rem"}}>Logout</Typography></MenuItem>
                 </Menu>
               </div>
