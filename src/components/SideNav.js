@@ -21,7 +21,7 @@ import BubbleChartIcon from "@mui/icons-material/BubbleChart";
 import { useNavigate } from "react-router-dom";
 
 const drawerWidth = 240;
-const SideNav = () => {
+const SideNav = ({user}) => {
     
     const navigate = useNavigate();
 
@@ -29,23 +29,34 @@ const SideNav = () => {
         {
           text: "Doctors",
           to: "/",
+          icon : <PersonIcon /> 
         },
         {
           text: "Specialities",
           to: "/specialities",
+          icon : <BubbleChartIcon /> 
         },
+        // {
+        //   text: "My Appointments",
+        //   to: "/appointments",
+        // },
+        // {
+        //   text: "Account Settings",
+        //   to: "/myprofile",
+        // },
       ];
     
       const drawer = (
         <div style={{ marginTop: "7.3rem" }}>
           <List>
             {itemsList.map((item, index) => {
-              const { text, to } = item;
+              const { text, to, icon } = item;
               return (
                 <ListItem key={text} disablePadding onClick={()=>handleNav(to)}>
                   <ListItemButton>
                     <ListItemIcon>
-                      {index % 2 === 0 ? <PersonIcon /> : <BubbleChartIcon />}
+                      {/* {index % 2 === 0 ? <PersonIcon /> : <BubbleChartIcon />} */}
+                      {icon}
                     </ListItemIcon>
                     <ListItemText primary={text} />
                   </ListItemButton>
