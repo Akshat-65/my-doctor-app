@@ -8,6 +8,9 @@ import Specialities from "./pages/Specialities";
 import DoctorDetails from "./pages/DoctorDetails";
 import SpecialityDetails from "./pages/SpecialityDetails";
 import { useState, useEffect } from "react";
+import PatientProfile from "./pages/PatientProfile";
+import PatientAppointments from "./pages/PatientAppointments";
+import ChangePassword from "./pages/ChangePassword";
 
 function App() {
 
@@ -21,6 +24,9 @@ function App() {
           <Route path="/specialities" element={<Specialities />} />
           <Route path="/doctors/:id" element={<DoctorDetails />} />
           <Route path="/search" element={<SpecialityDetails />} />
+          <Route path="/appointments" element={<PatientAppointments />} />
+          <Route path="/myprofile" element={<PatientProfile />} />
+          <Route path="/changepassword" element={<ChangePassword />} />
         </Routes>
       </Box>
     </BrowserRouter>

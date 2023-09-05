@@ -14,7 +14,10 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import NestedDrawer from "./NestedDrawer";
+
 
 export default function Sidebar() {
   const [state, setState] = React.useState({
@@ -23,6 +26,13 @@ export default function Sidebar() {
 
   const navigate = useNavigate();
   const user =  JSON.parse(localStorage.getItem("userContext"));
+
+  const location = useLocation();
+  let getLocation = location.pathname;
+
+  useEffect(() => {
+    console.log(location.pathname);
+  }, [location]);
 
   const itemsList = [
     {
@@ -48,6 +58,11 @@ export default function Sidebar() {
   ];
 
   let itemsListWithoutLogIn = itemsList.slice(0,2);
+
+  let nestedDrawer;
+  if (getLocation === "/myprofile" || getLocation === "/changepassword") {
+    nestedDrawer = <NestedDrawer/>;
+  }
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (
@@ -82,6 +97,7 @@ export default function Sidebar() {
               );
             })}
           </List>
+          {nestedDrawer}
     </Box>
   );
 
