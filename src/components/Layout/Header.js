@@ -44,6 +44,11 @@ const Header = () => {
     setAnchorEl(null);
   };
 
+  const handleLogOut = ()=>{
+    setAnchorEl(null);
+    localStorage.removeItem("userContext");
+  }
+
   const getServicesData = async () => {
     try {
       const response = await fetch(
@@ -201,7 +206,7 @@ const Header = () => {
                 >
                   <MenuItem onClick={handleClose} selected><PermIdentityIcon/><Typography sx={{pl:"0.5rem"}}>Account Settings</Typography></MenuItem>
                   <MenuItem onClick={handleClose}><CalendarTodayIcon/><Typography sx={{pl:"0.5rem"}}>My Appointments</Typography></MenuItem>
-                  <MenuItem onClick={handleClose}><ExitToAppIcon/><Typography sx={{pl:"0.5rem"}}>Logout</Typography></MenuItem>
+                  <MenuItem onClick={handleLogOut}><ExitToAppIcon/><Typography sx={{pl:"0.5rem"}}>Logout</Typography></MenuItem>
                 </Menu>
               </div>
             )}
