@@ -86,7 +86,7 @@ export default function Sidebar() {
             {(user ? itemsList : itemsListWithoutLogIn).map((item, index) => {
               const { text, to, icon } = item;
               return (
-                <ListItem key={text} disablePadding onClick={()=>handleNav(to)}>
+                <ListItem key={text} disablePadding onClick={()=>handleNav(to)} sx={{pb:'12px'}}>
                   <ListItemButton>
                     <ListItemIcon>
                       {icon}
