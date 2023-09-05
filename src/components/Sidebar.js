@@ -12,6 +12,8 @@ import BubbleChartIcon from "@mui/icons-material/BubbleChart";
 import MenuIcon from "@mui/icons-material/Menu";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { useNavigate } from "react-router-dom";
 
 export default function Sidebar() {
@@ -20,17 +22,32 @@ export default function Sidebar() {
   });
 
   const navigate = useNavigate();
+  const user =  JSON.parse(localStorage.getItem("userContext"));
 
   const itemsList = [
-      {
-        text: "Doctors",
-        to: "/",
-      },
-      {
-        text: "Specialities",
-        to: "/specialities",
-      },
-    ];
+    {
+      text: "Doctors",
+      to: "/",
+      icon : <PersonIcon /> 
+    },
+    {
+      text: "Specialities",
+      to: "/specialities",
+      icon : <BubbleChartIcon /> 
+    },
+    {
+      text: "My Appointments",
+      to: "/appointments",
+      icon : <CalendarTodayIcon/> 
+    },
+    {
+      text: "Account Settings",
+      to: "/myprofile",
+      icon : <ExitToAppIcon/>
+    },
+  ];
+
+  let itemsListWithoutLogIn = itemsList.slice(0,2);
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (
@@ -51,13 +68,13 @@ export default function Sidebar() {
       onKeyDown={toggleDrawer(anchor, false)}
     >
                 <List>
-            {itemsList.map((item, index) => {
-              const { text, to } = item;
+            {(user ? itemsList : itemsListWithoutLogIn).map((item, index) => {
+              const { text, to, icon } = item;
               return (
                 <ListItem key={text} disablePadding onClick={()=>handleNav(to)}>
                   <ListItemButton>
                     <ListItemIcon>
-                      {index % 2 === 0 ? <PersonIcon /> : <BubbleChartIcon />}
+                      {icon}
                     </ListItemIcon>
                     <ListItemText primary={text} />
                   </ListItemButton>

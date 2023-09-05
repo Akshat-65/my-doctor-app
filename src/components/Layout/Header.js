@@ -47,6 +47,7 @@ const Header = () => {
   const handleLogOut = ()=>{
     setAnchorEl(null);
     localStorage.removeItem("userContext");
+    navigate('/')
   }
 
   const getServicesData = async () => {

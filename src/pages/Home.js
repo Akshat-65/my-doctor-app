@@ -13,7 +13,7 @@ function Home() {
     <Box
       sx={{ display: "flex", mt: { xs: "12rem", md: "9rem" }, width: "100%" }}
     >
-      <SideNav user = {user}/>
+      <SideNav/>
       <Box
         component="main"
         sx={{

@@ -1,29 +1,22 @@
 import * as React from "react";
-import PropTypes from "prop-types";
-import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
-import CssBaseline from "@mui/material/CssBaseline";
-import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
-import IconButton from "@mui/material/IconButton";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import MailIcon from "@mui/icons-material/Mail";
-import MenuIcon from "@mui/icons-material/Menu";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 import PersonIcon from "@mui/icons-material/Person";
 import BubbleChartIcon from "@mui/icons-material/BubbleChart";
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { useNavigate } from "react-router-dom";
 
 const drawerWidth = 240;
-const SideNav = ({user}) => {
+const SideNav = () => {
     
     const navigate = useNavigate();
+    const user =  JSON.parse(localStorage.getItem("userContext"));
 
     const itemsList = [
         {
@@ -36,26 +29,29 @@ const SideNav = ({user}) => {
           to: "/specialities",
           icon : <BubbleChartIcon /> 
         },
-        // {
-        //   text: "My Appointments",
-        //   to: "/appointments",
-        // },
-        // {
-        //   text: "Account Settings",
-        //   to: "/myprofile",
-        // },
+        {
+          text: "My Appointments",
+          to: "/appointments",
+          icon : <CalendarTodayIcon/> 
+        },
+        {
+          text: "Account Settings",
+          to: "/myprofile",
+          icon : <ExitToAppIcon/>
+        },
       ];
+
+       let itemsListWithoutLogIn = itemsList.slice(0,2);
     
       const drawer = (
         <div style={{ marginTop: "7.3rem" }}>
           <List>
-            {itemsList.map((item, index) => {
+            {(user ? itemsList : itemsListWithoutLogIn).map((item, index) => {
               const { text, to, icon } = item;
               return (
                 <ListItem key={text} disablePadding onClick={()=>handleNav(to)}>
                   <ListItemButton>
                     <ListItemIcon>
-                      {/* {index % 2 === 0 ? <PersonIcon /> : <BubbleChartIcon />} */}
                       {icon}
                     </ListItemIcon>
                     <ListItemText primary={text} />
