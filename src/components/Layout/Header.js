@@ -223,7 +223,7 @@ const Header = () => {
             )}
             {!user && (
               <Link to="/login">
-                <Button variant="contained" href="/login" sx={{}}>
+                <Button variant="contained">
                   Log In
                 </Button>
               </Link>

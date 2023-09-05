@@ -16,6 +16,8 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useEffect, useState } from "react";
 import { useRef } from "react";
 
+// ------------------------------------styles----------------------------------------
+
 const specialitiesCardStyles = {
   display: "flex",
   flexDirection: "column",
@@ -49,6 +51,8 @@ const SpecialitiesCardWrapperStyles = {
   },
   gap: "20px",
 };
+
+// ------------------------------------component----------------------------------------
 
 const Specialities = () => {
   const drawerWidth = 240;
@@ -150,7 +154,6 @@ const Specialities = () => {
     setInput(e.target.value);
   };
 
-
   const handleSpecialitySearch = () => {
     let searchValue = searchRef.current.value.toLowerCase();
     console.log(searchValue);
@@ -165,10 +168,10 @@ const Specialities = () => {
 
     console.log(filteredSpecialities);
     if (filteredSpecialities.length > 0) {
-      setIsEmpty(false); 
-    } 
-    if(filteredSpecialities.length === 0 && searchValue==='') {
-      setIsEmpty(true); 
+      setIsEmpty(false);
+    }
+    if (filteredSpecialities.length === 0 && searchValue === "") {
+      setIsEmpty(true);
     }
     setFilteredSpecialities(filteredSpecialities);
     console.log(filteredSpecialities.length === 0);
@@ -188,11 +191,14 @@ const Specialities = () => {
   );
 
   let filteredSpecialityCount = 0;
-  if(Math.floor(filteredSpecialities.length / 10)<= 1){
-    filteredSpecialityCount = `${Math.floor(filteredSpecialities.length)}+ Specialities`
-  }
-  else{
-    filteredSpecialityCount = `${Math.floor(filteredSpecialities.length / 10)}0+ Specialities`
+  if (Math.floor(filteredSpecialities.length / 10) <= 1) {
+    filteredSpecialityCount = `${Math.floor(
+      filteredSpecialities.length
+    )}+ Specialities`;
+  } else {
+    filteredSpecialityCount = `${Math.floor(
+      filteredSpecialities.length / 10
+    )}0+ Specialities`;
   }
 
   console.log(isEmpty);
@@ -214,10 +220,12 @@ const Specialities = () => {
             <>
               <Box sx={specialityHeaderDropdownWrapper}>
                 <Typography variant="h4" sx={specialityHeaderStyles}>
-                  {    (!isEmpty && filteredSpecialities.length >= 0)?  filteredSpecialityCount:  specializationData.length > 0 &&
-                    `${specializationData[0].totalSpecializations}0+ Specialities`}
+                  {!isEmpty && filteredSpecialities.length >= 0
+                    ? filteredSpecialityCount
+                    : specializationData.length > 0 &&
+                      `${specializationData[0].totalSpecializations}0+ Specialities`}
                 </Typography>
-
+                
                 <Box sx={{ display: "flex", alignItems: "center" }}>
                   <TextField
                     id="outlined-basic"
@@ -225,8 +233,6 @@ const Specialities = () => {
                     variant="outlined"
                     size="small"
                     fullWidth
-                    // onChange={handleInput}
-                    // value={input}
                     inputRef={searchRef}
                     InputProps={{
                       endAdornment: (
@@ -241,7 +247,6 @@ const Specialities = () => {
                       ),
                     }}
                   />
-
                   <FormControl sx={{ minWidth: 65, ml: "0.5rem" }}>
                     <Select
                       labelId="demo-simple-select-label"
@@ -260,7 +265,15 @@ const Specialities = () => {
                   </FormControl>
                 </Box>
               </Box>
-              <Box sx={SpecialitiesCardWrapperStyles}>{(!isEmpty && filteredSpecialities.length === 0) ? <Typography>No specialities found</Typography> : specialities}</Box>
+
+              <Box sx={SpecialitiesCardWrapperStyles}>
+                {!isEmpty && filteredSpecialities.length === 0 ? (
+                  <Typography>No specialities found</Typography>
+                ) : (
+                  specialities
+                )}
+              </Box>
+
               <Pagination
                 sx={{ display: "flex", mt: "16px", justifyContent: "center" }}
                 size="small"

@@ -14,7 +14,7 @@ import SignUpAlert from "./SignUpAlert";
 import { useState, useEffect } from "react";
 
 
-// ------------------------styles-------------------------------------
+// ------------------------styles---------------------------------------------
 
 const selectStyles = {
   marginRight: "15px",
@@ -31,7 +31,7 @@ const formIsValidStyles = {
   marginTop: "0.3rem",
 };
 
-// ------------------------component-------------------------------------
+// ------------------------component------------------------------------------
 
 const PatientSignUp = () => {
   const today = new Date();

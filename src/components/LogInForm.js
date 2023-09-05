@@ -133,7 +133,7 @@ const LogInForm = () => {
           </Button>
           <a
             href=""
-            style={{ textDecoration: "none", fontWeight: 800, color: "blue" }}
+            style={{fontWeight: 500, color: "blue" }}
           >
             Forgot Password?
           </a>
@@ -147,7 +147,7 @@ const LogInForm = () => {
           Don't have an account?
           <a
             href=""
-            style={{ textDecoration: "none", fontWeight: 800, color: "blue" }}
+            style={{fontWeight: 800, color: "blue" }}
           >
             Sign up
           </a>
