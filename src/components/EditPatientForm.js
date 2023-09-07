@@ -19,6 +19,7 @@ const EditPatientForm = ({
 //   handleState,
 //   handleCountry,
 //   handlePincode,
+patientData,
   handleInput
 }) => {
   const genderOptions = [
@@ -27,8 +28,8 @@ const EditPatientForm = ({
     { value: "Other" },
   ];
 
-  const handleInputChange = (e)=>{
-handleInput(e)
+  const handleInputChange = (e,name,value)=>{
+handleInput(e,name,value)
   }
 
 //   const handleInputNameChange = (e) => {
@@ -133,8 +134,9 @@ handleInput(e)
         fullWidth
         options={bloodgroup}
         name="bloodType"
+        value={patientData.profile.bloodType}
         // onChange={handleBloodgroupChange}
-        onChange={(e, value) => handleInputChange(e, value)}
+        onChange={(e, newValue) => handleInputChange(e,"bloodType", newValue)}
         renderInput={(params) => <TextField {...params} label="Bloodgroup" />}
       />
 

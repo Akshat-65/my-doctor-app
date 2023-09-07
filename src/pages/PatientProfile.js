@@ -68,8 +68,9 @@ const PatientProfile = () => {
   };
   const [patientData, setPatientData] = useState(patientDetails);
 
-  const handleInput = (e,value) => {
-    const { name } = e.target; 
+  const handleInput = (e,name,value) => {
+    console.log(value);
+    // const { name } = e.target; 
     const inputValue = e.target.value;
 
     if (name === "name") {
@@ -108,7 +109,7 @@ const PatientProfile = () => {
       }));
     }
     else if(name === "bloodType" ){
-      value = value
+      console.log(value);
       setPatientData((prev) => ({
         ...prev,
         profile: {
