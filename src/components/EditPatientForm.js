@@ -4,7 +4,11 @@ import InputLabel from "@mui/material/InputLabel";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import Autocomplete from "@mui/material/Autocomplete";
 import MenuItem from "@mui/material/MenuItem";
-import { useState } from "react";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs from "dayjs";
 
 const formIsValidStyles = {
   color: "#f44336",
@@ -28,7 +32,14 @@ const EditPatientForm = ({
   handleState,
   handleCountry,
   handlePincode,
-  // handleInput
+  isEditable,
+  validateName,
+  formIsValid,
+  validateAreaAndLocality,
+  validateCityAndCountry,
+  validateState,
+  validatePincode,
+  handleDob,
 }) => {
   const genderOptions = [
     { value: "Male" },
@@ -36,72 +47,25 @@ const EditPatientForm = ({
     { value: "Other" },
   ];
 
-  const [formIsValid, setFormIsValid] = useState({
-    name: true,
-    area: true,
-    locality: true,
-    city: true,
-    state: true,
-    country: true,
-    pincode: true,
-  });
-
   const handleNameValidity = (e) => {
-    const inputValue = e.target.value.trim();
-    const isEmpty = inputValue === "";
-    const startsWithNumber = /^\d/.test(inputValue);
-    setFormIsValid((prevState) => ({
-      ...prevState,
-      name: !isEmpty && !startsWithNumber,
-    }));
+    validateName(e);
   };
 
   const handleAreaLocalityValidity = (e, fieldName) => {
-    const inputValue = e.target.value.trim();
-    const startsWithNumber = /^\d/.test(inputValue);
-    const containsAlphabet = /[a-zA-Z]/.test(inputValue);
-
-    setFormIsValid((prevState) => ({
-      ...prevState,
-      [fieldName]: inputValue === "" || (startsWithNumber && containsAlphabet),
-    }));
+    validateAreaAndLocality(e, fieldName);
   };
 
   const handleCityAndCountryValidity = (e, fieldName) => {
-    const inputValue = e.target.value.trim();
-    const isEmpty = inputValue === "";
-    const containsOnlyAlphabets = isEmpty || /^[A-Za-z\s]+$/.test(inputValue);
-
-    setFormIsValid((prevState) => ({
-      ...prevState,
-      [fieldName]: containsOnlyAlphabets,
-    }));
+    validateCityAndCountry(e, fieldName);
   };
 
   const handleStateValidity = (e) => {
-    const inputValue = e.target.value.trim();
-    const isEmpty = inputValue === "";
-    const startsWithNumber = /^\d/.test(inputValue);
-
-    setFormIsValid((prevState) => ({
-      ...prevState,
-      state: !startsWithNumber || isEmpty,
-    }));
+    validateState(e);
   };
 
   const handlePincodeValidity = (e) => {
-    const inputValue = e.target.value.trim();
-    const isEmpty = inputValue === "";
-    const containsOnlyNumbers = /^\d+$/.test(inputValue);
-    setFormIsValid((prevState) => ({
-      ...prevState,
-      pincode: isEmpty || containsOnlyNumbers,
-    }));
+    validatePincode(e);
   };
-
-  //   const handleInputChange = (e,name,value)=>{
-  // handleInput(e,name,value)
-  //   }
 
   const handleInputNameChange = (e) => {
     handleNameChange(e);
@@ -109,6 +73,10 @@ const EditPatientForm = ({
 
   const handleGenderChange = (e) => {
     handleGender(e);
+  };
+
+  const handleDobChange = (value) => {
+    handleDob(value);
   };
 
   const handleBloodgroupChange = (e, value) => {
@@ -139,17 +107,19 @@ const EditPatientForm = ({
     handlePincode(e);
   };
 
+  console.log("vhgsahs", patientData);
+
   return (
     <>
       <FormControl error={!formIsValid.name}>
         <InputLabel htmlFor="patient-name">Name</InputLabel>
         <OutlinedInput
+          disabled={!isEditable}
           id="patient-name"
           defaultValue={name}
           label="Name"
           name="name"
           onChange={handleInputNameChange}
-          // onChange={handleInputChange}
           onBlur={handleNameValidity}
         />
         {!formIsValid.name && (
@@ -182,9 +152,9 @@ const EditPatientForm = ({
         select
         label="Gender"
         name="gender"
+        disabled={!isEditable}
         defaultValue={gender}
         onChange={handleGenderChange}
-        // onChange={handleInputChange}
       >
         {genderOptions.map((option) => (
           <MenuItem key={option.value} value={option.value}>
@@ -193,25 +163,36 @@ const EditPatientForm = ({
         ))}
       </TextField>
 
-      <FormControl>
+      {/* <FormControl>
         <InputLabel htmlFor="patient-name">Date of birth</InputLabel>
         <OutlinedInput
           id="patient-name"
           name="dob"
+          disabled={!isEditable}
           value={user.user.profile.dob}
           label="Date of birth"
         />
-      </FormControl>
+      </FormControl> */}
+
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <DemoContainer components={["DatePicker", "DatePicker"]}>
+          <DatePicker
+            label="Controlled picker"
+            value={patientData.profile.dob}
+            onChange={(newValue) => handleDobChange(newValue)}
+          />
+        </DemoContainer>
+      </LocalizationProvider>
 
       <Autocomplete
         disablePortal
         id="combo-box-demo"
         fullWidth
         options={bloodgroup}
+        disabled={!isEditable}
         name="bloodType"
-        value={patientData.profile.bloodType || null}
+        value={patientData.bloodType}
         onChange={(e, value) => handleBloodgroupChange(e, value)}
-        // onChange={(e, newValue) => handleInputChange(e,"bloodType", newValue)}
         renderInput={(params) => <TextField {...params} label="Bloodgroup" />}
       />
 
@@ -219,12 +200,11 @@ const EditPatientForm = ({
         <InputLabel htmlFor="patient-name">House No./Street/Area</InputLabel>
         <OutlinedInput
           id="patient-name"
-          //   value="House No./Street/Area"
-          defaultValue="House No./Street/Area"
+          value={patientData.profile.address.area}
           name="area"
           label="House No./Street/Area"
+          disabled={!isEditable}
           onChange={handleHouseNoChange}
-          // onChange={handleInputChange}
           onBlur={(e) => handleAreaLocalityValidity(e, "area")}
         />
         {!formIsValid.area && (
@@ -236,12 +216,11 @@ const EditPatientForm = ({
         <InputLabel htmlFor="patient-name">Colony/Street/ Locality</InputLabel>
         <OutlinedInput
           id="patient-name"
-          //   value="Colony/Street/ Locality"
           name="locality"
-          defaultValue="Colony/Street/ Locality"
+          value={patientData.profile.address.locality}
           label="Colony/Street/ Locality"
+          disabled={!isEditable}
           onChange={handleLocalityChange}
-          // onChange={handleInputChange}
           onBlur={(e) => handleAreaLocalityValidity(e, "locality")}
         />
         {!formIsValid.locality && (
@@ -253,12 +232,11 @@ const EditPatientForm = ({
         <InputLabel htmlFor="patient-name">City</InputLabel>
         <OutlinedInput
           id="patient-name"
-          //   value="City"
           label="City"
+          disabled={!isEditable}
           name="city"
-          defaultValue="City"
+          value={patientData.profile.address.city}
           onChange={handleCityChange}
-          // onChange={handleInputChange}
           onBlur={(e) => handleCityAndCountryValidity(e, "city")}
         />
         {!formIsValid.city && (
@@ -270,12 +248,11 @@ const EditPatientForm = ({
         <InputLabel htmlFor="patient-name">State</InputLabel>
         <OutlinedInput
           id="patient-name"
-          defaultValue="State"
-          //   value="State"
+          value={patientData.profile.address.state}
           name="state"
           label="State"
+          disabled={!isEditable}
           onChange={handleStateChange}
-          // onChange={handleInputChange}
           onBlur={handleStateValidity}
         />
         {!formIsValid.state && (
@@ -287,12 +264,11 @@ const EditPatientForm = ({
         <InputLabel htmlFor="patient-name">Country</InputLabel>
         <OutlinedInput
           id="patient-name"
-          //   value="Country"
           label="Country"
           name="country"
-          defaultValue="country"
+          disabled={!isEditable}
+          value={patientData.profile.address.country}
           onChange={handleCountryChange}
-          // onChange={handleInputChange}
           onBlur={(e) => handleCityAndCountryValidity(e, "country")}
         />
         {!formIsValid.country && (
@@ -304,13 +280,12 @@ const EditPatientForm = ({
         <InputLabel htmlFor="patient-name">Pincode</InputLabel>
         <OutlinedInput
           id="patient-name"
-          //   value="Pincode"
           label="Pincode"
           name="pincode"
-          defaultValue="Pincode"
+          disabled={!isEditable}
+          value={patientData.profile.address.pincode}
           inputProps={{ maxLength: 6 }}
           onChange={handlePincodeChange}
-          // onChange={handleInputChange}
           onBlur={handlePincodeValidity}
         />
         {!formIsValid.pincode && (
