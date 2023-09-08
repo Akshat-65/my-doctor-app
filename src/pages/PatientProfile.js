@@ -68,181 +68,183 @@ const PatientProfile = () => {
   };
   const [patientData, setPatientData] = useState(patientDetails);
 
-  const handleInput = (e,name,value) => {
-    console.log(value);
-    // const { name } = e.target; 
-    const inputValue = e.target.value;
+  // const handleInput = (e,name,value) => {
+  //   console.log(value);
+  //   console.log(name);
+  //   // const { name } = e.target; 
+  //   const inputValue = e.target.value;
 
-    if (name === "name") {
-      console.log("name", inputValue);
-      console.log(inputValue);
-      let name = inputValue;
-      let nameArray = name.split(" ");
-      let firstName = nameArray[0];
-      let lastName = nameArray[1];
+  //   if (name === "name") {
+  //     console.log("name", inputValue);
+  //     console.log(inputValue);
+  //     let name = inputValue;
+  //     let nameArray = name.split(" ");
+  //     let firstName = nameArray[0];
+  //     let lastName = nameArray[1];
   
-      setPatientData((prev) => ({
-        ...prev,
-        firstName: firstName,
-        lastName: lastName,
-      }));
-    }
-    else if(name === "area" || name === "locality" || name === "city" || name === "state" ||name === "pincode" ||name === "country") {
-      setPatientData((prev) => ({
-        ...prev,
-        profile: {
-          ...prev.profile,
-          address: {
-            ...prev.profile.address,
-            [name]: inputValue,
-          },
-        },
-      }));
-    }
-    else if ( name === "dob") {
-      setPatientData((prev) => ({
-        ...prev,
-        profile: {
-          ...prev.profile,
-          [name]: inputValue,
-        },
-      }));
-    }
-    else if(name === "bloodType" ){
-      console.log(value);
-      setPatientData((prev) => ({
-        ...prev,
-        profile: {
-          ...prev.profile,
-          [name]: value,
-        },
-      }));
-    }
-    else{
-      setPatientData((prev) => ({
-        ...prev,
-        [name]: inputValue,
-      }));
-    }
+  //     setPatientData((prev) => ({
+  //       ...prev,
+  //       firstName: firstName,
+  //       lastName: lastName,
+  //     }));
+  //   }
+  //   else if(name === "area" || name === "locality" || name === "city" || name === "state" ||name === "pincode" ||name === "country") {
+  //     setPatientData((prev) => ({
+  //       ...prev,
+  //       profile: {
+  //         ...prev.profile,
+  //         address: {
+  //           ...prev.profile.address,
+  //           [name]: inputValue,
+  //         },
+  //       },
+  //     }));
+  //   }
+  //   else if ( name === "dob") {
+  //     setPatientData((prev) => ({
+  //       ...prev,
+  //       profile: {
+  //         ...prev.profile,
+  //         [name]: inputValue,
+  //       },
+  //     }));
+  //   }
+  //   else if(name === "bloodType" ){
+  //     console.log(value);
+  //     setPatientData((prev) => ({
+  //       ...prev,
+  //       profile: {
+  //         ...prev.profile,
+  //         [name]: value,
+  //       },
+  //     }));
+  //   }
+  //   else{
+  //     setPatientData((prev) => ({
+  //       ...prev,
+  //       [name]: inputValue,
+  //     }));
+  //   }
+  // };
+
+  // console.log(patientData);
+
+
+  const handleNameChange = (e) => {
+    console.log("name", e.target.value);
+    console.log(e.target.value);
+    let name = e.target.value;
+    let nameArray = name.split(" ");
+    let firstName = nameArray[0];
+    let lastName = nameArray[1];
+
+    setPatientData((prev) => ({
+      ...prev,
+      firstName: firstName,
+      lastName: lastName,
+    }));
   };
 
+  const handleGender = (e) => {
+    console.log("gender", e.target.value);
+    setPatientData((prev) => ({
+      ...prev,
+      gender: e.target.value,
+    }));
+  };
+
+  const handleBloodgroup = (e,value)=>{
+    console.log("bloodGroup", value);
+    setPatientData((prev) => ({
+      ...prev,
+      bloodType: value,
+    }));
+  }
+
+  const handleHouseNo = (e)=>{
+    console.log("area", e.target.value);
+    setPatientData((prev) => ({
+      ...prev,
+       profile : {
+        ...prev.profile,
+        address: {
+          ...prev.profile.address, 
+          area : e.target.value
+        }
+       }
+    }));
+  }
+
+  const handleLocality = (e)=>{
+    console.log("locality", e.target.value);
+    setPatientData((prev) => ({
+      ...prev,
+       profile : {
+        ...prev.profile,
+        address: {
+          ...prev.profile.address, 
+          locality : e.target.value
+        }
+       }
+    }));
+  }
+
+  const handleCity = (e)=>{
+    console.log("city", e.target.value);
+    setPatientData((prev) => ({
+      ...prev,
+       profile : {
+        ...prev.profile,
+        address: {
+          ...prev.profile.address, 
+          city : e.target.value
+        }
+       }
+    }));
+  }
+
+  const handleState = (e)=>{
+    console.log("state", e.target.value);
+    setPatientData((prev) => ({
+      ...prev,
+       profile : {
+        ...prev.profile,
+        address: {
+          ...prev.profile.address, 
+          state : e.target.value
+        }
+       }
+    }));
+  }
+
+  const handleCountry = (e)=>{
+    console.log("country", e.target.value);
+    setPatientData((prev) => ({
+      ...prev,
+       profile : {
+        ...prev.profile,
+        address: {
+          ...prev.profile.address, 
+          country : e.target.value
+        }
+       }
+    }));
+  }
+
+  const handlePincode = (e)=>{
+    console.log("pincode", e.target.value);
+    setPatientData((prev) => ({
+      ...prev,
+       profile : {
+        ...prev.profile,
+        address: {
+          ...prev.profile.address, 
+          pincode : e.target.value
+        }
+       }
+    }));
+  }
   console.log(patientData);
-
-
-  // const handleNameChange = (e) => {
-  //   console.log("name", e.target.value);
-  //   console.log(e.target.value);
-  //   let name = e.target.value;
-  //   let nameArray = name.split(" ");
-  //   let firstName = nameArray[0];
-  //   let lastName = nameArray[1];
-
-  //   setPatientData((prev) => ({
-  //     ...prev,
-  //     firstName: firstName,
-  //     lastName: lastName,
-  //   }));
-  // };
-
-  // const handleGender = (e) => {
-  //   console.log("gender", e.target.value);
-  //   setPatientData((prev) => ({
-  //     ...prev,
-  //     gender: e.target.value,
-  //   }));
-  // };
-
-  // const handleBloodgroup = (e,value)=>{
-  //   console.log("gender", value);
-  //   setPatientData((prev) => ({
-  //     ...prev,
-  //     bloodType: value,
-  //   }));
-  // }
-
-  // const handleHouseNo = (e)=>{
-  //   console.log("area", e.target.value);
-  //   setPatientData((prev) => ({
-  //     ...prev,
-  //      profile : {
-  //       ...prev.profile,
-  //       address: {
-  //         ...prev.profile.address, 
-  //         area : e.target.value
-  //       }
-  //      }
-  //   }));
-  // }
-
-  // const handleLocality = (e)=>{
-  //   console.log("locality", e.target.value);
-  //   setPatientData((prev) => ({
-  //     ...prev,
-  //      profile : {
-  //       ...prev.profile,
-  //       address: {
-  //         ...prev.profile.address, 
-  //         locality : e.target.value
-  //       }
-  //      }
-  //   }));
-  // }
-
-  // const handleCity = (e)=>{
-  //   console.log("city", e.target.value);
-  //   setPatientData((prev) => ({
-  //     ...prev,
-  //      profile : {
-  //       ...prev.profile,
-  //       address: {
-  //         ...prev.profile.address, 
-  //         city : e.target.value
-  //       }
-  //      }
-  //   }));
-  // }
-
-  // const handleState = (e)=>{
-  //   console.log("state", e.target.value);
-  //   setPatientData((prev) => ({
-  //     ...prev,
-  //      profile : {
-  //       ...prev.profile,
-  //       address: {
-  //         ...prev.profile.address, 
-  //         state : e.target.value
-  //       }
-  //      }
-  //   }));
-  // }
-
-  // const handleCountry = (e)=>{
-  //   console.log("country", e.target.value);
-  //   setPatientData((prev) => ({
-  //     ...prev,
-  //      profile : {
-  //       ...prev.profile,
-  //       address: {
-  //         ...prev.profile.address, 
-  //         country : e.target.value
-  //       }
-  //      }
-  //   }));
-  // }
-
-  // const handlePincode = (e)=>{
-  //   console.log("pincode", e.target.value);
-  //   setPatientData((prev) => ({
-  //     ...prev,
-  //      profile : {
-  //       ...prev.profile,
-  //       address: {
-  //         ...prev.profile.address, 
-  //         pincode : e.target.value
-  //       }
-  //      }
-  //   }));
-  // }
 
 
 
@@ -289,16 +291,16 @@ const PatientProfile = () => {
               name={name}
               gender={gender}
               patientData={patientData}
-              // handleNameChange={handleNameChange}
-              // handleGender={handleGender}
-              // handleBloodgroup  ={handleBloodgroup}
-              // handleHouseNo = {handleHouseNo}
-              // handleLocality={handleLocality}
-              // handleCity= {handleCity}
-              // handleState = {handleState}
-              // handleCountry = {handleCountry}
-              // handlePincode = {handlePincode}
-              handleInput = {handleInput}
+              handleNameChange={handleNameChange}
+              handleGender={handleGender}
+              handleBloodgroup  ={handleBloodgroup}
+              handleHouseNo = {handleHouseNo}
+              handleLocality={handleLocality}
+              handleCity= {handleCity}
+              handleState = {handleState}
+              handleCountry = {handleCountry}
+              handlePincode = {handlePincode}
+              // handleInput = {handleInput}
             />
           </Box>
         </Box>

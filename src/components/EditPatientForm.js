@@ -9,18 +9,17 @@ const EditPatientForm = ({
   user,
   name,
   gender,
-//   patientData,
-//   handleNameChange,
-//   handleGender,
-//   handleBloodgroup,
-//   handleHouseNo,
-//   handleLocality,
-//   handleCity,
-//   handleState,
-//   handleCountry,
-//   handlePincode,
-patientData,
-  handleInput
+  patientData,
+  handleNameChange,
+  handleGender,
+  handleBloodgroup,
+  handleHouseNo,
+  handleLocality,
+  handleCity,
+  handleState,
+  handleCountry,
+  handlePincode,
+  // handleInput
 }) => {
   const genderOptions = [
     { value: "Male" },
@@ -28,45 +27,45 @@ patientData,
     { value: "Other" },
   ];
 
-  const handleInputChange = (e,name,value)=>{
-handleInput(e,name,value)
-  }
+//   const handleInputChange = (e,name,value)=>{
+// handleInput(e,name,value)
+//   }
 
-//   const handleInputNameChange = (e) => {
-//     handleNameChange(e);
-//   };
+  const handleInputNameChange = (e) => {
+    handleNameChange(e);
+  };
 
-//   const handleGenderChange = (e) => {
-//     handleGender(e);
-//   };
+  const handleGenderChange = (e) => {
+    handleGender(e);
+  };
 
-//   const handleBloodgroupChange = (e, value) => {
-//     handleBloodgroup(e, value);
-//   };
+  const handleBloodgroupChange = (e, value) => {
+    handleBloodgroup(e, value);
+  };
 
-//   const handleHouseNoChange = (e) => {
-//     handleHouseNo(e);
-//   };
+  const handleHouseNoChange = (e) => {
+    handleHouseNo(e);
+  };
 
-//   const handleLocalityChange = (e) => {
-//     handleLocality(e);
-//   };
+  const handleLocalityChange = (e) => {
+    handleLocality(e);
+  };
 
-//   const handleCityChange = (e) => {
-//     handleCity(e);
-//   };
+  const handleCityChange = (e) => {
+    handleCity(e);
+  };
 
-//   const handleStateChange = (e) => {
-//     handleState(e);
-//   };
+  const handleStateChange = (e) => {
+    handleState(e);
+  };
 
-//   const handleCountryChange = (e) => {
-//     handleCountry(e);
-//   };
+  const handleCountryChange = (e) => {
+    handleCountry(e);
+  };
 
-//   const handlePincodeChange = (e) => {
-//     handlePincode(e);
-//   };
+  const handlePincodeChange = (e) => {
+    handlePincode(e);
+  };
 
   return (
     <>
@@ -77,8 +76,8 @@ handleInput(e,name,value)
           defaultValue={name}
           label="Name"
           name="name"
-        //   onChange={handleInputNameChange}
-        onChange={handleInputChange}
+          onChange={handleInputNameChange}
+        // onChange={handleInputChange}
         />
       </FormControl>
 
@@ -108,8 +107,8 @@ handleInput(e,name,value)
         label="Gender"
         name="gender"
         defaultValue={gender}
-        // onChange={handleGenderChange}
-        onChange={handleInputChange}
+        onChange={handleGenderChange}
+        // onChange={handleInputChange}
       >
         {genderOptions.map((option) => (
           <MenuItem key={option.value} value={option.value}>
@@ -134,9 +133,9 @@ handleInput(e,name,value)
         fullWidth
         options={bloodgroup}
         name="bloodType"
-        value={patientData.profile.bloodType}
-        // onChange={handleBloodgroupChange}
-        onChange={(e, newValue) => handleInputChange(e,"bloodType", newValue)}
+        value={patientData.profile.bloodType || null}
+        onChange={(e,value)=>handleBloodgroupChange(e,value)}
+        // onChange={(e, newValue) => handleInputChange(e,"bloodType", newValue)}
         renderInput={(params) => <TextField {...params} label="Bloodgroup" />}
       />
 
@@ -148,8 +147,8 @@ handleInput(e,name,value)
           defaultValue="House No./Street/Area"
           name="area"
           label="House No./Street/Area"
-        //   onChange={handleHouseNoChange}
-          onChange={handleInputChange}
+          onChange={handleHouseNoChange}
+          // onChange={handleInputChange}
         />
       </FormControl>
 
@@ -161,8 +160,8 @@ handleInput(e,name,value)
           name="locality"
           defaultValue="Colony/Street/ Locality"
           label="Colony/Street/ Locality"
-        //   onChange={handleLocalityChange}
-          onChange={handleInputChange}
+          onChange={handleLocalityChange}
+          // onChange={handleInputChange}
         />
       </FormControl>
 
@@ -174,8 +173,8 @@ handleInput(e,name,value)
           label="City"
           name="city"
           defaultValue="City"
-        //   onChange={handleCityChange}
-          onChange={handleInputChange}
+          onChange={handleCityChange}
+          // onChange={handleInputChange}
         />
       </FormControl>
 
@@ -187,8 +186,8 @@ handleInput(e,name,value)
           //   value="State"
           name="state"
           label="State"
-        //   onChange={handleStateChange}
-          onChange={handleInputChange}
+          onChange={handleStateChange}
+          // onChange={handleInputChange}
         />
       </FormControl>
 
@@ -200,8 +199,8 @@ handleInput(e,name,value)
           label="Country"
           name="country"
           defaultValue="country"
-        //   onChange={handleCountryChange}
-          onChange={handleInputChange}
+          onChange={handleCountryChange}
+          // onChange={handleInputChange}
         />
       </FormControl>
 
@@ -213,8 +212,8 @@ handleInput(e,name,value)
           label="Pincode"
           name="pincode"
           defaultValue="Pincode"
-        //   onChange={handlePincodeChange}
-        onChange={handleInputChange}
+          onChange={handlePincodeChange}
+        // onChange={handleInputChange}
         />
       </FormControl>
     </>
