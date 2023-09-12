@@ -4,7 +4,7 @@ import Typography from "@mui/material/Typography";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import Button from "@mui/material/Button";
 import EditPatientForm from "../components/EditPatientForm";
-import dayjs from 'dayjs';
+import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 
 // ------------------------------------styles----------------------------------------
@@ -151,16 +151,21 @@ const PatientProfile = () => {
 
   const handleDob = (value) => {
     value = dayjs(value);
+    const year = value.$y;
+    const month = (value.$M + 1).toString().padStart(2, '0'); 
+    const day = value.$D.toString().padStart(2, '0');
+    const formattedDate = `${year}-${month}-${day}`;
+    console.log(formattedDate);
     setPatientData((prev) => ({
       ...prev,
       profile: {
         ...prev.profile,
-        dob: value,
+        dob: formattedDate,
       },
     }));
   };
 
-  const handleBloodgroup = (e,value) => {
+  const handleBloodgroup = (e, value) => {
     console.log("bloodGroup", value);
     setPatientData((prev) => ({
       ...prev,

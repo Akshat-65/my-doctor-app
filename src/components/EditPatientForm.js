@@ -175,10 +175,14 @@ const EditPatientForm = ({
       </FormControl> */}
 
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <DemoContainer components={["DatePicker", "DatePicker"]}>
+        <DemoContainer components={["DatePicker", "DatePicker"]}  sx={{p:0, overflow:"visible"}}>
           <DatePicker
-            label="Controlled picker"
+          sx={{width:"100%"}}
+            disabled={!isEditable}
+            fullWidth
+            label="Date of birth"
             value={patientData.profile.dob}
+            format="DD-MM-YYYY"
             onChange={(newValue) => handleDobChange(newValue)}
           />
         </DemoContainer>
