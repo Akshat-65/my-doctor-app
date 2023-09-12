@@ -5,6 +5,8 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import Button from "@mui/material/Button";
 import EditPatientForm from "../components/EditPatientForm";
 import dayjs from "dayjs";
+import CameraAltIcon from "@mui/icons-material/CameraAlt";
+import CloseIcon from "@mui/icons-material/Close";
 import { useEffect, useState } from "react";
 
 // ------------------------------------styles----------------------------------------
@@ -39,8 +41,11 @@ const formWrapper = {
 
 const PatientProfile = () => {
   const user = JSON.parse(localStorage.getItem("userContext"));
-  console.log(user.user.contactNumber);
-  console.log(user.user);
+  console.log(user.user._id);
+  console.log(user);
+  const accessToken = user.accessToken;
+  console.log(accessToken);
+  const id = user.user._id;
 
   const [isEditable, setIsEditable] = useState(false);
   const [formIsValid, setFormIsValid] = useState({
@@ -69,14 +74,13 @@ const PatientProfile = () => {
   let firstName = nameArray[0];
   let lastName = nameArray[1];
   console.log(name);
-  const gender = user.user.gender[0].toUpperCase() + user.user.gender.slice(1);
 
   const patientDetails = {
     firstName: firstName,
     lastName: lastName,
-    gender: gender,
+    gender: user.user.gender,
     profile: {
-      dob: dayjs(user.user.profile.dob),
+      dob: dayjs(user.user.profile.dob).format("YYYY-MM-DD"),
       bloodType: user.user?.profile?.bloodType
         ? user.user.profile.bloodType
         : "",
@@ -126,6 +130,29 @@ const PatientProfile = () => {
       : "";
   };
 
+  const handleSave = async () => {
+    try {
+      const response = await fetch(
+        `http://my-doctors.net:8090/patients/${id}`,
+        {
+          method: "PATCH",
+          body: JSON.stringify(patientData),
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      const data = await response.json();
+      console.log(data);
+      setIsEditable(false);
+      // setDetails(initialState);
+      setPatientData(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleNameChange = (e) => {
     console.log("name", e.target.value);
     console.log(e.target.value);
@@ -143,24 +170,23 @@ const PatientProfile = () => {
 
   const handleGender = (e) => {
     console.log("gender", e.target.value);
+    let gender = e.target.value;
+    gender = gender.charAt(0).toLowerCase() + gender.substring(1);
+    console.log("changed", gender);
     setPatientData((prev) => ({
       ...prev,
-      gender: e.target.value,
+      gender: gender,
     }));
   };
 
   const handleDob = (value) => {
-    value = dayjs(value);
-    const year = value.$y;
-    const month = (value.$M + 1).toString().padStart(2, '0'); 
-    const day = value.$D.toString().padStart(2, '0');
-    const formattedDate = `${year}-${month}-${day}`;
-    console.log(formattedDate);
+    value = dayjs(value).format("YYYY-MM-DD");
+    console.log(value);
     setPatientData((prev) => ({
       ...prev,
       profile: {
         ...prev.profile,
-        dob: formattedDate,
+        dob: value,
       },
     }));
   };
@@ -314,6 +340,33 @@ const PatientProfile = () => {
     }));
   };
 
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  const handleCameraIconClick = () => {
+    // Trigger the file input dialog
+    document.getElementById("imageInput").click();
+  };
+
+  const handleImageChange = async (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setSelectedImage(URL.createObjectURL(file));
+      // try {
+      //   const response = await fetch(`http://my-doctors.net:8090/patients/${id}`, {
+      //     method: "PATCH",
+      //     body:selectedImage ,
+      //     headers: {
+      //       "Content-Type": "application/json; charset=UTF-8",
+      //       Authorization: `Bearer ${accessToken}`,
+      //     },
+      //   });
+
+      // } catch (error) {
+      //   console.error("An error occurred during the PATCH request:", error);
+      // }
+    }
+  };
+
   const drawerWidth = 240;
   return (
     <Box sx={{ display: "flex", mt: { xs: "12rem", md: "9rem" } }}>
@@ -334,7 +387,73 @@ const PatientProfile = () => {
 
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>
             <Box>
+              {/* 
+              {selectedImage ? (
+                <img src={selectedImage} alt="Selected" style={{ width: '140px', height: '140px', borderRadius: '50%' }} />
+              ) : (
+                <div>
+                  <CameraAltIcon
+                    onClick={handleCameraIconClick}
+                    sx={{
+                      color: 'rgb(63, 81, 181)',
+                      fontSize: '30px',
+                      ml: '20.3%',
+                      mt: '0.5%',
+                      cursor: 'pointer',
+                    }}
+                  />
+                  <CloseIcon
+                    sx={{
+                      fontSize: '30px',
+                      color: 'rgb(128, 128, 128)',
+                      mt: '0.5%',
+                      cursor: 'pointer',
+                    }}
+                  />
+                </div>
+              )}
+              <input
+                type="file"
+                id="imageInput"
+                accept="image/*"
+                style={{ display: 'none' }}
+                onChange={handleImageChange}
+              /> */}
+
               <AccountCircle color="disabled" sx={{ fontSize: "140px" }} />
+              {isEditable && (
+                <>
+                  <Box sx={{ display: "flex" }}>
+                    <CameraAltIcon
+                      onClick={handleCameraIconClick}
+                      sx={{
+                        color: "rgb(63, 81, 181)",
+                        fontSize: "30px",
+                        ml: "20.3%",
+                        mr:"0.4rem",
+                        mt: "-0.5rem",
+                        cursor: "pointer",
+                      }}
+                    />
+                    <CloseIcon
+                      sx={{
+                        fontSize: "30px",
+                        color: "rgb(128, 128, 128)",
+                        mt: "-0.5rem",
+                      }}
+                    />
+                  </Box>
+                </>
+              )}
+
+              <input
+                type="file"
+                id="imageInput"
+                accept="image/*"
+                style={{ display: "none" }}
+                onChange={handleImageChange}
+              />
+
               <Typography variant="body2" sx={iconDescriptionStyles}>
                 JPEG, JPG or PNG image less than 1 MB
               </Typography>
@@ -347,8 +466,8 @@ const PatientProfile = () => {
               {isEditable ? (
                 <Button
                   variant="contained"
-                  sx={{ mt: "5px" }}
-                  onClick={handleEdit}
+                  sx={{ mt: "5px" ,backgroundColor:'rgb(63, 81, 181)'}}
+                  onClick={handleSave}
                   disabled={!formValidity}
                 >
                   Save
@@ -356,7 +475,7 @@ const PatientProfile = () => {
               ) : (
                 <Button
                   variant="contained"
-                  sx={{ mt: "5px" }}
+                  sx={{ mt: "5px", backgroundColor:'rgb(63, 81, 181)' }}
                   onClick={handleEdit}
                 >
                   Edit
@@ -369,7 +488,7 @@ const PatientProfile = () => {
             <EditPatientForm
               user={user}
               name={name}
-              gender={gender}
+              // gender={gender}
               patientData={patientData}
               handleNameChange={handleNameChange}
               handleGender={handleGender}

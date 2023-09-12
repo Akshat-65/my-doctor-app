@@ -108,6 +108,7 @@ const EditPatientForm = ({
   };
 
   console.log("vhgsahs", patientData);
+  console.log("vhgsahs", patientData.profile.dob);
 
   return (
     <>
@@ -153,7 +154,7 @@ const EditPatientForm = ({
         label="Gender"
         name="gender"
         disabled={!isEditable}
-        defaultValue={gender}
+        defaultValue={user.user.gender[0].toUpperCase() + user.user.gender.slice(1)}
         onChange={handleGenderChange}
       >
         {genderOptions.map((option) => (
@@ -163,17 +164,6 @@ const EditPatientForm = ({
         ))}
       </TextField>
 
-      {/* <FormControl>
-        <InputLabel htmlFor="patient-name">Date of birth</InputLabel>
-        <OutlinedInput
-          id="patient-name"
-          name="dob"
-          disabled={!isEditable}
-          value={user.user.profile.dob}
-          label="Date of birth"
-        />
-      </FormControl> */}
-
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DemoContainer components={["DatePicker", "DatePicker"]}  sx={{p:0, overflow:"visible"}}>
           <DatePicker
@@ -181,7 +171,7 @@ const EditPatientForm = ({
             disabled={!isEditable}
             fullWidth
             label="Date of birth"
-            value={patientData.profile.dob}
+            value={dayjs(patientData.profile.dob)}
             format="DD-MM-YYYY"
             onChange={(newValue) => handleDobChange(newValue)}
           />
