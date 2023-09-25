@@ -2,9 +2,10 @@ import Box from "@mui/material/Box";
 import SideNav from "../components/SideNav";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
-import CheckIcon from '@mui/icons-material/Check';
-import CloseIcon from '@mui/icons-material/Close';
+import CheckIcon from "@mui/icons-material/Check";
+import CloseIcon from "@mui/icons-material/Close";
 import Button from "@mui/material/Button";
+import Alert from "@mui/material/Alert";
 import { useState } from "react";
 
 const changePasswordHeaderWrapper = {
@@ -32,15 +33,16 @@ const ChangePassword = () => {
     specialCharacter: "",
     number: "",
     minimumLength: "",
-    matching: ""
+    matching: "",
   };
 
   const [passwordIsValid, setPasswordIsValid] = useState(passwordInitialState);
   const [passwordDetails, setPasswordDetails] = useState({
-    currentPassword:"",
+    currentPassword: "",
     password: "",
-    confirmPassword:""
+    confirmPassword: "",
   });
+  const [showAlert, setShowAlert] = useState(false);
 
   const passwordRequirements = [
     { label: "A lowercase letter.", key: "lowercase" },
@@ -70,28 +72,28 @@ const ChangePassword = () => {
     return <CloseIcon color="error" fontSize="small" />;
   };
 
-let samePassword = false;
-if(passwordDetails.currentPassword===passwordDetails.password){
-samePassword = true;
-}
+  let samePassword = false;
+  if (passwordDetails.currentPassword === passwordDetails.password) {
+    samePassword = true;
+  }
 
   const formValidity =
-  passwordDetails.currentPassword && 
-  passwordIsValid.lowercase === "checked" &&
-  passwordIsValid.uppercase === "checked" &&
-  passwordIsValid.specialCharacter === "checked" &&
-  passwordIsValid.number === "checked" &&
-  passwordIsValid.minimumLength === "checked" &&
-  passwordIsValid.matching === "checked" &&
-  !samePassword;
+    passwordDetails.currentPassword &&
+    passwordIsValid.lowercase === "checked" &&
+    passwordIsValid.uppercase === "checked" &&
+    passwordIsValid.specialCharacter === "checked" &&
+    passwordIsValid.number === "checked" &&
+    passwordIsValid.minimumLength === "checked" &&
+    passwordIsValid.matching === "checked" &&
+    !samePassword;
 
-  const handleCurrentPassword = (e)=>{
+  const handleCurrentPassword = (e) => {
     const value = e.target.value;
     setPasswordDetails((prevState) => ({
       ...prevState,
       currentPassword: value,
     }));
-  }
+  };
 
   const handlePassword = (e) => {
     const value = e.target.value;
@@ -188,15 +190,15 @@ samePassword = true;
     }
   };
 
-  const handleChangePasswordSubmit = async()=>{
+  const handleChangePasswordSubmit = async () => {
     try {
       const response = await fetch(
         `http://my-doctors.net:8090/patients/${id}`,
         {
           method: "PATCH",
           body: JSON.stringify({
-            oldPassword:passwordDetails.currentPassword,
-            newPassword:passwordDetails.password
+            oldPassword: passwordDetails.currentPassword,
+            newPassword: passwordDetails.password,
           }),
           headers: {
             "Content-type": "application/json; charset=UTF-8",
@@ -206,12 +208,12 @@ samePassword = true;
       );
       const data = await response.json();
       console.log(data);
-      console.log("changed successfully")
+      console.log("changed successfully");
+      setShowAlert(true);
     } catch (error) {
       console.log(error);
     }
-  }
-
+  };
 
   return (
     <Box sx={{ display: "flex", mt: { xs: "12rem", md: "9rem" } }}>
@@ -227,6 +229,22 @@ samePassword = true;
           component="section"
           sx={{ pl: "1rem", pr: "1rem", ml: { md: "30%" }, mt: { md: "3%" } }}
         >
+          {showAlert && (
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "flex-start",
+              
+                width: { xs: "92%", md: "48%" },
+                mb:"20px"
+              }}
+            >
+              <Alert severity="success" sx={{ width: "100%", mt: "1rem" }}>
+                Password changes successfully
+              </Alert>
+            </Box>
+          )}
+
           <Box sx={changePasswordHeaderWrapper}>
             <Typography variant="h4" sx={changePasswordStyle}>
               Change Password
@@ -263,9 +281,18 @@ samePassword = true;
               onChange={handleConfirmPassword}
               sx={{ maxWidth: "500px" }}
             />
-          <Box>
-          {passwordRequirements.map(({ label, key }) => (
-                <Box key={key} sx={{ display: "flex", alignItems: "center", gap:'8px', mt:'4px', mb:"4px"}}>
+            <Box>
+              {passwordRequirements.map(({ label, key }) => (
+                <Box
+                  key={key}
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "8px",
+                    mt: "4px",
+                    mb: "4px",
+                  }}
+                >
                   {getRequirementIcon(passwordIsValid[key])}
                   <Typography
                     variant="body1"
@@ -276,17 +303,20 @@ samePassword = true;
                   </Typography>
                 </Box>
               ))}
-          </Box>
-          <Box sx={{ mb: "1rem" }}>
-          <Button
-            variant="contained"
-            disabled={!formValidity}
-            sx={{backgroundColor:'rgb(63, 81, 181)', width:{xs:"100%", sm:"48%"}}}
-            onClick={handleChangePasswordSubmit}
-          >
-            SUBMIT
-          </Button>
-        </Box>
+            </Box>
+            <Box sx={{ mb: "1rem" }}>
+              <Button
+                variant="contained"
+                disabled={!formValidity}
+                sx={{
+                  backgroundColor: "rgb(63, 81, 181)",
+                  width: { xs: "100%", sm: "48%" },
+                }}
+                onClick={handleChangePasswordSubmit}
+              >
+                SUBMIT
+              </Button>
+            </Box>
           </Box>
         </Box>
       </Box>
