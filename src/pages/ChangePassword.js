@@ -21,6 +21,11 @@ const changePasswordStyle = {
 const ChangePassword = () => {
   const drawerWidth = 240;
 
+  const user = JSON.parse(localStorage.getItem("userContext"));
+  console.log(user);
+  const id = user.user._id;
+  const accessToken = user.accessToken;
+
   const passwordInitialState = {
     lowercase: "",
     uppercase: "",
@@ -32,6 +37,7 @@ const ChangePassword = () => {
 
   const [passwordIsValid, setPasswordIsValid] = useState(passwordInitialState);
   const [passwordDetails, setPasswordDetails] = useState({
+    currentPassword:"",
     password: "",
     confirmPassword:""
   });
@@ -63,6 +69,29 @@ const ChangePassword = () => {
   const CustomRadioButtonCrossIcon = () => {
     return <CloseIcon color="error" fontSize="small" />;
   };
+
+let samePassword = false;
+if(passwordDetails.currentPassword===passwordDetails.password){
+samePassword = true;
+}
+
+  const formValidity =
+  passwordDetails.currentPassword && 
+  passwordIsValid.lowercase === "checked" &&
+  passwordIsValid.uppercase === "checked" &&
+  passwordIsValid.specialCharacter === "checked" &&
+  passwordIsValid.number === "checked" &&
+  passwordIsValid.minimumLength === "checked" &&
+  passwordIsValid.matching === "checked" &&
+  !samePassword;
+
+  const handleCurrentPassword = (e)=>{
+    const value = e.target.value;
+    setPasswordDetails((prevState) => ({
+      ...prevState,
+      currentPassword: value,
+    }));
+  }
 
   const handlePassword = (e) => {
     const value = e.target.value;
@@ -140,7 +169,6 @@ const ChangePassword = () => {
     }));
   };
 
-
   const handleConfirmPassword = (e) => {
     let confirmPassword = e.target.value;
     setPasswordDetails((prevState) => ({
@@ -159,6 +187,30 @@ const ChangePassword = () => {
       }));
     }
   };
+
+  const handleChangePasswordSubmit = async()=>{
+    try {
+      const response = await fetch(
+        `http://my-doctors.net:8090/patients/${id}`,
+        {
+          method: "PATCH",
+          body: JSON.stringify({
+            oldPassword:passwordDetails.currentPassword,
+            newPassword:passwordDetails.password
+          }),
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      const data = await response.json();
+      console.log(data);
+      console.log("changed successfully")
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
 
   return (
@@ -190,6 +242,8 @@ const ChangePassword = () => {
               label="Current Password*"
               variant="outlined"
               type="password"
+              onChange={handleCurrentPassword}
+              value={passwordDetails.currentPassword}
               sx={{ maxWidth: "500px" }}
             />
             <TextField
@@ -198,6 +252,7 @@ const ChangePassword = () => {
               variant="outlined"
               type="password"
               onChange={handlePassword}
+              value={passwordDetails.password}
               sx={{ maxWidth: "500px" }}
             />
             <TextField
@@ -225,7 +280,9 @@ const ChangePassword = () => {
           <Box sx={{ mb: "1rem" }}>
           <Button
             variant="contained"
+            disabled={!formValidity}
             sx={{backgroundColor:'rgb(63, 81, 181)', width:{xs:"100%", sm:"48%"}}}
+            onClick={handleChangePasswordSubmit}
           >
             SUBMIT
           </Button>

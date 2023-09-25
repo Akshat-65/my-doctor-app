@@ -671,7 +671,7 @@ const PatientSignUp = () => {
           <>
             {passwordIsValid.isShowing === true &&
               passwordRequirements.map(({ label, key }) => (
-                <Box key={key} sx={{ display: "flex", alignItems: "center"}}>
+                <Box key={key} sx={{ display: "flex", alignItems: "center",mb: "0.5rem"}}>
                   {getRequirementIcon(passwordIsValid[key])}
                   <Typography
                     variant="body1"
