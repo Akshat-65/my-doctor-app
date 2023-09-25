@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import DoctorAccordion from "../components/DoctorAccordion";
 import DoctorDetailsCard from "../components/DoctorDetailsCard";
+import DoctorSlotsPanel from "../components/DoctorSlotsPanel";
 
 const doctorDetailsSectionStyles = {
   display: "grid",
@@ -93,16 +94,18 @@ const DoctorDetails = () => {
                 <DoctorDetailsCard doctorsDetailsData ={doctorsDetailsData}/>
               </Box>
               {/* No slots available Wrapper */}
-              <Box sx={{ mb: "1rem" }}>
-                <Typography variant="body1"> No slots Available</Typography>
-              </Box>
+              <Box sx={{mb: "1rem"}}>
+                {/* <Typography variant="body1"> No slots Available</Typography> */}
+                <DoctorSlotsPanel/>
+              </Box>                  
               {/* details wrapper */}
               <Box
                 sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  width: "90%",
+                  // display: "flex",
+                  // flexDirection: "column",
                   mb: "1.5rem",
+                  flexBasis:"100%",
+                  maxWidth:"100%"
                 }}
               >
                 <Typography sx={{ mb: "1rem" }}>

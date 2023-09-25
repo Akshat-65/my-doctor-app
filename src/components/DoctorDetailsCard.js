@@ -10,10 +10,9 @@ import { red } from "@mui/material/colors";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 
-
-const DoctorDetailsCard = ({doctorsDetailsData}) => {
-    return ( 
-        <Card
+const DoctorDetailsCard = ({ doctorsDetailsData }) => {
+  return (
+    <Card
       sx={{ p: "1rem", boxShadow: 2, minWidth: { xs: "250px", sm: "480px" } }}
     >
       <CardHeader
@@ -49,7 +48,7 @@ const DoctorDetailsCard = ({doctorsDetailsData}) => {
         </IconButton>
       </CardActions>
     </Card>
-     );
-}
- 
+  );
+};
+
 export default DoctorDetailsCard;

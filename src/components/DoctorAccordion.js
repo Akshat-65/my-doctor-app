@@ -28,7 +28,7 @@ const DoctorAccordion = ({ doctorsDetailsData }) => {
   }
 
   return (
-    <div>
+    <Box sx={{width:"100%"}}>
       <Accordion>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
@@ -238,7 +238,7 @@ const DoctorAccordion = ({ doctorsDetailsData }) => {
           </Box>
         </AccordionDetails>
       </Accordion>
-    </div>
+    </Box>
   );
 };
 
