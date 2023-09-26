@@ -4,7 +4,8 @@ import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import TabPanel from "@mui/lab/TabPanel";
 import TabContext from "@mui/lab/TabContext";
-import { shadows } from "@mui/system";
+import dayjs from "dayjs";
+import Button from "@mui/material/Button";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
@@ -46,7 +47,6 @@ const DoctorSlotsPanel = () => {
   const allSlots = (
     <TabContext
       value={value}
-      sx={{ minWidth: { xs: "250px", sm: "480px" } }}
     >
       <Tabs
         value={value}
@@ -59,25 +59,39 @@ const DoctorSlotsPanel = () => {
           borderColor: "divider",
           borderRadius: "4px",
           boxShadow: 3,
+          minWidth: { xs: "280px", sm: "510px" }
         }}
       >
         {slots?.map((elem) => (
           <Tab
             key={elem.startTime}
-            label={elem.startTime}
+            // label={elem.startTime}
+            label={dayjs(elem.startTime).format('MMM D, YYYY')}
             value={elem.startTime}
           />
         ))}
       </Tabs>
       {slots?.map((elem) => (
-        <TabPanel key={elem.startTime} value={elem.startTime}>
-          {elem.startTime}
+        <TabPanel key={elem.startTime} value={elem.startTime} sx={{minWidth: { xs: "250px", sm: "480px" }}}>
+          {/* {elem.startTime} */}
+          <Button
+            variant="outlined"
+            sx={{
+              borderRadius: "25px",
+              color: "#3f51b5",
+              border: "1px solid #3f51b5",
+              fontSize: "0.8125rem",
+            }}
+            // onClick={() => navigate(`/doctors/${elem.id}`)}
+          >
+            {`${dayjs(elem.startTime).format('h:mm a' )} - ${dayjs(elem.endTime).format('h:mm a' )}`}
+          </Button>
         </TabPanel>
       ))}
     </TabContext>
   );
 
-  return <Box sx={{maxWidth:"47%"}}>{allSlots}</Box>;
+  return <Box>{allSlots}</Box>;
 };
 
 export default DoctorSlotsPanel;

@@ -7,7 +7,7 @@ import EditPatientForm from "../components/EditPatientForm";
 import dayjs from "dayjs";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import CloseIcon from "@mui/icons-material/Close";
-import { useEffect, useState } from "react";
+import {useState } from "react";
 
 // ------------------------------------styles----------------------------------------
 

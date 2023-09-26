@@ -93,18 +93,14 @@ const DoctorDetails = () => {
               <Box sx={{ display: "flex", mb: "1rem", maxWidth: "47%" }}>
                 <DoctorDetailsCard doctorsDetailsData ={doctorsDetailsData}/>
               </Box>
-              {/* No slots available Wrapper */}
-              <Box sx={{mb: "1rem"}}>
-                {/* <Typography variant="body1"> No slots Available</Typography> */}
+              {/* slots available Wrapper */}
+              <Box sx={{mb: "1rem", maxWidth: "47%"}}>
                 <DoctorSlotsPanel/>
               </Box>                  
               {/* details wrapper */}
               <Box
                 sx={{
-                  // display: "flex",
-                  // flexDirection: "column",
                   mb: "1.5rem",
-                  flexBasis:"100%",
                   maxWidth:"100%"
                 }}
               >
