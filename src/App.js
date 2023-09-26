@@ -1,16 +1,16 @@
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Header from "./components/Layout/Header";
 import Box from "@mui/material/Box";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import "./index.css";
 import LogIn from "./pages/LogIn";
 import  Home  from "./pages/Home";
 import Specialities from "./pages/Specialities";
 import DoctorDetails from "./pages/DoctorDetails";
 import SpecialityDetails from "./pages/SpecialityDetails";
-import { useState, useEffect } from "react";
 import PatientProfile from "./pages/PatientProfile";
 import PatientAppointments from "./pages/PatientAppointments";
 import ChangePassword from "./pages/ChangePassword";
+import BookAppointment from "./pages/BookAppointment";
+import "./index.css";
 
 function App() {
 
@@ -27,6 +27,7 @@ function App() {
           <Route path="/appointments" element={<PatientAppointments />} />
           <Route path="/myprofile" element={<PatientProfile />} />
           <Route path="/changepassword" element={<ChangePassword />} />
+          <Route path="/book-appointment" element={<BookAppointment />} />
         </Routes>
       </Box>
     </BrowserRouter>
