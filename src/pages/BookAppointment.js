@@ -9,11 +9,29 @@ import Typography from "@mui/material/Typography";
 import PatientDetails from "../components/PatientDetails";
 import PatientAppointmentDetails from "../components/PatientAppointmentDetails";
 import PatientPaymentDetails from "../components/PatientPaymentDetails";
+import { useState } from "react";
+const drawerWidth = 240;
+
+const mainComponentStyles = {
+    p: { xs: "4px", sm: "24px", md: "32px" },
+    pt: "8px",
+    flexGrow: 1,
+    width: { sm: `calc(100% - ${drawerWidth}px)` },
+  }
+
+  const detailsWrapper= {
+    ml: "auto",
+    mr: "auto",
+    pl: { xs: "16px", sm: "24px" },
+    pr: { xs: "16px", sm: "24px" },
+    maxWidth: { sm: "600px" },
+  }
+
 
 const BookAppointment = () => {
-  const drawerWidth = 240;
+ 
   const steps = ["Patient Details", "Appointment Details", "Payment Details"];
-  const [activeStep, setActiveStep] = React.useState(0);
+  const [activeStep, setActiveStep] = useState(0);
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -37,12 +55,7 @@ const BookAppointment = () => {
       <SideNav />
       <Box
         component="main"
-        sx={{
-          p: { xs: "4px", sm: "24px", md: "32px" },
-          pt: "8px",
-          flexGrow: 1,
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-        }}
+        sx={mainComponentStyles}
       >
         <Stepper activeStep={activeStep} sx={{ p: { xs: "16px", sm: "24px" } }}>
           {steps.map((label) => {
@@ -60,13 +73,7 @@ const BookAppointment = () => {
           })}
         </Stepper>
         <Box
-          sx={{
-            ml: "auto",
-            mr: "auto",
-            pl: { xs: "16px", sm: "24px" },
-            pr: { xs: "16px", sm: "24px" },
-            maxWidth: { sm: "600px" },
-          }}
+          sx={detailsWrapper}
         >
           <Typography variant="h4">
             {activeStep === 0
