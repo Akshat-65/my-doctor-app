@@ -34,11 +34,13 @@ const BookAppointment = ({ slotsDetail }) => {
   const [patientContactInput, setPatientContactInput] = useState("");
   const [appointmentFor, setAppointmentFor] = useState("myself");
   const [isDisabled, setIsDisabled] = useState(true);
+  const [nextButtonEnabled,setNextButtonEnabled ] = useState(false);
   const [formIsValid, setFormIsValid] = useState({
     name: true,
     contactNumber: true,
   });
 
+  
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
@@ -48,12 +50,12 @@ const BookAppointment = ({ slotsDetail }) => {
   };
 
   const handlePatientNameChange = (e) => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
     setPatientNameInput(e.target.value);
   };
 
   const handlePatientContactChange = (e) => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
     setPatientContactInput(e.target.value);
   };
 
@@ -67,9 +69,8 @@ const BookAppointment = ({ slotsDetail }) => {
       setFormIsValid((prevState) => ({
         ...prevState,
         name: true,
-        contactNumber:true
+        contactNumber: true,
       }));
-
     } else {
       setIsDisabled(false);
     }
@@ -87,6 +88,7 @@ const BookAppointment = ({ slotsDetail }) => {
       ...prevState,
       name: !isEmpty && !startsWithNumber,
     }));
+    setNextButtonEnabled(!isEmpty && !startsWithNumber)
   };
 
   const validateContactNumber = (e) => {
@@ -95,6 +97,7 @@ const BookAppointment = ({ slotsDetail }) => {
       ...prevState,
       contactNumber: check,
     }));
+    setNextButtonEnabled(check)
   };
 
   let showDetails;
@@ -103,16 +106,16 @@ const BookAppointment = ({ slotsDetail }) => {
       <PatientDetails
         slotsDetail={slotsDetail}
         handlePatientNameChange={handlePatientNameChange}
-        handlePatientContactChange = {handlePatientContactChange}
-        patientContactInput ={patientContactInput}
+        handlePatientContactChange={handlePatientContactChange}
+        patientContactInput={patientContactInput}
         patientNameInput={patientNameInput}
         appointmentFor={appointmentFor}
         isDisabled={isDisabled}
         handlePatientChange={handlePatientChange}
-        handlePatientNumberValues = {handlePatientNumberValues}
-        validatePatientName = {validatePatientName}
-        validateContactNumber= {validateContactNumber}
-        formIsValid= {formIsValid}
+        handlePatientNumberValues={handlePatientNumberValues}
+        validatePatientName={validatePatientName}
+        validateContactNumber={validateContactNumber}
+        formIsValid={formIsValid}
       />
     );
   } else if (activeStep === 1) {
@@ -168,6 +171,7 @@ const BookAppointment = ({ slotsDetail }) => {
             </Button>
 
             <Button
+              disabled={!nextButtonEnabled}
               variant="contained"
               sx={{ backgroundColor: "rgb(63, 81, 181)" }}
               onClick={handleNext}

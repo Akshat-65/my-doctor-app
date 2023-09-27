@@ -6,8 +6,6 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import InputLabel from "@mui/material/InputLabel";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
-import { useEffect, useState } from "react";
 
 const wrapper = {
   border: "0.5px solid lightGrey",
@@ -48,7 +46,7 @@ const PatientDetails = ({
 }) => {
   const user = JSON.parse(localStorage.getItem("userContext"));
   //   console.log("patientDetail", user.user);
-  console.log(patientNameInput);
+//   console.log(patientNameInput);
 
   const name = user.user?.lastName
     ? user.user.firstName + " " + user.user.lastName
