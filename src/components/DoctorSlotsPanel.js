@@ -11,7 +11,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 
-const DoctorSlotsPanel = () => {
+const DoctorSlotsPanel = ({ handleDoctorSlotDetails }) => {
   const [slots, setSlots] = useState();
   const [value, setValue] = useState();
   const [loggedIn, setLoggedIn] = useState(true);
@@ -51,12 +51,15 @@ const DoctorSlotsPanel = () => {
 
   const handleBookAppointment = () => {
     if (user) {
+      handleDoctorSlotDetails(slots[0]);
       navigate("/book-appointment");
       setLoggedIn(true);
     } else {
       setLoggedIn(false);
     }
   };
+
+  //   console.log(slots);
 
   const allSlots = (
     <TabContext value={value}>
@@ -115,9 +118,12 @@ const DoctorSlotsPanel = () => {
       {!loggedIn && (
         <Box>
           <Typography sx={{ color: "red" }}>
-            Please <Link to="/login" style={{ textDecoration: "none" }}>Sign in</Link> /{" "}
-            <Link style={{ textDecoration: "none" }}>Register</Link> to book an
-            appointment.
+            Please{" "}
+            <Link to="/login" style={{ textDecoration: "none" }}>
+              Sign in
+            </Link>{" "}
+            / <Link style={{ textDecoration: "none" }}>Register</Link> to book
+            an appointment.
           </Typography>
         </Box>
       )}

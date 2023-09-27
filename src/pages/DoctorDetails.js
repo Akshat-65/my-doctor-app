@@ -16,7 +16,7 @@ const doctorDetailsSectionStyles = {
   pr: "1rem",
 };
 
-const DoctorDetails = () => {
+const DoctorDetails = ({handleDoctorSlotDetails}) => {
   const [doctorsDetailsData, setDoctorsDetailsData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const drawerWidth = 240;
@@ -95,7 +95,7 @@ const DoctorDetails = () => {
               </Box>
               {/* slots available Wrapper */}
               <Box sx={{mb: "1rem", maxWidth: "47%"}}>
-                <DoctorSlotsPanel/>
+                <DoctorSlotsPanel handleDoctorSlotDetails = {handleDoctorSlotDetails}/>
               </Box>                  
               {/* details wrapper */}
               <Box

@@ -168,7 +168,7 @@ const PatientSignUp = () => {
 
   const handleMobileValidity = (e) => {
     console.log(e.target.value);
-    console.log("mobile");
+    // console.log("mobile");
     const check = e.target.value.trim().length === 10 ? true : false;
     setFormIsValid((prevState) => ({
       ...prevState,
