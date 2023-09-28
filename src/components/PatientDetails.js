@@ -42,15 +42,11 @@ const PatientDetails = ({
   handlePatientChange,
   validatePatientName,
   validateContactNumber,
-  formIsValid
+  formIsValid,
+  user,
+  name
 }) => {
-  const user = JSON.parse(localStorage.getItem("userContext"));
-  //   console.log("patientDetail", user.user);
-//   console.log(patientNameInput);
 
-  const name = user.user?.lastName
-    ? user.user.firstName + " " + user.user.lastName
-    : user.user?.firstName || " ";
 
   console.log(slotsDetail);
   return (

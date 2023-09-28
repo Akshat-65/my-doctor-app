@@ -28,13 +28,22 @@ const detailsWrapper = {
 };
 
 const BookAppointment = ({ slotsDetail }) => {
+
+  const user = JSON.parse(localStorage.getItem("userContext"));
+  //   console.log("patientDetail", user.user);
+//   console.log(patientNameInput);
+
+  const name = user.user?.lastName
+    ? user.user.firstName + " " + user.user.lastName
+    : user.user?.firstName || " ";
+  
   const steps = ["Patient Details", "Appointment Details", "Payment Details"];
   const [activeStep, setActiveStep] = useState(0);
   const [patientNameInput, setPatientNameInput] = useState("");
   const [patientContactInput, setPatientContactInput] = useState("");
   const [appointmentFor, setAppointmentFor] = useState("myself");
   const [isDisabled, setIsDisabled] = useState(true);
-  const [nextButtonEnabled,setNextButtonEnabled ] = useState(false);
+  const [nextButtonEnabled,setNextButtonEnabled ] = useState(true);
   const [formIsValid, setFormIsValid] = useState({
     name: true,
     contactNumber: true,
@@ -71,11 +80,14 @@ const BookAppointment = ({ slotsDetail }) => {
         name: true,
         contactNumber: true,
       }));
+      setNextButtonEnabled(true);
+      // console.log("test",nextButtonEnabled)
       setPatientNameInput("");
       setPatientContactInput("");
 
     } else {
       setIsDisabled(false);
+      setNextButtonEnabled(false);
     }
   };
 
@@ -91,7 +103,7 @@ const BookAppointment = ({ slotsDetail }) => {
       ...prevState,
       name: !isEmpty && !startsWithNumber,
     }));
-    setNextButtonEnabled(!isEmpty && !startsWithNumber)
+    setNextButtonEnabled(!isEmpty && !startsWithNumber && patientContactInput);
   };
 
   const validateContactNumber = (e) => {
@@ -100,7 +112,7 @@ const BookAppointment = ({ slotsDetail }) => {
       ...prevState,
       contactNumber: check,
     }));
-    setNextButtonEnabled(check)
+    setNextButtonEnabled(check && patientNameInput);
   };
 
   let showDetails;
@@ -119,6 +131,8 @@ const BookAppointment = ({ slotsDetail }) => {
         validatePatientName={validatePatientName}
         validateContactNumber={validateContactNumber}
         formIsValid={formIsValid}
+        user = {user}
+        name = {name}
       />
     );
   } else if (activeStep === 1) {

@@ -1,5 +1,4 @@
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
@@ -8,7 +7,6 @@ import Button from "@mui/material/Button";
 import Rating from "@mui/material/Rating";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
-import StarIcon from "@mui/icons-material/Star";
 import { useState } from "react";
 const DoctorAccordion = ({ doctorsDetailsData }) => {
   const [value, setValue] = useState(2);
@@ -21,7 +19,6 @@ const DoctorAccordion = ({ doctorsDetailsData }) => {
     4: "Happy",
     5: "Very happy",
   };
-
 
   function getLabelText(value) {
     return `${value} Star${value !== 1 ? "s" : ""}, ${labels[value]}`;
@@ -225,7 +222,7 @@ const DoctorAccordion = ({ doctorsDetailsData }) => {
                     p: "0.3rem 2.5rem",
                     fontWeight: "500",
                     ":hover": {
-                      bgcolor: "#3F51B5", // theme.palette.primary.main
+                      bgcolor: "#3F51B5", 
                       color: "white",
                     },
                   }}
