@@ -71,6 +71,9 @@ const BookAppointment = ({ slotsDetail }) => {
         name: true,
         contactNumber: true,
       }));
+      setPatientNameInput("");
+      setPatientContactInput("");
+
     } else {
       setIsDisabled(false);
     }
