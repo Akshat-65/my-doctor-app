@@ -19,12 +19,12 @@ const PatientAppointmentDetails = ({
   slotsDetail,
   name,
 }) => {
+
   const user = JSON.parse(localStorage.getItem("userContext"));
   console.log(user);
 //   console.log("test", slotsDetail);
 
   const loggedInPatientName = name;
-
   const patientName = patientNameInput ? patientNameInput : loggedInPatientName;
   const patientContact = patientContactInput
     ? patientContactInput

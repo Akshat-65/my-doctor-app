@@ -47,6 +47,7 @@ const BookAppointment = ({ slotsDetail }) => {
   const [activeStep, setActiveStep] = useState(0);
   const [patientNameInput, setPatientNameInput] = useState("");
   const [patientContactInput, setPatientContactInput] = useState("");
+  const [cardNumber, setCardNumber] = useState();
   const [appointmentFor, setAppointmentFor] = useState("myself");
   const [isDisabled, setIsDisabled] = useState(true);
   const [nextButtonEnabled, setNextButtonEnabled] = useState(true);
@@ -93,6 +94,10 @@ const BookAppointment = ({ slotsDetail }) => {
       setIsDisabled(false);
       setNextButtonEnabled(false);
     }
+  };
+
+  const handleCreditCardNumber = (e) => {
+    setCardNumber(e.target.value);
   };
 
   useEffect(() => {
@@ -155,7 +160,10 @@ const BookAppointment = ({ slotsDetail }) => {
   } else {
     showDetails = (
       <Box Box sx={showDetailsWrapper}>
-        <PatientPaymentDetails />
+        <PatientPaymentDetails
+          handleCreditCardNumber={handleCreditCardNumber}
+          cardNumber={cardNumber}
+        />
       </Box>
     );
   }
@@ -215,7 +223,7 @@ const BookAppointment = ({ slotsDetail }) => {
               {activeStep === 2
                 ? "MAKE PAYMENT"
                 : activeStep === 1
-                ? "CONFIRM PAYMENT"
+                ? "CONFIRM AND PROCEED"
                 : "NEXT"}
             </Button>
           </Box>
