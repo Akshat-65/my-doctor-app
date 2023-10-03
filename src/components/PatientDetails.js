@@ -7,13 +7,6 @@ import InputLabel from "@mui/material/InputLabel";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import FormControl from "@mui/material/FormControl";
 
-const wrapper = {
-  border: "0.5px solid lightGrey",
-  p: "1.5rem",
-  mt: "1rem",
-  minHeight: "40vh",
-};
-
 const informationWrapper = {
   width: "100%",
   ml: "auto",
@@ -51,7 +44,6 @@ const PatientDetails = ({
   console.log(slotsDetail);
   return (
     <>
-      <Box sx={wrapper}>
         <Typography component="span">The appointment is for:</Typography>
 
         <Box>
@@ -132,7 +124,6 @@ const PatientDetails = ({
           <br />
           <br />
         </Box>
-      </Box>
     </>
   );
 };

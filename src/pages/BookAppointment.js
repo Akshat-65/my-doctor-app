@@ -12,6 +12,13 @@ import PatientPaymentDetails from "../components/PatientPaymentDetails";
 import { useEffect, useState } from "react";
 const drawerWidth = 240;
 
+const showDetailsWrapper = {
+  border: "0.5px solid lightGrey",
+  p: "1.5rem",
+  mt: "1rem",
+  minHeight: "40vh",
+};
+
 const mainComponentStyles = {
   p: { xs: "4px", sm: "24px", md: "32px" },
   pt: "8px",
@@ -28,28 +35,26 @@ const detailsWrapper = {
 };
 
 const BookAppointment = ({ slotsDetail }) => {
-
   const user = JSON.parse(localStorage.getItem("userContext"));
   //   console.log("patientDetail", user.user);
-//   console.log(patientNameInput);
+  //   console.log(patientNameInput);
 
   const name = user.user?.lastName
     ? user.user.firstName + " " + user.user.lastName
     : user.user?.firstName || " ";
-  
+
   const steps = ["Patient Details", "Appointment Details", "Payment Details"];
   const [activeStep, setActiveStep] = useState(0);
   const [patientNameInput, setPatientNameInput] = useState("");
   const [patientContactInput, setPatientContactInput] = useState("");
   const [appointmentFor, setAppointmentFor] = useState("myself");
   const [isDisabled, setIsDisabled] = useState(true);
-  const [nextButtonEnabled,setNextButtonEnabled ] = useState(true);
+  const [nextButtonEnabled, setNextButtonEnabled] = useState(true);
   const [formIsValid, setFormIsValid] = useState({
     name: true,
     contactNumber: true,
   });
 
-  
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
@@ -84,7 +89,6 @@ const BookAppointment = ({ slotsDetail }) => {
       // console.log("test",nextButtonEnabled)
       setPatientNameInput("");
       setPatientContactInput("");
-
     } else {
       setIsDisabled(false);
       setNextButtonEnabled(false);
@@ -118,27 +122,42 @@ const BookAppointment = ({ slotsDetail }) => {
   let showDetails;
   if (activeStep === 0) {
     showDetails = (
-      <PatientDetails
-        slotsDetail={slotsDetail}
-        handlePatientNameChange={handlePatientNameChange}
-        handlePatientContactChange={handlePatientContactChange}
-        patientContactInput={patientContactInput}
-        patientNameInput={patientNameInput}
-        appointmentFor={appointmentFor}
-        isDisabled={isDisabled}
-        handlePatientChange={handlePatientChange}
-        handlePatientNumberValues={handlePatientNumberValues}
-        validatePatientName={validatePatientName}
-        validateContactNumber={validateContactNumber}
-        formIsValid={formIsValid}
-        user = {user}
-        name = {name}
-      />
+      <Box Box sx={showDetailsWrapper}>
+        <PatientDetails
+          slotsDetail={slotsDetail}
+          handlePatientNameChange={handlePatientNameChange}
+          handlePatientContactChange={handlePatientContactChange}
+          patientContactInput={patientContactInput}
+          patientNameInput={patientNameInput}
+          appointmentFor={appointmentFor}
+          isDisabled={isDisabled}
+          handlePatientChange={handlePatientChange}
+          handlePatientNumberValues={handlePatientNumberValues}
+          validatePatientName={validatePatientName}
+          validateContactNumber={validateContactNumber}
+          formIsValid={formIsValid}
+          user={user}
+          name={name}
+        />
+      </Box>
     );
   } else if (activeStep === 1) {
-    showDetails = <PatientAppointmentDetails slotsDetail={slotsDetail} />;
+    showDetails = (
+      <Box Box sx={showDetailsWrapper}>
+        <PatientAppointmentDetails
+          patientNameInput={patientNameInput}
+          patientContactInput={patientContactInput}
+          slotsDetail={slotsDetail}
+          name={name}
+        />
+      </Box>
+    );
   } else {
-    showDetails = <PatientPaymentDetails />;
+    showDetails = (
+      <Box Box sx={showDetailsWrapper}>
+        <PatientPaymentDetails />
+      </Box>
+    );
   }
 
   return (
@@ -203,7 +222,6 @@ const BookAppointment = ({ slotsDetail }) => {
         </Box>
       </Box>
     </Box>
-    // </Box>
   );
 };
 

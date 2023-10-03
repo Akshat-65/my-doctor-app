@@ -12,7 +12,7 @@ import { Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 
 const DoctorSlotsPanel = ({ handleDoctorSlotDetails }) => {
-  const [slots, setSlots] = useState();
+  const [slots, setSlots] = useState([]);
   const [value, setValue] = useState();
   const [loggedIn, setLoggedIn] = useState(true);
 
@@ -49,9 +49,10 @@ const DoctorSlotsPanel = ({ handleDoctorSlotDetails }) => {
     handleAvailableSlots();
   }, [id]);
 
-  const handleBookAppointment = () => {
+  const handleBookAppointment = (index) => {
+    console.log(index);
     if (user) {
-      handleDoctorSlotDetails(slots[0]);
+      handleDoctorSlotDetails(slots[index]);
       navigate("/book-appointment");
       setLoggedIn(true);
     } else {
@@ -59,7 +60,7 @@ const DoctorSlotsPanel = ({ handleDoctorSlotDetails }) => {
     }
   };
 
-  //   console.log(slots);
+    console.log("test1",slots);
 
   const allSlots = (
     <TabContext value={value}>
@@ -86,7 +87,7 @@ const DoctorSlotsPanel = ({ handleDoctorSlotDetails }) => {
           />
         ))}
       </Tabs>
-      {slots?.map((elem) => (
+      {slots?.map((elem, index) => (
         <TabPanel
           key={elem.startTime}
           value={elem.startTime}
@@ -101,7 +102,7 @@ const DoctorSlotsPanel = ({ handleDoctorSlotDetails }) => {
               border: "1px solid #3f51b5",
               fontSize: "0.8125rem",
             }}
-            onClick={handleBookAppointment}
+            onClick={()=>handleBookAppointment(index)}
           >
             {`${dayjs(elem.startTime).format("h:mm a")} - ${dayjs(
               elem.endTime
@@ -114,7 +115,13 @@ const DoctorSlotsPanel = ({ handleDoctorSlotDetails }) => {
 
   return (
     <Box>
-      {allSlots}
+      {slots?.length === 0 ? (
+        <Box sx={{ mb: "1rem" }}>
+          <Typography variant="body1"> No slots Available</Typography>
+        </Box>
+      ) : (
+        allSlots
+      )}
       {!loggedIn && (
         <Box>
           <Typography sx={{ color: "red" }}>
