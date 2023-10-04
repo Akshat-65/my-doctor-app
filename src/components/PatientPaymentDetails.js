@@ -1,6 +1,5 @@
 import Box from "@mui/material/Box";
 import { Typography } from "@mui/material";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import InputLabel from "@mui/material/InputLabel";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
@@ -30,7 +29,21 @@ const months = [
   { value: 12, label: "12 | December" },
 ];
 
-const PatientPaymentDetails = ({ handleCreditCardNumber, cardNumber }) => {
+const formIsValidStyles = {
+    color: "#f44336",
+    fontSize: "0.80rem",
+    marginLeft: "1rem",
+    marginBottom: 0,
+    marginTop: "0.3rem",
+  };
+
+const PatientPaymentDetails = ({
+  cardNumber,
+  securityCode,
+  validateCardAndSecurity,
+  handleCardInput,
+  cardError
+}) => {
   const getMonth = new Date().getMonth() + 1;
   const getYear = new Date().getFullYear();
 
@@ -68,33 +81,37 @@ const PatientPaymentDetails = ({ handleCreditCardNumber, cardNumber }) => {
       <Box sx={{ width: "100%" }}>
         <FormControl
           fullWidth
-          // error={!formIsValid.name && !isDisabled }
+          error={!cardError.cardNumberError}
           sx={{
             mb: "2rem",
             mt: "2rem",
-            //   backgroundColor: isDisabled ? "lightgray" : "transparent",
           }}
         >
           <InputLabel htmlFor="card-number">
             Credit/Debit Card Number
           </InputLabel>
           <OutlinedInput
-            //   disabled={isDisabled}
             id="card-number"
-            //   value={isDisabled ? name : patientNameInput}
             label="Credit/Debit Card Number"
-            name="name"
+            name="card"
             placeholder="XXXX-XXXX-XXXX-XXXX"
-            onChange={handleCreditCardNumber}
-            //   onBlur={validatePatientName}
+            inputProps={{
+                maxLength: 16,
+              }}
+            value={cardNumber}
+
+            onChange={handleCardInput}
+            onBlur={validateCardAndSecurity}
           />
-          {/* {!formIsValid.name && !isDisabled && (
-              <p style={formIsValidStyles}>Please enter a valid patient name!</p>
-            )} */}
+          {!cardError.cardNumberError && (
+              <p style={formIsValidStyles}>Please enter a valid 16 digit card Number</p>
+            )}
         </FormControl>
       </Box>
 
-      <Box sx={{ display: "grid", gridTemplateColumns: "1fr 1fr", width:"100%" }}>
+      <Box
+        sx={{ display: "grid", gridTemplateColumns: "1fr 1fr", width: "100%" }}
+      >
         <Box>
           <TextField
             id="outlined-select-month"
@@ -131,29 +148,28 @@ const PatientPaymentDetails = ({ handleCreditCardNumber, cardNumber }) => {
       <Box sx={{ width: "100%" }}>
         <FormControl
           fullWidth
-          // error={!formIsValid.name && !isDisabled }
+          error={!cardError.securityNumberError}
           sx={{
             mb: "2rem",
             mt: "2rem",
-            //   backgroundColor: isDisabled ? "lightgray" : "transparent",
           }}
         >
-          <InputLabel htmlFor="security-code">
-            Security code
-          </InputLabel>
+          <InputLabel htmlFor="security-code">Security code</InputLabel>
           <OutlinedInput
-            //   disabled={isDisabled}
             id="security-code"
-            //   value={isDisabled ? name : patientNameInput}
             label="Security code"
-            name="name"
+            name="security"
             placeholder="XXXX"
-            onChange={handleCreditCardNumber}
-            //   onBlur={validatePatientName}
+            inputProps={{
+                maxLength: 4,
+              }}
+            value={securityCode}
+            onChange={handleCardInput}
+            onBlur={validateCardAndSecurity}
           />
-          {/* {!formIsValid.name && !isDisabled && (
-              <p style={formIsValidStyles}>Please enter a valid patient name!</p>
-            )} */}
+          {!cardError.securityNumberError&& (
+              <p style={formIsValidStyles}>Please enter a valid security code</p>
+            )}
         </FormControl>
       </Box>
     </Box>

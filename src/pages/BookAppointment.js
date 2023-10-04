@@ -10,6 +10,7 @@ import PatientDetails from "../components/PatientDetails";
 import PatientAppointmentDetails from "../components/PatientAppointmentDetails";
 import PatientPaymentDetails from "../components/PatientPaymentDetails";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 const drawerWidth = 240;
 
 const showDetailsWrapper = {
@@ -34,34 +35,86 @@ const detailsWrapper = {
   maxWidth: { sm: "600px" },
 };
 
-const BookAppointment = ({ slotsDetail }) => {
+const BookAppointment = ({ slotsDetail, handleBookingStatus }) => {
   const user = JSON.parse(localStorage.getItem("userContext"));
-  //   console.log("patientDetail", user.user);
-  //   console.log(patientNameInput);
+  // console.log("patientDetail", user.user);
+  // console.log(slotsDetail);
 
   const name = user.user?.lastName
     ? user.user.firstName + " " + user.user.lastName
     : user.user?.firstName || " ";
 
+  const navigate = useNavigate();
+
   const steps = ["Patient Details", "Appointment Details", "Payment Details"];
   const [activeStep, setActiveStep] = useState(0);
   const [patientNameInput, setPatientNameInput] = useState("");
   const [patientContactInput, setPatientContactInput] = useState("");
-  const [cardNumber, setCardNumber] = useState();
+  const [cardNumber, setCardNumber] = useState("");
+  const [securityCode, setSecurityCode] = useState("");
   const [appointmentFor, setAppointmentFor] = useState("myself");
   const [isDisabled, setIsDisabled] = useState(true);
   const [nextButtonEnabled, setNextButtonEnabled] = useState(true);
   const [formIsValid, setFormIsValid] = useState({
     name: true,
     contactNumber: true,
+    cardIsValid: false,
+    securityCodeIsValid: false,
   });
+  const [cardError, setCardError] = useState({
+    cardNumberError: true,
+    securityNumberError: true,
+  });
+
+  const cardDetails = {
+    cardNumber: cardNumber,
+    cvv: securityCode,
+    doctorId: slotsDetail?.doctorId,
+    expiryDate: "",
+    slotId: slotsDetail?._id,
+  };
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    if (activeStep === 2) {
+      handleMakePayment();
+    }
   };
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    setCardNumber("");
+    setSecurityCode("");
+    setFormIsValid((prevState) => ({
+      ...prevState,
+      securityCodeIsValid: false,
+      cardIsValid: false,
+    }));
+    setCardError((prevState) => ({
+      ...prevState,
+      cardNumberError: true,
+      securityNumberError: true,
+    }));
+  };
+
+  const handleMakePayment = async () => {
+    try {
+      const response = await fetch("http://my-doctors.net:8090/payments", {
+        method: "POST",
+        body: JSON.stringify(cardDetails),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      });
+      const data = await response.json();
+      console.log(data);
+      if (data.name === "Forbidden") {
+        handleBookingStatus(true);
+        navigate("/appointments");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handlePatientNameChange = (e) => {
@@ -87,7 +140,6 @@ const BookAppointment = ({ slotsDetail }) => {
         contactNumber: true,
       }));
       setNextButtonEnabled(true);
-      // console.log("test",nextButtonEnabled)
       setPatientNameInput("");
       setPatientContactInput("");
     } else {
@@ -96,8 +148,12 @@ const BookAppointment = ({ slotsDetail }) => {
     }
   };
 
-  const handleCreditCardNumber = (e) => {
-    setCardNumber(e.target.value);
+  const handleCardInput = (e) => {
+    if (e.target.name === "card") {
+      setCardNumber(e.target.value);
+    } else {
+      setSecurityCode(e.target.value);
+    }
   };
 
   useEffect(() => {
@@ -116,12 +172,36 @@ const BookAppointment = ({ slotsDetail }) => {
   };
 
   const validateContactNumber = (e) => {
-    const check = e.target.value.trim().length === 10 ? true : false;
+    const isValid = e.target.value.trim().length === 10 ? true : false;
     setFormIsValid((prevState) => ({
       ...prevState,
-      contactNumber: check,
+      contactNumber: isValid,
     }));
-    setNextButtonEnabled(check && patientNameInput);
+    setNextButtonEnabled(isValid && patientNameInput);
+  };
+
+  const validateCardAndSecurity = (e) => {
+    if (e.target.name === "card") {
+      const isValid = /^\d{16}$/.test(cardNumber);
+      setFormIsValid((prevState) => ({
+        ...prevState,
+        cardIsValid: isValid,
+      }));
+      setCardError((prevState) => ({
+        ...prevState,
+        cardNumberError: isValid,
+      }));
+    } else {
+      const isValid = /^\d{4}$/.test(securityCode);
+      setFormIsValid((prevState) => ({
+        ...prevState,
+        securityCodeIsValid: isValid,
+      }));
+      setCardError((prevState) => ({
+        ...prevState,
+        securityNumberError: isValid,
+      }));
+    }
   };
 
   let showDetails;
@@ -161,8 +241,11 @@ const BookAppointment = ({ slotsDetail }) => {
     showDetails = (
       <Box Box sx={showDetailsWrapper}>
         <PatientPaymentDetails
-          handleCreditCardNumber={handleCreditCardNumber}
           cardNumber={cardNumber}
+          handleCardInput={handleCardInput}
+          securityCode={securityCode}
+          validateCardAndSecurity={validateCardAndSecurity}
+          cardError={cardError}
         />
       </Box>
     );
@@ -215,7 +298,11 @@ const BookAppointment = ({ slotsDetail }) => {
             </Button>
 
             <Button
-              disabled={!nextButtonEnabled}
+              disabled={
+                activeStep === 2
+                  ? !formIsValid.cardIsValid || !formIsValid.securityCodeIsValid
+                  : !nextButtonEnabled
+              }
               variant="contained"
               sx={{ backgroundColor: "rgb(63, 81, 181)" }}
               onClick={handleNext}
@@ -224,7 +311,9 @@ const BookAppointment = ({ slotsDetail }) => {
                 ? "MAKE PAYMENT"
                 : activeStep === 1
                 ? "CONFIRM AND PROCEED"
-                : "NEXT"}
+                : activeStep === 0
+                ? "NEXT"
+                : "MAKE PAYMENT"}
             </Button>
           </Box>
         </Box>
