@@ -107,8 +107,7 @@ const EditPatientForm = ({
     handlePincode(e);
   };
 
-  console.log("vhgsahs", patientData);
-  console.log("vhgsahs", patientData.profile.dob);
+  // console.log("vhgsahs", patientData);
 
   return (
     <>

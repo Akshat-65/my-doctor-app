@@ -162,6 +162,9 @@ const PatientSignUp = () => {
 
   const handleMobileInput = (e) => {
     const contactNumber = e.target.value;
+    if(contactNumber.length>10){
+      return;
+    }
     setDetails((prev) => ({ ...prev, contactNumber: contactNumber }));
   };
   console.log(details.contactNumber);
@@ -597,6 +600,9 @@ const PatientSignUp = () => {
             id="mobile"
             error={!formIsValid.number || formIsValid.existsContactError}
             placeholder="Enter Mobile Number"
+            inputProps={{
+              maxLength: 10,
+            }}
             value={details.contactNumber}
             type="number"
             onChange={handleMobileInput}

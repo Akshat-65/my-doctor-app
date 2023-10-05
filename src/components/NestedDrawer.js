@@ -10,24 +10,63 @@ import { useNavigate } from "react-router-dom";
 const NestedDrawer = () => {
 
     const navigate = useNavigate();
+    const user = JSON.parse(localStorage.getItem("userContext"));
 
-    const itemsList = [
-        {
-            text: "My Profile",
-            to: "/myprofile",
-            icon :  <AccountCircle/>
-          },
-        {
-          text: "Change Password",
-          to: "/changepassword",
-          icon : <LockOutlinedIcon/> 
-        }
-      ];
+    // const itemsList = [
+    //     {
+    //         text: "My Profile",
+    //         to: "/myprofile",
+    //         icon :  <AccountCircle/>
+    //       },
+    //     {
+    //       text: "Change Password",
+    //       to: "/changepassword",
+    //       icon : <LockOutlinedIcon/> 
+    //     }
+    //   ];
 
-      const handleNav = (navigateTo)=>{
-        console.log(navigateTo);
-         navigate(navigateTo);
+    //   const handleNav = (navigateTo)=>{
+    //     console.log(navigateTo);
+    //      navigate(navigateTo);
+    //   }
+
+    const patientItemsList = [
+      {
+          text: "My Profile",
+          to: "/myprofile",
+          icon :  <AccountCircle/>
+        },
+      {
+        text: "Change Password",
+        to: "/changepassword",
+        icon : <LockOutlinedIcon/> 
       }
+    ];
+
+    const doctorItemsList = [
+      {
+          text: "Personal Information",
+          to: "/doctor-profile",
+          icon :  <AccountCircle/>
+        },
+      {
+        text: "Qualifications",
+        to: "/doctor-profile/qualification",
+        icon : <LockOutlinedIcon/> 
+      },
+      {
+        text: "Experience",
+        to: "/doctor-profile/experience",
+        icon : <LockOutlinedIcon/> 
+      }
+    ];
+
+    const itemsList = user?.user?.role === "patient" ? patientItemsList : doctorItemsList
+
+    const handleNav = (navigateTo)=>{
+      console.log(navigateTo);
+       navigate(navigateTo);
+    }
 
     return ( 
         <List sx={{ml:'4.3rem', cursor:'pointer', mt:'-1rem'}}>

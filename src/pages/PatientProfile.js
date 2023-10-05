@@ -80,7 +80,7 @@ const PatientProfile = () => {
     lastName: lastName,
     gender: user.user.gender,
     profile: {
-      dob: dayjs(user.user.profile.dob).format("YYYY-MM-DD"),
+      dob: dayjs(user.user?.profile?.dob).format("YYYY-MM-DD"),
       bloodType: user.user?.profile?.bloodType
         ? user.user.profile.bloodType
         : "",

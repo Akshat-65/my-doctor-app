@@ -110,6 +110,9 @@ const DoctorSignUp = () => {
 
   const handleMobileInput = (e) => {
     const contactNumber = e.target.value;
+    if(contactNumber.length>10){
+      return;
+    }
     setDetails((prev) => ({ ...prev, contactNumber: contactNumber }));
   };
 

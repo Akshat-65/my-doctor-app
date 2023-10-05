@@ -100,6 +100,9 @@ const LogInForm = () => {
           value={logInDetails.input}
           fullWidth
           required
+          inputProps={{
+            maxLength: 10,
+          }}
           label="Email or Mobile Number"
           id="fullWidth"
           sx={{ mb: "2rem", mt: "1.1rem", width: "70%" }}
@@ -130,10 +133,7 @@ const LogInForm = () => {
           >
             Log In
           </Button>
-          <a
-            href=""
-            style={{fontWeight: 500, color: "blue" }}
-          >
+          <a href="" style={{ fontWeight: 500, color: "blue" }}>
             Forgot Password?
           </a>
         </Box>
@@ -144,10 +144,7 @@ const LogInForm = () => {
           }}
         >
           Don't have an account?
-          <a
-            href=""
-            style={{fontWeight: 800, color: "blue" }}
-          >
+          <a href="" style={{ fontWeight: 800, color: "blue" }}>
             Sign up
           </a>
         </Box>
