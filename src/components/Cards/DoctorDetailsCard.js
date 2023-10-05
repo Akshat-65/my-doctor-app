@@ -6,18 +6,29 @@ import CardActions from "@mui/material/CardActions";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import { red } from "@mui/material/colors";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
+import { red } from "@mui/material/colors";
+
+// ------------------------------------styles----------------------------------------
+
+const cardWrapperStyles = {
+  p: "1rem",
+  boxShadow: 2,
+  minWidth: { xs: "250px", sm: "480px" },
+};
+
+const avatarStyles = { bgcolor: red[500] };
+const mb = { mb: "1rem" };
+
+// ------------------------------------component----------------------------------------
 
 const DoctorDetailsCard = ({ doctorsDetailsData }) => {
   return (
-    <Card
-      sx={{ p: "1rem", boxShadow: 2, minWidth: { xs: "250px", sm: "480px" } }}
-    >
+    <Card sx={cardWrapperStyles}>
       <CardHeader
         avatar={
-          <Avatar sx={{ bgcolor: red[500] }}>
+          <Avatar sx={avatarStyles}>
             <img src="" alt={doctorsDetailsData.name} />
           </Avatar>
         }
@@ -30,9 +41,9 @@ const DoctorDetailsCard = ({ doctorsDetailsData }) => {
               )} Years of experience`
             : "No experience"
         }
-        sx={{ mb: "1rem" }}
+        sx={mb}
       />
-      <CardContent sx={{ mb: "1rem" }}>
+      <CardContent sx={mb}>
         <Typography variant="body2" color="text.secondary">
           {doctorsDetailsData && doctorsDetailsData.bio
             ? `${doctorsDetailsData.bio}`

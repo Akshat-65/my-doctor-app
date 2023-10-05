@@ -5,6 +5,40 @@ import Alert from "@mui/material/Alert";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+// ------------------------------------styles----------------------------------------
+
+const alertWrapperStyles = {
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "flex-start",
+  m: "auto",
+  width: "70%",
+};
+
+const inputWrapperStyles = {
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  alignItems: "center",
+  // mt:'12rem'
+};
+
+const emailContactStyles = { mb: "2rem", mt: "1.1rem", width: "70%" };
+const passwordStyles = { mb: "2rem", width: "70%" };
+
+const buttonWrapper = {
+  display: { xs: "flex" },
+  justifyContent: "space-between",
+  alignItems: "center",
+  width: "70%",
+};
+
+const textStyle = { fontWeight: 500, color: "blue" };
+const bottomTextStyle = { fontWeight: 800, color: "blue" };
+const bottomTextWrapperStyle = { m: 4, width: "70%" };
+
+// ------------------------------------component----------------------------------------
+
 const LogInForm = () => {
   const initialState = {
     input: "",
@@ -31,7 +65,7 @@ const LogInForm = () => {
 
   const handleLogIn = async () => {
     if (!isNaN(+logInDetails.input)) {
-      console.log("number");
+      // console.log("number");
       logInData.contactNumber = logInDetails.input;
       logInData.strategy = "local-mobile";
     } else {
@@ -72,60 +106,35 @@ const LogInForm = () => {
   return (
     <>
       {showAlert && (
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "flex-start",
-            m: "auto",
-            width: "70%",
-          }}
-        >
+        <Box sx={alertWrapperStyles}>
           <Alert severity="error" sx={{ width: "100%", mt: "1rem" }}>
             Mobile Number/Email or password is incorrect. Please try again.
           </Alert>
         </Box>
       )}
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          // mt:'12rem'
-        }}
-      >
+      <Box sx={inputWrapperStyles}>
         <TextField
-          onChange={handleLogInInput}
-          value={logInDetails.input}
-          fullWidth
-          required
-          inputProps={{
-            maxLength: 10,
-          }}
           label="Email or Mobile Number"
           id="fullWidth"
-          sx={{ mb: "2rem", mt: "1.1rem", width: "70%" }}
+          fullWidth
+          required
+          inputProps={{ maxLength: 10 }}
+          onChange={handleLogInInput}
+          value={logInDetails.input}
+          sx={emailContactStyles}
         />
         <TextField
-          fullWidth
           label="Password"
-          required
           type="password"
+          id="fullWidth"
+          fullWidth
+          required
           value={logInDetails.password}
           onChange={handlePassword}
-          id="fullWidth"
-          sx={{ mb: "2rem", width: "70%" }}
+          sx={passwordStyles}
         />
 
-        <Box
-          sx={{
-            display: { xs: "flex" },
-            justifyContent: "space-between",
-            alignItems: "center",
-            width: "70%",
-          }}
-        >
+        <Box sx={buttonWrapper}>
           <Button
             variant="contained"
             href="#contained-buttons"
@@ -133,18 +142,13 @@ const LogInForm = () => {
           >
             Log In
           </Button>
-          <a href="" style={{ fontWeight: 500, color: "blue" }}>
+          <a href="" style={textStyle}>
             Forgot Password?
           </a>
         </Box>
-        <Box
-          sx={{
-            m: 4,
-            width: "70%",
-          }}
-        >
+        <Box sx={bottomTextWrapperStyle}>
           Don't have an account?
-          <a href="" style={{ fontWeight: 800, color: "blue" }}>
+          <a href="" style={bottomTextStyle}>
             Sign up
           </a>
         </Box>
