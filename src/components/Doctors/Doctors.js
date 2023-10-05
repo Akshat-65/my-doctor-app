@@ -1,4 +1,4 @@
-import homePageImage from "../assets/homePageImage.svg";
+import homePageImage from "../../assets/homePageImage.svg";
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
@@ -8,7 +8,7 @@ import Link from "@mui/material/Link";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import DoctorsCard from "./DoctorsCard";
+import DoctorsCard from "../Cards/DoctorsCard";
 
 const specialityHeaderStyles = {
   color: "#3f51b5",

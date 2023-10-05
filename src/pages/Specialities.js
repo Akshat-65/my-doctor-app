@@ -1,6 +1,6 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import SideNav from "../components/SideNav";
+import SideNav from "../components/UIComponents/SideNav";
 import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
 import Pagination from "@mui/material/Pagination";

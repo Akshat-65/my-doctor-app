@@ -1,14 +1,14 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import SideNav from "../components/SideNav";
+import SideNav from "../components/UIComponents/SideNav";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import PatientDetails from "../components/PatientDetails";
-import PatientAppointmentDetails from "../components/PatientAppointmentDetails";
-import PatientPaymentDetails from "../components/PatientPaymentDetails";
+import PatientDetails from "../components/Patients/PatientDetails";
+import PatientAppointmentDetails from "../components/Patients/PatientAppointmentDetails";
+import PatientPaymentDetails from "../components/Patients/PatientPaymentDetails";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 const drawerWidth = 240;

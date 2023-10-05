@@ -7,12 +7,12 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import PersonIcon from "@mui/icons-material/Person";
-import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
-import PersonAddAltOutlinedIcon from '@mui/icons-material/PersonAddAltOutlined';
+import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
+import PersonAddAltOutlinedIcon from "@mui/icons-material/PersonAddAltOutlined";
 import BubbleChartIcon from "@mui/icons-material/BubbleChart";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-import ReviewsIcon from '@mui/icons-material/Reviews';
+import ReviewsIcon from "@mui/icons-material/Reviews";
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import NestedDrawer from "./NestedDrawer";
@@ -29,29 +29,6 @@ const SideNav = () => {
     console.log(location.pathname);
   }, [location]);
   console.log(getLocation);
-
-  // const itemsList = [
-  //   {
-  //     text: "Doctors",
-  //     to: "/",
-  //     icon: <PersonIcon />,
-  //   },
-  //   {
-  //     text: "Specialities",
-  //     to: "/specialities",
-  //     icon: <BubbleChartIcon />,
-  //   },
-  //   {
-  //     text: "My Appointments",
-  //     to: "/appointments",
-  //     icon: <CalendarTodayIcon />,
-  //   },
-  //   {
-  //     text: "Account Settings",
-  //     to: "/myprofile",
-  //     icon: <ExitToAppIcon />,
-  //   },
-  // ];
 
   const patientItemsList = [
     {
@@ -99,14 +76,19 @@ const SideNav = () => {
     },
   ];
 
-  const itemsList = user?.user?.role === "patient" ? patientItemsList : doctorItemsList
+  const itemsList = user?.user?.role === "patient" ? patientItemsList : doctorItemsList;
 
   let itemsListWithoutLogIn = patientItemsList.slice(0, 2);
   let nestedDrawer;
-  if (getLocation === "/myprofile" || getLocation === "/changepassword" || getLocation === "/doctor-profile" ||  getLocation === "/doctor-profile/qualification" || getLocation === "/doctor-profile/experience" ) {
-    nestedDrawer = <NestedDrawer/>;
+  if (
+    getLocation === "/myprofile" ||
+    getLocation === "/changepassword" ||
+    getLocation === "/doctor-profile" ||
+    getLocation === "/doctor-profile/qualification" ||
+    getLocation === "/doctor-profile/experience"
+  ) {
+    nestedDrawer = <NestedDrawer />;
   }
-
 
   const drawer = (
     <div style={{ marginTop: "7.3rem" }}>
@@ -114,7 +96,12 @@ const SideNav = () => {
         {(user ? itemsList : itemsListWithoutLogIn).map((item, index) => {
           const { text, to, icon } = item;
           return (
-            <ListItem key={text} disablePadding onClick={() => handleNav(to)} sx={{pb:'12px'}}>
+            <ListItem
+              key={text}
+              disablePadding
+              onClick={() => handleNav(to)}
+              sx={{ pb: "12px" }}
+            >
               <ListItemButton>
                 <ListItemIcon>{icon}</ListItemIcon>
                 <ListItemText primary={text} />
@@ -137,7 +124,6 @@ const SideNav = () => {
       sx={{ width: { md: drawerWidth }, flexShrink: { sm: 0 } }}
       aria-label="mailbox folders"
     >
-
       <Drawer
         variant="permanent"
         sx={{

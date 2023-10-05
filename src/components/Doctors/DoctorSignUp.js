@@ -10,7 +10,7 @@ import Button from "@mui/material/Button";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
-import SignUpAlert from "./SignUpAlert";
+import SignUpAlert from "../Authentication/SignUpAlert";
 import { useState, useEffect } from "react";
 
 const formIsValidStyles = {

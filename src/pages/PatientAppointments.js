@@ -3,7 +3,7 @@ import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import Alert from "@mui/material/Alert";
-import SideNav from "../components/SideNav";
+import SideNav from "../components/UIComponents/SideNav";
 import { useEffect, useState } from "react";
 
 const specialityHeaderDropdownWrapper = {

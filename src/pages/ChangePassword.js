@@ -1,5 +1,5 @@
 import Box from "@mui/material/Box";
-import SideNav from "../components/SideNav";
+import SideNav from "../components/UIComponents/SideNav";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import CheckIcon from "@mui/icons-material/Check";

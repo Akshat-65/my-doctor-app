@@ -1,12 +1,12 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import SideNav from "../components/SideNav";
+import SideNav from "../components/UIComponents/SideNav";
 import Typography from "@mui/material/Typography";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import DoctorAccordion from "../components/DoctorAccordion";
-import DoctorDetailsCard from "../components/DoctorDetailsCard";
-import DoctorSlotsPanel from "../components/DoctorSlotsPanel";
+import DoctorAccordion from "../components/Doctors/DoctorAccordion";
+import DoctorDetailsCard from "../components/Cards/DoctorDetailsCard";
+import DoctorSlotsPanel from "../components/Doctors/DoctorSlotsPanel";
 
 const doctorDetailsSectionStyles = {
   display: "grid",

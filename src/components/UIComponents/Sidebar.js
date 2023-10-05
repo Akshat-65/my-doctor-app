@@ -13,6 +13,9 @@ import MenuIcon from "@mui/icons-material/Menu";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import ReviewsIcon from "@mui/icons-material/Reviews";
+import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
+import PersonAddAltOutlinedIcon from "@mui/icons-material/PersonAddAltOutlined";
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
@@ -34,30 +37,55 @@ export default function Sidebar() {
     console.log(location.pathname);
   }, [location]);
 
-  const itemsList = [
+  const patientItemsList = [
     {
       text: "Doctors",
       to: "/",
-      icon : <PersonIcon /> 
+      icon: <PersonIcon />,
     },
     {
       text: "Specialities",
       to: "/specialities",
-      icon : <BubbleChartIcon /> 
+      icon: <BubbleChartIcon />,
     },
     {
       text: "My Appointments",
       to: "/appointments",
-      icon : <CalendarTodayIcon/> 
+      icon: <CalendarTodayIcon />,
     },
     {
       text: "Account Settings",
       to: "/myprofile",
-      icon : <ExitToAppIcon/>
+      icon: <ExitToAppIcon />,
     },
   ];
 
-  let itemsListWithoutLogIn = itemsList.slice(0,2);
+  const doctorItemsList = [
+    {
+      text: "Dashboard",
+      to: "/doctor-dashboard",
+      icon: <PersonOutlineOutlinedIcon />,
+    },
+    {
+      text: "Doctor Profile",
+      to: "/doctor-profile",
+      icon: <PersonAddAltOutlinedIcon />,
+    },
+    {
+      text: "Appointments",
+      to: "/doctor-appointments",
+      icon: <CalendarTodayIcon />,
+    },
+    {
+      text: "Reviews",
+      to: "/",
+      icon: <ReviewsIcon />,
+    },
+  ];
+
+  const itemsList = user?.user?.role === "patient" ? patientItemsList : doctorItemsList;
+
+  let itemsListWithoutLogIn = patientItemsList.slice(0,2);
 
   let nestedDrawer;
   if (getLocation === "/myprofile" || getLocation === "/changepassword") {

@@ -7,10 +7,10 @@ import Box from "@mui/material/Box";
 import TabContext from "@mui/lab/TabContext";
 import TabPanel from "@mui/lab/TabPanel";
 import Divider from "@mui/material/Divider";
-import LogInForm from "../components/LogInForm";
+import LogInForm from "../components/Authentication/LogInForm";
 import { useState } from "react";
-import PatientSignUp from "../components/PatientSignUp";
-import DoctorSignUp from "../components/DoctorSignUp";
+import PatientSignUp from "../components/Patients/PatientSignUp";
+import DoctorSignUp from "../components/Doctors/DoctorSignUp";
 const tabPanelStyles ={ width:{xs:'93%',md:'90%',lg:'75%'}, p : 0, m:{xs:'auto',md:'0'}, mt: {xs:'3rem',md:'15px'}, boxShadow: 2, borderRadius:'4px'}
 
 const LogIn = () => {
