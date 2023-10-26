@@ -10,17 +10,18 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import MenuItem from "@mui/material/MenuItem";
 import Autocomplete from "@mui/material/Autocomplete";
 import Menu from "@mui/material/Menu";
-import logo from "../../assets/myDoctorLogo.svg";
 import SearchIcon from "@mui/icons-material/Search";
-import { Link } from "react-router-dom";
 import Sidebar from "../UIComponents/Sidebar";
-import DiseaseSwiper from "../UIComponents/DiseaseSwiper";
 import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import { Typography } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Typography } from "@mui/material";
+import { Link } from "react-router-dom";
+import logo from "../../assets/Images/myDoctorLogo.svg";
+import DiseaseSwiper from "../UIComponents/DiseaseSwiper";
+
 
 const Header = () => {
   const [services, setServices] = useState([]);
