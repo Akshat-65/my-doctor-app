@@ -170,7 +170,7 @@ const EditPatientForm = ({
             disabled={!isEditable}
             fullWidth
             label="Date of birth"
-            value={dayjs(patientData.profile.dob)}
+            value={dayjs(patientData?.profile?.dob)}
             format="DD-MM-YYYY"
             onChange={(newValue) => handleDobChange(newValue)}
           />
@@ -193,7 +193,7 @@ const EditPatientForm = ({
         <InputLabel htmlFor="patient-name">House No./Street/Area</InputLabel>
         <OutlinedInput
           id="patient-name"
-          value={patientData.profile.address.area}
+          value={patientData?.profile?.address?.area}
           name="area"
           label="House No./Street/Area"
           disabled={!isEditable}
@@ -210,7 +210,7 @@ const EditPatientForm = ({
         <OutlinedInput
           id="patient-name"
           name="locality"
-          value={patientData.profile.address.locality}
+          value={patientData?.profile?.address?.locality}
           label="Colony/Street/ Locality"
           disabled={!isEditable}
           onChange={handleLocalityChange}
@@ -228,7 +228,7 @@ const EditPatientForm = ({
           label="City"
           disabled={!isEditable}
           name="city"
-          value={patientData.profile.address.city}
+          value={patientData?.profile?.address?.city}
           onChange={handleCityChange}
           onBlur={(e) => handleCityAndCountryValidity(e, "city")}
         />
@@ -241,7 +241,7 @@ const EditPatientForm = ({
         <InputLabel htmlFor="patient-name">State</InputLabel>
         <OutlinedInput
           id="patient-name"
-          value={patientData.profile.address.state}
+          value={patientData?.profile?.address?.state}
           name="state"
           label="State"
           disabled={!isEditable}
@@ -260,7 +260,7 @@ const EditPatientForm = ({
           label="Country"
           name="country"
           disabled={!isEditable}
-          value={patientData.profile.address.country}
+          value={patientData?.profile?.address?.country}
           onChange={handleCountryChange}
           onBlur={(e) => handleCityAndCountryValidity(e, "country")}
         />
@@ -276,7 +276,7 @@ const EditPatientForm = ({
           label="Pincode"
           name="pincode"
           disabled={!isEditable}
-          value={patientData.profile.address.pincode}
+          value={patientData?.profile?.address?.pincode}
           inputProps={{ maxLength: 6 }}
           onChange={handlePincodeChange}
           onBlur={handlePincodeValidity}

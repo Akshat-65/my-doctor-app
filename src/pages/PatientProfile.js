@@ -111,7 +111,7 @@ const PatientProfile = () => {
   const handleEdit = () => {
     setIsEditable((prevIsEditable) => !prevIsEditable);
     patientData.profile.address.city = user.user?.profile?.address?.city
-      ? user.user.profile.address.city
+      ? user?.user?.profile?.address?.city
       : "";
     patientData.profile.address.country = user.user?.profile?.address?.country
       ? user.user.profile.address.country
