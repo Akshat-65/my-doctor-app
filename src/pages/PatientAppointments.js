@@ -6,7 +6,7 @@ import Alert from "@mui/material/Alert";
 import SideNav from "../components/UIComponents/SideNav";
 import { useEffect, useState } from "react";
 
-const specialityHeaderDropdownWrapper = {
+const appointmentHeaderDropdownWrapper = {
   display: "flex",
   flexDirection: { xs: "column", sm: "row" },
   alignItems: { xs: "flex-start", sm: "center" },
@@ -14,7 +14,7 @@ const specialityHeaderDropdownWrapper = {
   mb: "1rem",
 };
 
-const specialityHeaderStyles = {
+const appointmentHeaderStyles = {
   color: "#3f51b5",
   fontSize: { xs: "26px", md: "30px", lg: "36px" },
   fontWeight: "bold",
@@ -75,8 +75,8 @@ const PatientAppointments = ({ bookingFailed }) => {
         }}
       >
         <Box component="section" sx={{ pl: "1rem", pr: "1rem" }}>
-          <Box sx={specialityHeaderDropdownWrapper}>
-            <Typography variant="h4" sx={specialityHeaderStyles}>
+          <Box sx={appointmentHeaderDropdownWrapper}>
+            <Typography variant="h4" sx={appointmentHeaderStyles}>
               My Appointments
             </Typography>
 

@@ -129,9 +129,8 @@ export default function Sidebar() {
                     <ListItemText primary={text} />
                   </ListItemButton>
                 </ListItem>
-                {to === "/doctor-profile" ||
-              getLocation === "/doctor-profile/qualification" ||
-              getLocation === "/doctor-profile/experience"
+                {
+              text === "Doctor Profile" 
                 ? nestedDrawer
                 : ""}
                 </>
