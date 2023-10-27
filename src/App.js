@@ -12,6 +12,11 @@ import ChangePassword from "./pages/ChangePassword";
 import BookAppointment from "./pages/BookAppointment";
 import "./index.css";
 import { useState } from "react";
+import DoctorProfile from "./pages/DoctorProfile";
+import DoctorDashboard from "./pages/DoctorDashboard";
+import DoctorAppointment from "./pages/DoctorAppointment";
+import DoctorQualification from "./pages/DoctorQualification";
+import DoctorExperience from "./pages/DoctorExperience";
 
 function App() {
 
@@ -25,7 +30,6 @@ function App() {
   const handleBookingStatus = (status)=>{
     setBoookingFailed(status);
   }
-
 
   return (
     <BrowserRouter>
@@ -41,6 +45,11 @@ function App() {
           <Route path="/myprofile" element={<PatientProfile />} />
           <Route path="/changepassword" element={<ChangePassword />} />
           <Route path="/book-appointment" element={<BookAppointment slotsDetail = {doctorSlotDetails} handleBookingStatus={handleBookingStatus}/>} />
+          <Route path="/doctor-profile" element={<DoctorProfile />} />
+          <Route path="/doctor-appointments" element={<DoctorAppointment />} />
+          <Route path="/doctor-dashboard" element={<DoctorDashboard />} />
+          <Route path="/doctor-profile/qualification" element={<DoctorQualification />} />
+          <Route path="/doctor-profile/experience" element={<DoctorExperience />} />
         </Routes>
       </Box>
     </BrowserRouter>
