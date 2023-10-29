@@ -7,6 +7,7 @@ import EditPatientForm from "../components/Patients/EditPatientForm";
 import dayjs from "dayjs";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import CloseIcon from "@mui/icons-material/Close";
+import Avatar from '@mui/material/Avatar';
 import {useState } from "react";
 
 // ------------------------------------styles----------------------------------------
@@ -48,6 +49,8 @@ const PatientProfile = () => {
   const id = user.user._id;
 
   const [isEditable, setIsEditable] = useState(false);
+  const [avatarImg, setAvatarImg] = useState();
+  const [imageUrl, setImageUrl] = useState(null);
   const [formIsValid, setFormIsValid] = useState({
     name: true,
     area: true,
@@ -340,31 +343,67 @@ const PatientProfile = () => {
     }));
   };
 
-  const [selectedImage, setSelectedImage] = useState(null);
-
   const handleCameraIconClick = () => {
     // Trigger the file input dialog
     document.getElementById("imageInput").click();
   };
 
+  const getPatientImage = async() =>{
+    const queryParams = new URLSearchParams({
+        avatar: 1,
+        "$select[]": "avatarId",
+    });
+    let response = await fetch(
+        `http://my-doctors.net:8090/patients/${id
+        }?${queryParams.toString()}`,
+        {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+
+        });
+    response = await response.json();
+    setAvatarImg(response?.avatar?.buffer);
+}
+
+   const uploadPatientImage= async(data)=> {
+    try { 
+        let response = await fetch(
+            `http://my-doctors.net:8090/patients/${id}`,
+            {
+                method: "PATCH",
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+                body: data,
+            }
+        );
+        response = await response.json();
+        
+    } catch (error) {
+        console.error("Error:", error);
+        throw error;
+    }
+}
+
   const handleImageChange = async (event) => {
     const file = event.target.files[0];
-    if (file) {
-      setSelectedImage(URL.createObjectURL(file));
-      // try {
-      //   const response = await fetch(`http://my-doctors.net:8090/patients/${id}`, {
-      //     method: "PATCH",
-      //     body:selectedImage ,
-      //     headers: {
-      //       "Content-Type": "application/json; charset=UTF-8",
-      //       Authorization: `Bearer ${accessToken}`,
-      //     },
-      //   });
-
-      // } catch (error) {
-      //   console.error("An error occurred during the PATCH request:", error);
-      // }
-    }
+    const reader = new FileReader();
+  
+    reader.onloadend = async () => {
+      setImageUrl(file);
+      const formData = new FormData();
+      formData.append("avatar", file); 
+      try {
+        await uploadPatientImage(formData);
+        getPatientImage();
+      } catch (error) {
+        console.error("Error uploading image:", error);
+      }
+    };
+  
+    reader.readAsDataURL(file);
   };
 
   const drawerWidth = 240;
@@ -387,51 +426,16 @@ const PatientProfile = () => {
 
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>
             <Box>
-              {/* 
-              {selectedImage ? (
-                <img src={selectedImage} alt="Selected" style={{ width: '140px', height: '140px', borderRadius: '50%' }} />
-              ) : (
-                <div>
-                  <CameraAltIcon
-                    onClick={handleCameraIconClick}
-                    sx={{
-                      color: 'rgb(63, 81, 181)',
-                      fontSize: '30px',
-                      ml: '20.3%',
-                      mt: '0.5%',
-                      cursor: 'pointer',
-                    }}
-                  />
-                  <CloseIcon
-                    sx={{
-                      fontSize: '30px',
-                      color: 'rgb(128, 128, 128)',
-                      mt: '0.5%',
-                      cursor: 'pointer',
-                    }}
-                  />
-                </div>
-              )}
-              <input
-                type="file"
-                id="imageInput"
-                accept="image/*"
-                style={{ display: 'none' }}
-                onChange={handleImageChange}
-              /> */}
-
-              <AccountCircle color="disabled" sx={{ fontSize: "140px" }} />
+              <Avatar style={{ width: "120px", height: "120px" }} src={avatarImg || "/broken-image.jpg"} />
               {isEditable && (
                 <>
-                  <Box sx={{ display: "flex" }}>
+                  <Box sx={{ display: "flex", ml:"12%",mt:"0.5rem", mb:"0.5rem" }}>
                     <CameraAltIcon
                       onClick={handleCameraIconClick}
                       sx={{
                         color: "rgb(63, 81, 181)",
                         fontSize: "30px",
-                        ml: "20.3%",
                         mr:"0.4rem",
-                        mt: "-0.5rem",
                         cursor: "pointer",
                       }}
                     />
@@ -439,7 +443,6 @@ const PatientProfile = () => {
                       sx={{
                         fontSize: "30px",
                         color: "rgb(128, 128, 128)",
-                        mt: "-0.5rem",
                       }}
                     />
                   </Box>
@@ -450,11 +453,11 @@ const PatientProfile = () => {
                 type="file"
                 id="imageInput"
                 accept="image/*"
-                style={{ display: "none" }}
+                style={{ display: "none"}}
                 onChange={handleImageChange}
               />
 
-              <Typography variant="body2" sx={iconDescriptionStyles}>
+              <Typography variant="body2" sx={{...iconDescriptionStyles, mt:"0.5rem"}}>
                 JPEG, JPG or PNG image less than 1 MB
               </Typography>
               <Typography variant="body2" sx={iconDescriptionStyles}>
