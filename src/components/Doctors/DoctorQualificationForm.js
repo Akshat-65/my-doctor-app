@@ -12,7 +12,6 @@ const inputFieldWrapperStyles = {
   mb: "10px",
   mt: "10px",
   p: "12px",
-  boxShadow: 2,
 };
 
 const DoctorQualificationForm = ({
@@ -58,7 +57,7 @@ const DoctorQualificationForm = ({
 
   return (
     <>
-      <Box sx={{display:"flex"}}>
+      <Box sx={{display:"flex", boxShadow: 2,mt:'1rem'}}>
         <Box sx={inputFieldWrapperStyles}>
           <TextField
             id="outlined-basic"
@@ -95,9 +94,7 @@ const DoctorQualificationForm = ({
             sx={{ width: "80%" }}
           />
         </Box>
-      </Box>
-
-      <Box>
+        <Box sx={{display:'flex', alignItems:"center", mr:"1rem"}}>
         <IconButton
           aria-label="delete row"
           disabled={!editable}
@@ -107,6 +104,7 @@ const DoctorQualificationForm = ({
         >
           <ClearIcon />
         </IconButton>
+      </Box>
       </Box>
     </>
   );
