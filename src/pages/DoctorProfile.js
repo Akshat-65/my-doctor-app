@@ -1,9 +1,9 @@
 import Box from "@mui/material/Box";
 import SideNav from "../components/UIComponents/SideNav";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
 import Avatar from "@mui/material/Avatar";
 import Input from "@mui/material/Input";
+import CustomButton from "../components/UIComponents/Button";
 import { useEffect, useState } from "react";
 import EditDoctorProfileForm from "../components/Doctors/EditDoctorProfileForm";
 
@@ -32,13 +32,6 @@ const uploadImageStyles = {
   fontWeight: "bold",
   mt: "10px",
 };
-
-const EditSaveButtonStyles = {
-  color: "white",
-  backgroundColor: "#3f51b5",
-  height: "40px",
-};
-
 
 // ------------------------------------component----------------------------------------
 const drawerWidth = 240;
@@ -241,40 +234,26 @@ const DoctorProfile = () => {
             sx={{ display: "flex", justifyContent: "flex-end", width: "100%" }}
           >
             {!editable && (
-              <Button
-                sx={EditSaveButtonStyles}
-                variant="contained"
-                onClick={() => {
-                  setEditable(true);
-                }}
-              >
-                EDIT
-              </Button>
+              <CustomButton label="EDIT" onClick={() => setEditable(true)} />
             )}
             {editable && (
-              <Button
-                sx={EditSaveButtonStyles}
-                variant="contained"
-                onClick={saveRequest}
-              >
-                SAVE
-              </Button>
+              <CustomButton label="SAVE" onClick={saveRequest} />
             )}
           </Box>
 
-          <Box>
-          <EditDoctorProfileForm 
-          handleInputChange ={handleInputChange}
-          languageChange = {languageChange}
-          editable={editable}
-          name={name}
-          fees={fees}
-          contact = {contact}
-          gender = {gender}
-          email = {email}
-          languages= {languages}
-          bio= {bio}
-          />
+          <Box sx= {{boxShadow:2, p:"0.5rem"}}>
+            <EditDoctorProfileForm
+              handleInputChange={handleInputChange}
+              languageChange={languageChange}
+              editable={editable}
+              name={name}
+              fees={fees}
+              contact={contact}
+              gender={gender}
+              email={email}
+              languages={languages}
+              bio={bio}
+            />
           </Box>
         </Box>
       </Box>
