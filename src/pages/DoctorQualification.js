@@ -5,18 +5,35 @@ import CustomButton from "../components/UIComponents/Button";
 import DoctorQualificationForm from "../components/Doctors/DoctorQualificationForm";
 import { useEffect, useState } from "react";
 
-const appointmentHeaderDropdownWrapper = {
+const qualificationButtonWrapper = {
   display: "flex",
-  // flexDirection: { xs: "column", sm: "row" },
   alignItems: "center",
   justifyContent: "space-between",
 };
 
-const appointmentHeaderStyles = {
+const qualificationHeaderStyles = {
   color: "#000000",
   fontSize: { xs: "20px", sm: "25px" },
   fontWeight: "bold",
   mb: { xs: "0.2rem", sm: "0px" },
+};
+
+const noQualificationWrapperStyles = {
+  color: "rgba(0, 0, 0, 0.54)",
+  fontSize: "20px",
+};
+
+const noQualificationTypographyStyles = {
+  color: "rgba(0, 0, 0, 0.54)",
+  fontSize: "20px",
+};
+
+const addMoreButtonWrapperStyles = {
+  mt: "10px",
+  display: "flex",
+  width: "100%",
+  justifyContent: "flex-end",
+  alignItems: "self-end",
 };
 
 const DoctorQualification = () => {
@@ -116,8 +133,8 @@ const DoctorQualification = () => {
         }}
       >
         <Box component="section" sx={{ pl: "1rem", pr: "1rem" }}>
-          <Box sx={appointmentHeaderDropdownWrapper}>
-            <Typography variant="h4" sx={appointmentHeaderStyles}>
+          <Box sx={qualificationButtonWrapper}>
+            <Typography variant="h4" sx={qualificationHeaderStyles}>
               My Qualifications
             </Typography>
 
@@ -125,7 +142,7 @@ const DoctorQualification = () => {
               {editable && (
                 <CustomButton label="CANCEL" onClick={cancelEditing} />
               )}
-              <Box sx={{ml:"0.5rem"}}>
+              <Box sx={{ ml: "0.5rem" }}>
                 {editable ? (
                   <CustomButton
                     label="SAVE"
@@ -145,11 +162,8 @@ const DoctorQualification = () => {
           </Box>
 
           {!editable && !qualification && (
-            <Box sx={{ display: "flex", justifyContent: "center" }}>
-              <Typography
-                variant="body1"
-                sx={{ color: "rgba(0, 0, 0, 0.54)", fontSize: "20px" }}
-              >
+            <Box sx={noQualificationWrapperStyles}>
+              <Typography variant="body1" sx={noQualificationTypographyStyles}>
                 No Qualification added
               </Typography>
             </Box>
@@ -170,15 +184,7 @@ const DoctorQualification = () => {
               />
             ))}
           </Box>
-          <Box
-            sx={{
-              mt: "10px",
-              display: "flex",
-              width: "100%",
-              justifyContent: "flex-end",
-              alignItems: "self-end",
-            }}
-          >
+          <Box sx={addMoreButtonWrapperStyles}>
             {editable && (
               <CustomButton label="ADD MORE" onClick={handleAddQualification} />
             )}

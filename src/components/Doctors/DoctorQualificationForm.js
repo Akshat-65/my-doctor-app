@@ -57,7 +57,7 @@ const DoctorQualificationForm = ({
 
   return (
     <>
-      <Box sx={{display:"flex", boxShadow: 2,mt:'1rem'}}>
+      <Box sx={{ display: "flex", boxShadow: 2, mt: "1rem" }}>
         <Box sx={inputFieldWrapperStyles}>
           <TextField
             id="outlined-basic"
@@ -94,17 +94,17 @@ const DoctorQualificationForm = ({
             sx={{ width: "80%" }}
           />
         </Box>
-        <Box sx={{display:'flex', alignItems:"center", mr:"1rem"}}>
-        <IconButton
-          aria-label="delete row"
-          disabled={!editable}
-          onClick={() => {
-            deleteBox(index);
-          }}
-        >
-          <ClearIcon />
-        </IconButton>
-      </Box>
+        <Box sx={{ display: "flex", alignItems: "center", mr: "1rem" }}>
+          <IconButton
+            aria-label="delete row"
+            disabled={!editable}
+            onClick={() => {
+              deleteBox(index);
+            }}
+          >
+            <ClearIcon />
+          </IconButton>
+        </Box>
       </Box>
     </>
   );
