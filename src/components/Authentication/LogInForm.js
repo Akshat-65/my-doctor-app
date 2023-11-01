@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Alert from "@mui/material/Alert";
+import CustomButton from "../UIComponents/Button";
 
 // ------------------------------------styles----------------------------------------
 
@@ -135,13 +135,7 @@ const LogInForm = () => {
         />
 
         <Box sx={buttonWrapper}>
-          <Button
-            variant="contained"
-            href="#contained-buttons"
-            onClick={handleLogIn}
-          >
-            Log In
-          </Button>
+          <CustomButton label="Log In" onClick={handleLogIn}/>
           <a href="" style={textStyle}>
             Forgot Password?
           </a>

@@ -6,13 +6,12 @@ import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormLabel from "@mui/material/FormLabel";
-import Button from "@mui/material/Button";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import SignUpAlert from "../Authentication/SignUpAlert";
+import CustomButton from "../UIComponents/Button";
 import { useState, useEffect } from "react";
-
 
 // ------------------------styles---------------------------------------------
 
@@ -42,7 +41,7 @@ const PatientSignUp = () => {
   const [selectedYear, setSelectedYear] = useState(today.getFullYear());
   const [name, setName] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [showAlert, setShowAlert]  = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
 
   console.log(selectedDay);
   console.log(selectedMonth);
@@ -162,7 +161,7 @@ const PatientSignUp = () => {
 
   const handleMobileInput = (e) => {
     const contactNumber = e.target.value;
-    if(contactNumber.length>10){
+    if (contactNumber.length > 10) {
       return;
     }
     setDetails((prev) => ({ ...prev, contactNumber: contactNumber }));
@@ -459,8 +458,8 @@ const PatientSignUp = () => {
 
   return (
     <>
-    {showAlert && <SignUpAlert/>}
-      
+      {showAlert && <SignUpAlert />}
+
       <Box
         sx={{
           display: "flex",
@@ -677,7 +676,10 @@ const PatientSignUp = () => {
           <>
             {passwordIsValid.isShowing === true &&
               passwordRequirements.map(({ label, key }) => (
-                <Box key={key} sx={{ display: "flex", alignItems: "center",mb: "0.5rem"}}>
+                <Box
+                  key={key}
+                  sx={{ display: "flex", alignItems: "center", mb: "0.5rem" }}
+                >
                   {getRequirementIcon(passwordIsValid[key])}
                   <Typography
                     variant="body1"
@@ -692,13 +694,18 @@ const PatientSignUp = () => {
         }
 
         <Box sx={{ mb: "1rem" }}>
-          <Button
+          <CustomButton
+            label="REGISTER"
+            onClick={handlePatientFormSubmit}
+            disabled={!formValidity}
+          />
+          {/* <Button
             variant="contained"
             disabled={!formValidity}
             onClick={handlePatientFormSubmit}
           >
             REGISTER
-          </Button>
+          </Button> */}
         </Box>
         <Box
           sx={{

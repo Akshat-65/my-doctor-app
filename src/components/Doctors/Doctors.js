@@ -1,14 +1,14 @@
-import homePageImage from "../../assets/Images/homePageImage.svg";
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
-import Pagination from "@mui/material/Pagination";
 import Link from "@mui/material/Link";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import homePageImage from "../../assets/Images/homePageImage.svg";
 import DoctorsCard from "../Cards/DoctorsCard";
+import CustomPagination from "../UIComponents/Pagination";
 
 const specialityHeaderStyles = {
   color: "#3f51b5",
@@ -54,10 +54,6 @@ const Doctors = () => {
   const navigate = useNavigate();
   const doctorsPerPage = 12;
   let pages;
-  // if (doctorsData.length > 0) {
-  //   pages = doctorsData[0]?.totalDoctors;
-  //   console.log(pages);
-  // }
 
   pages = Math.ceil((doctorsData[0]?.totalDoctors * 10) / doctorsPerPage);
   let startPageData = page * doctorsPerPage - doctorsPerPage;
@@ -120,11 +116,7 @@ const Doctors = () => {
             (elem) => elem["name"]
           ),
           experience: returnedData[elem]?.profile?.experienceMonths,
-          hospital: returnedData[elem]?.profile?.["experience"]?.map((elem) => {
-            if (!elem.toYear) {
-              return elem.place;
-            }
-          }),
+          hospital: returnedData[elem],
           languages: returnedData[elem]?.profile?.["languages"]?.map(
             (elem) => elem
           ),
@@ -186,56 +178,53 @@ const Doctors = () => {
         style={{ width: "100%", paddingLeft: "1rem", paddingRight: "1rem" }}
       />
       {isLoading && loading}
-      {!isLoading && <>
-        <Box component="section">
-        <Box>
-          <Typography variant="h4" sx={specialityHeaderStyles}>
-            {specializationData.length > 0 &&
-              `${specializationData[0].totalSpecializations}0+ Specialities`}
-          </Typography>
-        </Box>
+      {!isLoading && (
+        <>
+          <Box component="section">
+            <Box>
+              <Typography variant="h4" sx={specialityHeaderStyles}>
+                {specializationData.length > 0 &&
+                  `${specializationData[0].totalSpecializations}0+ Specialities`}
+              </Typography>
+            </Box>
 
-        <Box sx={SpecialitiesCardWrapperStyles}>{specialities}</Box>
+            <Box sx={SpecialitiesCardWrapperStyles}>{specialities}</Box>
 
-        <Box sx={{ textAlign: { xs: "center", md: "end" }, pt: "1rem" }}>
-          <Link
-            href="/specialities"
-            underline="none"
-            sx={{
-              mr: "1.3rem",
-              color: "black",
-              textTransform: "initial",
-              fontSize: "18px",
-            }}
-          >
-            View all Specialities...
-          </Link>
-        </Box>
-      </Box>
+            <Box sx={{ textAlign: { xs: "center", md: "end" }, pt: "1rem" }}>
+              <Link
+                href="/specialities"
+                underline="none"
+                sx={{
+                  mr: "1.3rem",
+                  color: "black",
+                  textTransform: "initial",
+                  fontSize: "18px",
+                }}
+              >
+                View all Specialities...
+              </Link>
+            </Box>
+          </Box>
 
-      <Box component="section">
-        <Box>
-          <Typography variant="body1">
-            {doctorsData.length > 0 &&
-              `${doctorsData[0].totalDoctors}0+ Doctors`}
-          </Typography>
-        </Box>
+          <Box component="section">
+            <Box>
+              <Typography variant="body1">
+                {doctorsData.length > 0 &&
+                  `${doctorsData[0].totalDoctors}0+ Doctors`}
+              </Typography>
+            </Box>
 
-        <Box sx={DoctorsCardWrapperStyles}>
-          <DoctorsCard doctorsData={requiredDoctorsPerPage} />
-        </Box>
-
-        <Pagination
-          sx={{ display: "flex", mt: "16px", justifyContent: "center" }}
-          size="small"
-          count={pages}
-          page={page}
-          onChange={handleDoctorsPageChange}
-          variant="outlined"
-          color="primary"
-        />
-      </Box></>}
-      
+            <Box sx={DoctorsCardWrapperStyles}>
+              <DoctorsCard doctorsData={requiredDoctorsPerPage} />
+            </Box>
+            <CustomPagination
+              onChange={handleDoctorsPageChange}
+              count={pages}
+              page={page}
+            />
+          </Box>
+        </>
+      )}
     </Box>
   );
 };

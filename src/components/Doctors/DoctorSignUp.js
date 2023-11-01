@@ -11,6 +11,7 @@ import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import SignUpAlert from "../Authentication/SignUpAlert";
+import CustomButton from "../UIComponents/Button";
 import { useState, useEffect } from "react";
 
 const formIsValidStyles = {
@@ -24,7 +25,7 @@ const formIsValidStyles = {
 const DoctorSignUp = () => {
   const [name, setName] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [showAlert, setShowAlert]  = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
 
   const initialState = {
     firstName: "",
@@ -110,7 +111,7 @@ const DoctorSignUp = () => {
 
   const handleMobileInput = (e) => {
     const contactNumber = e.target.value;
-    if(contactNumber.length>10){
+    if (contactNumber.length > 10) {
       return;
     }
     setDetails((prev) => ({ ...prev, contactNumber: contactNumber }));
@@ -525,7 +526,10 @@ const DoctorSignUp = () => {
           <>
             {passwordIsValid.isShowing === true &&
               requirements.map(({ label, key }) => (
-                <Box key={key} sx={{ display: "flex", alignItems: "center",mb: "0.5rem" }}>
+                <Box
+                  key={key}
+                  sx={{ display: "flex", alignItems: "center", mb: "0.5rem" }}
+                >
                   {getRequirementIcon(passwordIsValid[key])}
                   <Typography
                     variant="body1"
@@ -540,13 +544,11 @@ const DoctorSignUp = () => {
         }
 
         <Box sx={{ mb: "1rem" }}>
-          <Button
-            variant="contained"
-            disabled={!formValidity}
+          <CustomButton
+            label="REGISTER"
             onClick={handleDoctorFormSubmit}
-          >
-            REGISTER
-          </Button>
+            disabled={!formValidity}
+          />
         </Box>
         <Box
           sx={{

@@ -3,7 +3,6 @@ import Box from "@mui/material/Box";
 import SideNav from "../components/UIComponents/SideNav";
 import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
-import Pagination from "@mui/material/Pagination";
 import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -15,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
 import { useEffect, useState } from "react";
 import { useRef } from "react";
+import CustomPagination from "../components/UIComponents/Pagination";
 
 // ------------------------------------styles----------------------------------------
 
@@ -225,7 +225,7 @@ const Specialities = () => {
                     : specializationData.length > 0 &&
                       `${specializationData[0].totalSpecializations}0+ Specialities`}
                 </Typography>
-                
+
                 <Box sx={{ display: "flex", alignItems: "center" }}>
                   <TextField
                     id="outlined-basic"
@@ -273,15 +273,10 @@ const Specialities = () => {
                   specialities
                 )}
               </Box>
-
-              <Pagination
-                sx={{ display: "flex", mt: "16px", justifyContent: "center" }}
-                size="small"
+              <CustomPagination
+                onChange={handleSpecialitiesPageChange}
                 count={pages}
                 page={page}
-                onChange={handleSpecialitiesPageChange}
-                variant="outlined"
-                color="primary"
               />
             </>
           )}

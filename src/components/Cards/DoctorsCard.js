@@ -101,9 +101,16 @@ const DoctorsCard = ({ doctorsData }) => {
                 Hospital
               </Typography>
               <Typography variant="body2" sx={doctorDetailsTypographyStyle}>
-                {elem.hospital && elem.hospital.length > 0
-                  ? elem.hospital.map((item) => item && item)
-                  : "Not available"}
+                  {elem.hospital?.profile?.experience && elem.hospital?.profile.experience.length > 0
+                     ? elem.hospital?.profile.experience.some((experience) => !experience.toYear)
+                       ? elem.hospital?.profile.experience.map((experience, index) =>
+                           !experience.toYear ? (
+                             <span key={index}>{experience.place}</span>
+                           ) : null
+                         )
+                       : "Not available"
+                     : "Not available"
+                  }
               </Typography>
               <Typography sx={{ fontSize: "13px" }}>Languages</Typography>
               <Typography variant="body2" sx={doctorDetailsTypographyStyle}>

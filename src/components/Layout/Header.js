@@ -4,7 +4,6 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Container from "@mui/material/Container";
-import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MenuItem from "@mui/material/MenuItem";
@@ -21,6 +20,7 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import logo from "../../assets/Images/myDoctorLogo.svg";
 import DiseaseSwiper from "../UIComponents/DiseaseSwiper";
+import CustomButton from "../UIComponents/Button";
 
 
 const Header = () => {
@@ -224,9 +224,7 @@ const Header = () => {
             )}
             {!user && (
               <Link to="/login">
-                <Button variant="contained">
-                  Log In
-                </Button>
+                <CustomButton label="Log In"/>
               </Link>
             )}
           </Box>
