@@ -1,4 +1,4 @@
-const currencies = [
+const appointmentSize = [
     {
       value: "1",
       label: "1",
@@ -21,4 +21,4 @@ const currencies = [
     },
   ];
 
-  export default currencies;
+  export default appointmentSize;

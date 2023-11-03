@@ -59,7 +59,7 @@ const Doctors = () => {
   let startPageData = page * doctorsPerPage - doctorsPerPage;
   let endPageData = startPageData + doctorsPerPage;
 
-  const requiredDoctorsPerPage = doctorsData.slice(startPageData, endPageData);
+  // const requiredDoctorsPerPage = doctorsData.slice(startPageData, endPageData);
 
   const handleDoctorsPageChange = (event, value) => {
     setPage(value);
@@ -96,9 +96,9 @@ const Doctors = () => {
 
   const getDoctorsData = async () => {
     try {
-      setIsLoading(true);
+      // setIsLoading(true);
       const response = await fetch(
-        "http://my-doctors.net:8090/doctors?$limit=56&$skip=0"
+        `http://my-doctors.net:8090/doctors?$limit=${doctorsPerPage}&$skip=${startPageData}`
       );
       let data = await response.json();
       let returnedData = data.data;
@@ -125,17 +125,20 @@ const Doctors = () => {
       }
       console.log(details);
       setDoctorsData(details);
-      setIsLoading(false);
+      // setIsLoading(false);
     } catch (error) {
-      setIsLoading(false);
+      // setIsLoading(false);
       console.log(error);
     }
   };
 
   useEffect(() => {
     getSpecializationData();
-    getDoctorsData();
   }, []);
+
+  useEffect(() => {
+    getDoctorsData();
+  }, [startPageData]);
 
   const handleSpecialityDetail = (speciality) => {
     navigate(`/search?sp=${speciality}`);
@@ -215,7 +218,7 @@ const Doctors = () => {
             </Box>
 
             <Box sx={DoctorsCardWrapperStyles}>
-              <DoctorsCard doctorsData={requiredDoctorsPerPage} />
+              <DoctorsCard doctorsData={doctorsData} />
             </Box>
             <CustomPagination
               onChange={handleDoctorsPageChange}

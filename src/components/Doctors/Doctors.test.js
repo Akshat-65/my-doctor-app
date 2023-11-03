@@ -1,5 +1,5 @@
 import React from "react";
-import { render, waitFor ,screen } from "@testing-library/react";
+import { render, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import { MemoryRouter } from "react-router-dom";
 import DoctorsCard from "../Cards/DoctorsCard";
@@ -20,7 +20,7 @@ jest.mock("../UIComponents/Pagination", () => {
     });
   });
 
-describe("Doctors Component", () => {
+describe("Doctors Component Child render", () => {
   beforeEach(() => {
     DoctorsCard.mockClear();
     CustomPagination.mockClear();
